@@ -1,6 +1,6 @@
-# ai-training-assistant-coach
-
 # AI Training Assistant Dashboard
+
+# ai-training-assistant-coach
 
 Interactive training plan generator using High-Low methodology.
 
