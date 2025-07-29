@@ -12,4 +12,4 @@ Interactive training plan generator using High-Low methodology.
 - Periodization blocks (Transition/GPP, Accumulation, Transmutation, Realization)
 
 ## Demo
-[Live Dashboard](https://yourusername.github.io/ai-training-assistant-coach)
+[Live Dashboard](https://jlerm13.github.io/ai-training-assistant-coach)
