@@ -519,76 +519,160 @@
         let currentDay = 0;
 
         const trainingBlocks = {
-            hypertrophy: {
-                lifting: {
-                    title: "Functional Hypertrophy Block",
-                    exercises: {
-                        high: [
-                            "Back Squat - 4x8 @ 65%",
-                            "Romanian Deadlift - 3x10",
-                            "Pull-ups - 3x AMRAP",
-                            "Dumbbell Bench Press - 4x10"
-                        ],
-                        low: [
-                            "Goblet Squats - 3x12",
-                            "Single-leg RDL - 3x10/leg",
-                            "Push-ups - 3x15",
-                            "Plank - 3x45s"
-                        ]
-                    }
-                },
-                field: {
-                    title: "GPP Conditioning",
-                    exercises: {
-                        high: [
-                            "Sprint Intervals - 6x30s",
-                            "Box Jumps - 4x5",
-                            "Battle Ropes - 4x30s"
-                        ],
-                        low: [
-                            "Easy Bike - 20min",
-                            "Dynamic Warm-up - 10min",
-                            "Mobility Flow - 15min"
-                        ]
-                    }
-                }
-            },
-            power: {
-                lifting: {
-                    title: "Power Development Block",
-                    exercises: {
-                        high: [
-                            "Power Clean - 5x3 @ 80%",
-                            "Jump Squats - 4x5 @ 30%",
-                            "Bench Press - 5x3 @ 85%",
-                            "Weighted Pull-ups - 4x5"
-                        ],
-                        low: [
-                            "Bodyweight Squats - 3x15",
-                            "Band Pull-aparts - 3x20",
-                            "Light KB Swings - 3x15",
-                            "Plank Variations - 3x30s"
-                        ]
-                    }
-                },
-                field: {
-                    title: "Power Field Work",
-                    exercises: {
-                        high: [
-                            "Acceleration Sprints - 8x20m",
-                            "Depth Jumps - 4x5",
-                            "Med Ball Throws - 5x3"
-                        ],
-                        low: [
-                            "Tempo Runs - 4x100m",
-                            "Walking Lunges - 2x20",
-                            "Stretching - 15min"
-                        ]
-                    }
-                }
+    balanced: {
+        lifting: {
+            title: "B1P1 - Alactic Capacity Development (Transition/GPP)",
+            exercises: {
+                high: [
+                    "Wall Ball Chest Pass - 5x8 (40s rest)",
+                    "Incline Press + Accommodating Resistance - 8x3 @ 60-75%",
+                    "Weighted Pull-ups - 8x3 @ 60-75%",
+                    "Depth Jump to Broad Jump - 8x5 (40s rest)"
+                ],
+                low: [
+                    "Single-Leg RDL - 3x6-8 ea", 
+                    "Weighted Hanging Knee Raises - 3x15-20",
+                    "Cable External Rotation - 3x10-12",
+                    "Light movement, mobility work"
+                ]
             }
-        };
-
+        },
+        field: {
+            title: "3-Day High-Low Split GPP Block V2",
+            exercises: {
+                high: [
+                    "Speed: 6x20yd Hill Accelerations (≤85% Vmax)",
+                    "Stiff-Leg Pogo Hops - 3x5",
+                    "Triple Bound for Distance - 3x5/leg",
+                    "MB Chest Pass - 3x5",
+                    "KB Swings - 3x6-8 (light load, submax velocity)"
+                ],
+                low: [
+                    "Extensive Tempo Runs - 12x100yd (≤75% Vmax)",
+                    "Rudiment Hops - 2-3x20",
+                    "MB Rotational Throws - 2-3x20 (light, submax)",
+                    "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3x15",
+                    "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                ]
+            }
+        }
+    },
+    hypertrophy: {
+        lifting: {
+            title: "B1P2 - Functional Hypertrophy Development (Accumulation)",
+            exercises: {
+                high: [
+                    "Incline Barbell Press with Pauses - 6 Drop Sets",
+                    "Supinated Chin-ups with 1.25 Reps - 6 Drop Sets", 
+                    "Front Squat with Drop Sets - 6 Drop Sets",
+                    "Single-Leg Lying Leg Curl with Drop Sets - 3 Drop Sets"
+                ],
+                low: [
+                    "Seated Dumbbell Hammer Curl with Pause - 3x5-7",
+                    "Decline Dumbbell Triceps Extension with Pause - 3x5-7",
+                    "Dumbbell Split Squat with Pause and Drop Sets - 3 Drop Sets",
+                    "Single-Arm Farmer's Carry - 3x30s ea"
+                ]
+            }
+        },
+        field: {
+            title: "3-Day High-Low Split GPP Block V2",
+            exercises: {
+                high: [
+                    "Agility: Multi-Directional Tempo Runs - 4x15yd (≤85% Vmax)",
+                    "Lateral Hurdle Hop - 3x5/leg (stick)",
+                    "90° Rotational Broad Jump - 3x3/way (stick)", 
+                    "Standing Rotational Punch - 3x6/side",
+                    "MB Transfer Pushup - 3x5/arm (slow/controlled/rhythmic)"
+                ],
+                low: [
+                    "Multi-Directional Figure-8 - 10x60yd",
+                    "Squat Jumps - 2x10 (submax)",
+                    "MB Chest Pass - 2x20 (light, rhythmic)",
+                    "Goblet Squats, RDLs, Ring Rows - 2x10",
+                    "Elliptical or Pool - 20min (≤70% HR max)"
+                ]
+            }
+        }
+    },
+    strength: {
+        lifting: {
+            title: "B1P3 - Starting Strength Development (Transmutation)",
+            exercises: {
+                high: [
+                    "Pin Bench Press (Bottom Position) - 8x4-6 @ 80-95%",
+                    "Dead Stop Chin-ups (Bottom Hang) - 8x4-6",
+                    "Pin Front Squat (Parallel Position) - 8x4-6 @ 80-95%",
+                    "Snatch Grip Back Extension - 5x6-8"
+                ],
+                low: [
+                    "Dead Stop Plyometric Push-up - 5x5", 
+                    "Dumbbell External Rotation - 4x8-10 ea",
+                    "Landmine Core Rotation - 3x8-10 ea",
+                    "Light movement, mobility work, nervous system restoration"
+                ]
+            }
+        },
+        field: {
+            title: "3-Day High-Low Split GPP Block V2",
+            exercises: {
+                high: [
+                    "Speed: 4x20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                    "Box Hop Rebounds - 3x6",
+                    "90° Squat Jump - 3x4/direction",
+                    "MB Overhead Reverse Toss - 3x6",
+                    "KB Drop Lunge - 3x5/leg"
+                ],
+                low: [
+                    "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                    "Extended Warmup Jumps/Throws",
+                    "Rudiment Hops - 2-3x20",
+                    "MB Rotational Throws - 2-3x20 (light, submax)",
+                    "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                ]
+            }
+        }
+    },
+    power: {
+        lifting: {
+            title: "B1P4 - Elastic Power Development (Realization)",
+            exercises: {
+                high: [
+                    "Reactive 1.25 Bench Press with Bands - 6x3 @ 70-85%",
+                    "Reactive 1.25 Neutral Grip Pull-ups - 6x3",
+                    "Reactive 1.25 Front Squat with Bands - 6x3 @ 70-85%",
+                    "Glute Ham Raise (Eccentric Emphasis) - 3x5-7"
+                ],
+                low: [
+                    "Cable External Rotation (Frontal Plane) - 3x10-12 ea",
+                    "Anti-Rotation Cable Press - 3x5-7 ea", 
+                    "Single-Arm Scapular Retraction - 3x5-7 ea",
+                    "Reactive Single-Leg Calf Raise - 3x5-7 ea"
+                ]
+            }
+        },
+        field: {
+            title: "3-Day High-Low Split GPP Block V2", 
+            exercises: {
+                high: [
+                    "Reactive Medicine Ball Chest Throws - 4x10",
+                    "Reactive Hurdle Jump Progression - 4x10",
+                    "Reactive Overhead Medicine Ball Throws - 4x10",
+                    "Hang Power Snatch (Reactive Focus) - 4x6 @ 75-85%",
+                    "5-Bound Reactive Jump Series - 4x5"
+                ],
+                low: [
+                    "Extended Warmup Jumps/Throws",
+                    "Multi-Directional Figure-8 - 10x60yd",
+                    "Extensive Tempo Runs - 12x100yd (≤75% Vmax)",
+                    "Goblet Squats, RDLs, Ring Rows - 2x10",
+                    "Cross-Training: Yoga, Pool, Roadwork - 15-20min"
+                ]
+            }
+        }
+    }
+}
+           
         function toggleTheme() {
             const body = document.body;
             const currentTheme = body.getAttribute('data-theme');
