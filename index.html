@@ -204,6 +204,14 @@
             border: 2px solid var(--border-color);
         }
 
+        .high-day {
+            border-left: 4px solid #ff6b35;
+        }
+
+        .low-day {
+            border-left: 4px solid #4ecdc4;
+        }
+
         .day-header {
             display: flex;
             justify-content: space-between;
@@ -214,6 +222,27 @@
         .day-title {
             font-weight: 700;
             font-size: 1.1rem;
+        }
+
+        .exercise-section {
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .field-section .section-header {
+            color: #2d8b2d;
+        }
+
+        .lifting-section .section-header {
+            color: #8b2d2d;
         }
 
         .exercise-list {
@@ -230,6 +259,28 @@
             justify-content: space-between;
             align-items: center;
             font-size: 14px;
+        }
+
+        .field-exercise {
+            background: linear-gradient(90deg, #e8f5e8 0%, #f9f9f9 100%);
+            border-left: 3px solid #4caf50;
+        }
+
+        .lifting-exercise {
+            background: linear-gradient(90deg, #ffeaea 0%, #f9f9f9 100%);
+            border-left: 3px solid #f44336;
+        }
+
+        .section-divider {
+            background: linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 100%);
+            border-left: 3px solid #666;
+            font-weight: bold;
+            text-align: center;
+            color: #666;
+        }
+
+        .section-divider .exercise-actions {
+            display: none;
         }
 
         .exercise-actions {
@@ -352,6 +403,36 @@
             background: linear-gradient(90deg, var(--primary-color), var(--success-color));
             border-radius: 4px;
             transition: width 0.3s ease;
+        }
+
+        /* Dark mode support for new elements */
+        [data-theme="dark"] .section-header {
+            color: #e0e0e0;
+            border-bottom-color: #444;
+        }
+
+        [data-theme="dark"] .field-section .section-header {
+            color: #81c784;
+        }
+
+        [data-theme="dark"] .lifting-section .section-header {
+            color: #e57373;
+        }
+
+        [data-theme="dark"] .field-exercise {
+            background: linear-gradient(90deg, #1a2e1a 0%, #2a2a2a 100%);
+            border-left-color: #66bb6a;
+        }
+
+        [data-theme="dark"] .lifting-exercise {
+            background: linear-gradient(90deg, #2e1a1a 0%, #2a2a2a 100%);
+            border-left-color: #ef5350;
+        }
+
+        [data-theme="dark"] .section-divider {
+            background: linear-gradient(90deg, #333 0%, #444 100%);
+            border-left-color: #888;
+            color: #ccc;
         }
 
         @media (max-width: 768px) {
@@ -520,154 +601,750 @@
 
         const trainingBlocks = {
     balanced: {
-        lifting: {
-            title: "B1P1 - Alactic Capacity Development (Transition/GPP)",
-            exercises: {
-                high: [
-                    "Wall Ball Chest Pass - 5x8 (40s rest)",
-                    "Incline Press + Accommodating Resistance - 8x3 @ 60-75%",
-                    "Weighted Pull-ups - 8x3 @ 60-75%",
-                    "Depth Jump to Broad Jump - 8x5 (40s rest)"
-                ],
-                low: [
-                    "Single-Leg RDL - 3x6-8 ea", 
-                    "Weighted Hanging Knee Raises - 3x15-20",
-                    "Cable External Rotation - 3x10-12",
-                    "Light movement, mobility work"
-                ]
-            }
-        },
-        field: {
-            title: "3-Day High-Low Split GPP Block V2",
-            exercises: {
-                high: [
-                    "Speed: 6x20yd Hill Accelerations (≤85% Vmax)",
-                    "Stiff-Leg Pogo Hops - 3x5",
-                    "Triple Bound for Distance - 3x5/leg",
-                    "MB Chest Pass - 3x5",
-                    "KB Swings - 3x6-8 (light load, submax velocity)"
-                ],
-                low: [
-                    "Extensive Tempo Runs - 12x100yd (≤75% Vmax)",
-                    "Rudiment Hops - 2-3x20",
-                    "MB Rotational Throws - 2-3x20 (light, submax)",
-                    "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3x15",
-                    "Stationary Bike/Airdyne - 15min (≤70% HR max)"
-                ]
+        title: "B1P1 - Alactic Capacity Development",
+        description: "Develops explosive repeated efforts with incomplete recovery periods",
+        schedule: "3 Day High/Low",
+        weeks: {
+            A: {
+                monday: {
+                    type: "high",
+                    focus: "Upper Capacity",
+                    fieldWork: [
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Stiff-Leg Pogo Hops - 3×5",
+                        "Triple Bound for Distance - 3x5/leg",
+                        "MB Chest Pass - 3×5",
+                        "KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "Wall Ball Chest Pass - 5x8 (40s rest)",
+                        "Incline Press + Accommodating Resistance - 8x3 @ 60-75%",
+                        "Weighted Pull-ups - 8x3 @ 60-75%",
+                        "Supinated Grip Barbell Curl - 3x6-8",
+                        "Cable External Rotation - 3x10-12"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3×15",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high",
+                    focus: "Lower Capacity",
+                    fieldWork: [
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Standing Rotational Punch - 3×6/side",
+                        "MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "Depth Jump to Broad Jump - 8x5 (40s rest)",
+                        "Front Squat + Accommodating Resistance - 8x3 @ 60-75%",
+                        "Single-Leg RDL - 3x6-8ea",
+                        "Weighted Hanging Knee Raises - 3x15-20"
+                    ]
+                },
+                thursday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Multi-Directional Figure-8 - 10×60yd",
+                        "Squat Jumps - 2×10 (submax)",
+                        "MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Upper Variation",
+                    fieldWork: [
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Box Hop Rebounds - 3×6",
+                        "90° Squat Jump - 3×4/direction",
+                        "MB Overhead Reverse Toss - 3×6",
+                        "KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "Overhead Slam + Rebound Catch - 5x5 (40s rest)",
+                        "Standing Press + Accommodating Resistance - 8x3 @ 60-75%",
+                        "Neutral Grip Pull-ups - 8x3 @ 60-75%",
+                        "Hammer Curl Variation - 3x6-8"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Extended Warmup Jumps/Throws",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
+            },
+            B: {
+                // Week B follows same pattern but with different lifting focus
+                monday: {
+                    type: "high",
+                    focus: "Lower Capacity",
+                    fieldWork: [
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Stiff-Leg Pogo Hops - 3×5",
+                        "Triple Bound for Distance - 3x5/leg",
+                        "MB Chest Pass - 3×5",
+                        "KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "Power Clean from Hang - 10x2 (40s rest)",
+                        "Trap Bar Deadlift from Deficit - 3x6-8",
+                        "Single Response Broad Jump - 10x2",
+                        "Calf Raise with Pause - 3x6-8"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3×15",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high",
+                    focus: "Upper Capacity",
+                    fieldWork: [
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Standing Rotational Punch - 3×6/side",
+                        "MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "Wall Ball Chest Pass - 5x8 (40s rest)",
+                        "Incline Press + Accommodating Resistance - 8x3 @ 60-75%",
+                        "Weighted Pull-ups - 8x3 @ 60-75%",
+                        "Supinated Grip Barbell Curl - 3x6-8"
+                    ]
+                },
+                thursday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Multi-Directional Figure-8 - 10×60yd",
+                        "Squat Jumps - 2×10 (submax)",
+                        "MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Lower Variation",
+                    fieldWork: [
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Box Hop Rebounds - 3×6",
+                        "90° Squat Jump - 3×4/direction",
+                        "MB Overhead Reverse Toss - 3×6",
+                        "KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "Depth Jump to Broad Jump - 8x5 (40s rest)",
+                        "Front Squat + Accommodating Resistance - 8x3 @ 60-75%",
+                        "Single-Leg RDL - 3x6-8ea",
+                        "Weighted Hanging Knee Raises - 3x15-20"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Extended Warmup Jumps/Throws",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
             }
         }
     },
     hypertrophy: {
-        lifting: {
-            title: "B1P2 - Functional Hypertrophy Development (Accumulation)",
-            exercises: {
-                high: [
-                    "Incline Barbell Press with Pauses - 6 Drop Sets",
-                    "Supinated Chin-ups with 1.25 Reps - 6 Drop Sets", 
-                    "Front Squat with Drop Sets - 6 Drop Sets",
-                    "Single-Leg Lying Leg Curl with Drop Sets - 3 Drop Sets"
-                ],
-                low: [
-                    "Seated Dumbbell Hammer Curl with Pause - 3x5-7",
-                    "Decline Dumbbell Triceps Extension with Pause - 3x5-7",
-                    "Dumbbell Split Squat with Pause and Drop Sets - 3 Drop Sets",
-                    "Single-Arm Farmer's Carry - 3x30s ea"
-                ]
-            }
-        },
-        field: {
-            title: "3-Day High-Low Split GPP Block V2",
-            exercises: {
-                high: [
-                    "Agility: Multi-Directional Tempo Runs - 4x15yd (≤85% Vmax)",
-                    "Lateral Hurdle Hop - 3x5/leg (stick)",
-                    "90° Rotational Broad Jump - 3x3/way (stick)", 
-                    "Standing Rotational Punch - 3x6/side",
-                    "MB Transfer Pushup - 3x5/arm (slow/controlled/rhythmic)"
-                ],
-                low: [
-                    "Multi-Directional Figure-8 - 10x60yd",
-                    "Squat Jumps - 2x10 (submax)",
-                    "MB Chest Pass - 2x20 (light, rhythmic)",
-                    "Goblet Squats, RDLs, Ring Rows - 2x10",
-                    "Elliptical or Pool - 20min (≤70% HR max)"
-                ]
+        title: "B1P2 - Functional Hypertrophy Development",
+        description: "Fast-twitch drop sets with extended rest periods for muscle building",
+        schedule: "3 Day High/Low",
+        weeks: {
+            A: {
+                monday: {
+                    type: "high",
+                    focus: "Upper Hypertrophy",
+                    fieldWork: [
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Stiff-Leg Pogo Hops - 3×5",
+                        "Triple Bound for Distance - 3x5/leg",
+                        "MB Chest Pass - 3×5", 
+                        "KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "Single Response Medicine Ball Chest Pass - 5x6 (120s rest)",
+                        "Incline Barbell Press with Pauses - 6 Drop Sets (120s rest)",
+                        "Supinated Chin-ups with 1.25 Reps - 6 Drop Sets (120s rest)",
+                        "Seated Dumbbell Hammer Curl with Pause - 3x5-7 (45s rest)",
+                        "Decline Dumbbell Triceps Extension with Pause - 3x5-7 (45s rest)",
+                        "Cable External Rotation - 3x10-12 (45s rest)"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3×15",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high",
+                    focus: "Lower Hypertrophy",
+                    fieldWork: [
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Standing Rotational Punch - 3×6/side",
+                        "MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "Reactive Jump Complex - 5x3 (120s rest)",
+                        "Front Squat with Drop Sets - 6 Drop Sets (150s rest)",
+                        "Single-Leg Lying Leg Curl with Drop Sets - 3 Drop Sets (90s rest)",
+                        "Dumbbell Split Squat with Pause and Drop Sets - 3 Drop Sets (90s rest)",
+                        "Single-Arm Farmer's Carry - 3x30s ea (90s rest)"
+                    ]
+                },
+                thursday: {
+                    type: "low", 
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Multi-Directional Figure-8 - 10×60yd",
+                        "Squat Jumps - 2×10 (submax)",
+                        "MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Upper Hypertrophy Variation",
+                    fieldWork: [
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Box Hop Rebounds - 3×6",
+                        "90° Squat Jump - 3×4/direction",
+                        "MB Overhead Reverse Toss - 3×6",
+                        "KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "Overhead Medicine Ball Slam (Single Response) - 5x6 (120s rest)",
+                        "Standing Barbell Press with Drop Sets - 6 Drop Sets (120s rest)",
+                        "Single-Arm Dumbbell Row with Dead Stop - 6 Drop Sets (120s rest)",
+                        "Incline Dumbbell Zottman Curl with Drop Sets - 3 Drop Sets (90s rest)",
+                        "EZ-Bar Triceps Extension with Drop Sets - 3 Drop Sets (90s rest)",
+                        "Bent-Over Lateral Raise - 3x10-12 ea (90s rest)"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Extended Warmup Jumps/Throws",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
+            },
+            B: {
+                monday: {
+                    type: "high",
+                    focus: "Lower Hypertrophy",
+                    fieldWork: [
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Stiff-Leg Pogo Hops - 3×5",
+                        "Triple Bound for Distance - 3x5/leg",
+                        "MB Chest Pass - 3×5",
+                        "KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "Reactive Jump Complex - 5x3 (120s rest)",
+                        "Front Squat with Drop Sets - 6 Drop Sets (150s rest)",
+                        "Single-Leg Lying Leg Curl with Drop Sets - 3 Drop Sets (90s rest)",
+                        "Dumbbell Split Squat with Pause and Drop Sets - 3 Drop Sets (90s rest)",
+                        "Single-Arm Farmer's Carry - 3x30s ea (90s rest)"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3×15",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high", 
+                    focus: "Upper Hypertrophy",
+                    fieldWork: [
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Standing Rotational Punch - 3×6/side",
+                        "MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "Single Response Medicine Ball Chest Pass - 5x6 (120s rest)",
+                        "Incline Barbell Press with Pauses - 6 Drop Sets (120s rest)",  
+                        "Supinated Chin-ups with 1.25 Reps - 6 Drop Sets (120s rest)",
+                        "Seated Dumbbell Hammer Curl with Pause - 3x5-7 (45s rest)",
+                        "Decline Dumbbell Triceps Extension with Pause - 3x5-7 (45s rest)",
+                        "Cable External Rotation - 3x10-12 (45s rest)"
+                    ]
+                },
+                thursday: {
+                    type: "low",
+                    focus: "Recovery", 
+                    fieldWork: [
+                        "Multi-Directional Figure-8 - 10×60yd",
+                        "Squat Jumps - 2×10 (submax)",
+                        "MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Lower Power-Hypertrophy Integration",
+                    fieldWork: [
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Box Hop Rebounds - 3×6",
+                        "90° Squat Jump - 3×4/direction", 
+                        "MB Overhead Reverse Toss - 3×6",
+                        "KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "Hang Power Clean with Pause - 5x6 (120s rest)",
+                        "Triple Bound Jump - 5x4 (120s rest)",
+                        "Snatch Grip Deadlift from Deficit with Drop Sets - 6 Drop Sets (150s rest)",
+                        "Seated Calf Raise with Pause - 3x20-25 (90s rest)"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Extended Warmup Jumps/Throws",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
             }
         }
     },
     strength: {
-        lifting: {
-            title: "B1P3 - Starting Strength Development (Transmutation)",
-            exercises: {
-                high: [
-                    "Pin Bench Press (Bottom Position) - 8x4-6 @ 80-95%",
-                    "Dead Stop Chin-ups (Bottom Hang) - 8x4-6",
-                    "Pin Front Squat (Parallel Position) - 8x4-6 @ 80-95%",
-                    "Snatch Grip Back Extension - 5x6-8"
-                ],
-                low: [
-                    "Dead Stop Plyometric Push-up - 5x5", 
-                    "Dumbbell External Rotation - 4x8-10 ea",
-                    "Landmine Core Rotation - 3x8-10 ea",
-                    "Light movement, mobility work, nervous system restoration"
-                ]
-            }
-        },
-        field: {
-            title: "3-Day High-Low Split GPP Block V2",
-            exercises: {
-                high: [
-                    "Speed: 4x20yd Sled Sprint @ 10% BW (≤85% Vmax)",
-                    "Box Hop Rebounds - 3x6",
-                    "90° Squat Jump - 3x4/direction",
-                    "MB Overhead Reverse Toss - 3x6",
-                    "KB Drop Lunge - 3x5/leg"
-                ],
-                low: [
-                    "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
-                    "Extended Warmup Jumps/Throws",
-                    "Rudiment Hops - 2-3x20",
-                    "MB Rotational Throws - 2-3x20 (light, submax)",
-                    "Stationary Bike/Airdyne - 15min (≤70% HR max)"
-                ]
+        title: "B1P3 - Starting Strength Development",
+        description: "Pin/Dead stop training with cluster progressions for maximum strength",
+        schedule: "3 Day High/Low",
+        weeks: {
+            A: {
+                monday: {
+                    type: "high",
+                    focus: "Upper Starting Strength",
+                    fieldWork: [
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Stiff-Leg Pogo Hops - 3×5",
+                        "Triple Bound for Distance - 3x5/leg",
+                        "MB Chest Pass - 3×5",
+                        "KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "Dead Stop Plyometric Push-up - 5x5 (120s rest)",
+                        "Pin Bench Press (Bottom Position) - 8x4-6 @ 80-95% (120s rest)",
+                        "Dead Stop Chin-ups (Bottom Hang) - 8x4-6 (120s rest)",
+                        "Dumbbell External Rotation - 4x8-10 ea (90s rest)"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3×15",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high", 
+                    focus: "Lower Starting Strength",
+                    fieldWork: [
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Standing Rotational Punch - 3×6/side",
+                        "MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "Reactive Jump Complex - 5x3 (120s rest)",
+                        "Pin Front Squat (Parallel Position) - 8x4-6 @ 80-95% (180s rest)",
+                        "Snatch Grip Back Extension - 5x6-8 (150s rest)",
+                        "Landmine Core Rotation - 3x8-10 ea (90s rest)"
+                    ]
+                },
+                thursday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Multi-Directional Figure-8 - 10×60yd",
+                        "Squat Jumps - 2×10 (submax)",
+                        "MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Upper Starting Strength Variation",
+                    fieldWork: [
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Box Hop Rebounds - 3×6",
+                        "90° Squat Jump - 3×4/direction",
+                        "MB Overhead Reverse Toss - 3×6",
+                        "KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "Overhead Medicine Ball Forward Slam - 5x6 (120s rest)",
+                        "Pin Incline Press (Mid-Range) - 8x4-6 @ 80-95% (180s rest)",
+                        "Dead Stop Single-Arm Dumbbell Row - 8x4-6 ea (180s rest)",
+                        "Bent-Over Rear Delt Raise - 3x10-12 ea (90s rest)"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Extended Warmup Jumps/Throws", 
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
+            },
+            B: {
+                monday: {
+                    type: "high",
+                    focus: "Lower Starting Strength",
+                    fieldWork: [
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Stiff-Leg Pogo Hops - 3×5",
+                        "Triple Bound for Distance - 3x5/leg",
+                        "MB Chest Pass - 3×5",
+                        "KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "Hang Power Snatch from Blocks - 6x4 (120s rest)",
+                        "Pause Jump Squat (3-sec hold) - 6x5 (120s rest)",
+                        "Pin Quarter Squat (Top Range) - 8x4-6 @ 80-95% (180s rest)",
+                        "Single-Leg Lying Leg Curl with Drops - 3 Drop Sets (90s rest)"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "MB Transfer Push-ups, Air Squats, Multi-Directional Lunges - 3×15",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high",
+                    focus: "Upper Starting Strength",
+                    fieldWork: [
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Standing Rotational Punch - 3×6/side",
+                        "MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "Dead Stop Plyometric Push-up - 5x5 (120s rest)",
+                        "Pin Bench Press (Bottom Position) - 8x4-6 @ 80-95% (120s rest)",
+                        "Dead Stop Chin-ups (Bottom Hang) - 8x4-6 (120s rest)",
+                        "Dumbbell External Rotation - 4x8-10 ea (90s rest)"
+                    ]
+                },
+                thursday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Multi-Directional Figure-8 - 10×60yd",
+                        "Squat Jumps - 2×10 (submax)",
+                        "MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Lower Power-Strength Integration",
+                    fieldWork: [
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Box Hop Rebounds - 3×6",
+                        "90° Squat Jump - 3×4/direction",
+                        "MB Overhead Reverse Toss - 3×6",
+                        "KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "Overhead Medicine Ball Forward Slam - 5x6 (120s rest)",
+                        "Pin Incline Press (Mid-Range) - 8x4-6 @ 80-95% (180s rest)",
+                        "Dead Stop Single-Arm Dumbbell Row - 8x4-6 ea (180s rest)",
+                        "Bent-Over Rear Delt Raise - 3x10-12 ea (90s rest)"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Extended Warmup Jumps/Throws",
+                        "Rudiment Hops - 2-3×20",
+                        "MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
             }
         }
     },
     power: {
-        lifting: {
-            title: "B1P4 - Elastic Power Development (Realization)",
-            exercises: {
-                high: [
-                    "Reactive 1.25 Bench Press with Bands - 6x3 @ 70-85%",
-                    "Reactive 1.25 Neutral Grip Pull-ups - 6x3",
-                    "Reactive 1.25 Front Squat with Bands - 6x3 @ 70-85%",
-                    "Glute Ham Raise (Eccentric Emphasis) - 3x5-7"
-                ],
-                low: [
-                    "Cable External Rotation (Frontal Plane) - 3x10-12 ea",
-                    "Anti-Rotation Cable Press - 3x5-7 ea", 
-                    "Single-Arm Scapular Retraction - 3x5-7 ea",
-                    "Reactive Single-Leg Calf Raise - 3x5-7 ea"
-                ]
-            }
-        },
-        field: {
-            title: "3-Day High-Low Split GPP Block V2", 
-            exercises: {
-                high: [
-                    "Reactive Medicine Ball Chest Throws - 4x10",
-                    "Reactive Hurdle Jump Progression - 4x10",
-                    "Reactive Overhead Medicine Ball Throws - 4x10",
-                    "Hang Power Snatch (Reactive Focus) - 4x6 @ 75-85%",
-                    "5-Bound Reactive Jump Series - 4x5"
-                ],
-                low: [
-                    "Extended Warmup Jumps/Throws",
-                    "Multi-Directional Figure-8 - 10x60yd",
-                    "Extensive Tempo Runs - 12x100yd (≤75% Vmax)",
-                    "Goblet Squats, RDLs, Ring Rows - 2x10",
-                    "Cross-Training: Yoga, Pool, Roadwork - 15-20min"
-                ]
+        title: "B1P4 - Elastic Power Development",
+        description: "Reactive 1.25 rep training with stretch-shortening cycle emphasis",
+        schedule: "3 Day High/Low",
+        weeks: {
+            A: {
+                monday: {
+                    type: "high",
+                    focus: "Upper Elastic Power",
+                    fieldWork: [
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Jumps: Stiff-Leg Pogo Hops - 3×5",
+                        "Jumps: Triple Bound for Distance - 3x5/leg",
+                        "Throws: MB Chest Pass - 3×5",
+                        "Ballistic Power: KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "A. Reactive Medicine Ball Lying Chest Throws - 4x10 (120s rest)",
+                        "B1. Reactive 1.25 Bench Press with Bands - 6x3 @ 70-85% (120s rest)",
+                        "B2. Reactive 1.25 Neutral Grip Pull-ups - 6x3 (120s rest)",
+                        "C. Single Arm Cable External Rotation - 3x10-12 ea (90s rest)"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Jumps: Rudiment Hops - 2-3×20",
+                        "Throws: MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Bodyweight circuit: Air Squats, Push-ups, Multi-Directional Lunges - 3×15",
+                        "Tempos: Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Optional: Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high",
+                    focus: "Lower Elastic Power",
+                    fieldWork: [
+                        "Jumps: Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "Jumps: 90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Throws: Standing Rotational Punch - 3×6/side",
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Ballistic Power: MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "A. Forward Reactive Hurdle Jump - 4x10 (120s rest)",
+                        "B. Reactive 1.25 Front Squat with Bands - 6x3 @ 70-85% (180s rest)",
+                        "C. Glute Ham Raise (Eccentric Emphasis) - 3x5-7 (120s rest)",
+                        "D. Anti-Rotation Cable Press - 3x5-7 ea (90s rest)"
+                    ]
+                },
+                thursday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Jumps: Multi-Directional Figure-8 - 10×60yd",
+                        "Jumps: Squat Jumps - 2×10 (submax)",
+                        "Throws: MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Bodyweight Circuit: Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Cross Training: Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Upper Elastic Power Variation",
+                    fieldWork: [
+                        "Jumps: Box Hop Rebounds - 3×6",
+                        "Jumps: 90° Squat Jump - 3×4/direction",
+                        "Throws: MB Overhead Reverse Toss - 3×6",
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Ballistic Power: KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "A. Reactive Lying Overhead Medicine Ball Throws - 4x10 (120s rest)",
+                        "B1. Reactive 1.25 Standing Barbell Press - 6x3 @ 70-85% (120s rest)",
+                        "B2. Reactive 1.25 Seated Cable Row - 6x3 (120s rest)",
+                        "C. Single-Arm Scapular Retraction + Pulldown - 3x5-7 ea (90s rest)"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Extended Warmup Jumps: Rudiment Hops - 2-3×20",
+                        "Extended Warmup Throws: MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Optional: Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
+            },
+            B: {
+                monday: {
+                    type: "high",
+                    focus: "Lower Elastic Power",
+                    fieldWork: [
+                        "Jumps: Stiff-Leg Pogo Hops - 3×5",
+                        "Jumps: Triple Bound for Distance - 3x5/leg",
+                        "Throws: MB Chest Pass - 3×5",
+                        "Speed: 6×20yd Hill Accelerations (≤85% Vmax)",
+                        "Ballistic Power: KB Swings - 3×6-8 (light load, submax velocity)"
+                    ],
+                    lifting: [
+                        "A1. Hang Power Snatch (Reactive Focus) - 4x6 @ 75-85% (120s rest)",
+                        "A2. 5-Bound Reactive Jump Series - 4x5 (120s rest)",
+                        "B. Clean Grip Deadlift (Concentric Only) - 6x3 (240s rest)",
+                        "C. Paused, Reactive Single-Leg Calf Raise - 3x5-7 ea (90s rest)"
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Jumps: Rudiment Hops - 2-3×20",
+                        "Throws: MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Bodyweight circuit: Air Squats, Push-ups, Multi-Directional Lunges - 3×15",
+                        "Tempos: Extensive Tempo Runs - 12×100yd (≤75% Vmax)",
+                        "Optional: Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                wednesday: {
+                    type: "high",
+                    focus: "Upper Elastic Power",
+                    fieldWork: [
+                        "Jumps: Lateral Hurdle Hop - 3×5/leg (stick)",
+                        "Jumps: 90° Rotational Broad Jump - 3×3/way (stick)",
+                        "Throws: Standing Rotational Punch - 3×6/side",
+                        "Agility: Multi-Directional Tempo Runs - 4×15yd (≤85% Vmax)",
+                        "Ballistic Power: MB Transfer Pushup - 3×5/arm (slow/controlled/rhythmic)"
+                    ],
+                    lifting: [
+                        "A. Reactive Medicine Ball Lying Chest Throws - 4x10 (120s rest)",
+                        "B1. Reactive 1.25 Bench Press with Bands - 6x3 @ 70-85% (120s rest)",
+                        "B2. Reactive 1.25 Neutral Grip Pull-ups - 6x3 (120s rest)",
+                        "C. Single Arm Cable External Rotation - 3x10-12 ea (90s rest)"
+                    ]
+                },
+                thursday: {
+                    type: "low",
+                    focus: "Recovery",
+                    fieldWork: [
+                        "Jumps: Multi-Directional Figure-8 - 10×60yd",
+                        "Jumps: Squat Jumps - 2×10 (submax)",
+                        "Throws: MB Chest Pass - 2×20 (light, rhythmic)",
+                        "Bodyweight Circuit: Goblet Squats, RDLs, Ring Rows - 2×10",
+                        "Cross Training: Elliptical or Pool - 20min (≤70% HR max)"
+                    ],
+                    lifting: []
+                },
+                friday: {
+                    type: "high",
+                    focus: "Power Integration",
+                    fieldWork: [
+                        "Jumps: Box Hop Rebounds - 3×6",
+                        "Jumps: 90° Squat Jump - 3×4/direction",
+                        "Throws: MB Overhead Reverse Toss - 3×6",
+                        "Speed: 4×20yd Sled Sprint @ 10% BW (≤85% Vmax)",
+                        "Ballistic Power: KB Drop Lunge - 3×5/leg"
+                    ],
+                    lifting: [
+                        "A. Reactive Lying Overhead Medicine Ball Throws - 4x10 (120s rest)",
+                        "B1. Reactive 1.25 Standing Barbell Press - 6x3 @ 70-85% (120s rest)",
+                        "B2. Reactive 1.25 Seated Cable Row - 6x3 (120s rest)",
+                        "C. Single-Arm Scapular Retraction + Pulldown - 3x5-7 ea (90s rest)"
+                    ]
+                },
+                saturday: {
+                    type: "low",
+                    focus: "Cross-Training",
+                    fieldWork: [
+                        "Extended Warmup Jumps: Rudiment Hops - 2-3×20",
+                        "Extended Warmup Throws: MB Rotational Throws - 2-3×20 (light, submax)",
+                        "Cross-Training: Yoga, Pool, Roadwork - 15-20min (≤70% HR max)",
+                        "Optional: Stationary Bike/Airdyne - 15min (≤70% HR max)"
+                    ],
+                    lifting: []
+                }
             }
         }
     }
@@ -682,8 +1359,6 @@
             const button = document.querySelector('.theme-toggle');
             button.innerHTML = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
         }
-
-
 
         function toggleCollapsible(element) {
             const collapsible = element.parentElement;
@@ -732,64 +1407,121 @@
         }
 
         function generateWeeklyPlan(goal, split, equipment, duration, block, blockLength) {
-            const trainingData = trainingBlocks[goal] || trainingBlocks.hypertrophy;
+            const program = trainingBlocks[goal];
+            
+            if (!program || split !== '3-day-high-low') {
+                // Fallback for other splits - basic structure
+                return generateLegacyPlan(goal, split, equipment, duration, block, blockLength);
+            }
+            
+            // Generate the new 6-day alternating weekly structure
             const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             const plan = {};
-
-            // High-Low pattern based on split type
-            let highDays, lowDays;
-            if (split === '3-day-high-low') {
-                highDays = [0, 2, 4]; // Monday, Wednesday, Friday
-                lowDays = [1, 3, 5];  // Tuesday, Thursday, Saturday
-            } else { // 4-day-upper-lower
-                highDays = [0, 2]; // Monday, Wednesday (upper/lower)
-                lowDays = [1, 3];  // Tuesday, Thursday (upper/lower)
-            }
-
+            
+            // Use Week A data (you can add logic later to alternate between A and B)
+            const weekAData = program.weeks.A;
+            
             days.forEach((day, index) => {
-                if (split === '3-day-high-low' || (split === '4-day-upper-lower' && index < 4)) {
-                    const isHighDay = highDays.includes(index);
-                    const intensity = isHighDay ? 'high' : 'low';
-                    
+                const dayKey = day.toLowerCase();
+                const dayData = weekAData[dayKey];
+                
+                if (dayData) {
                     plan[day] = {
-                        intensity: intensity,
-                        type: index % 2 === 0 ? 'lifting' : 'field',
+                        intensity: dayData.type, // 'high' or 'low'
+                        focus: dayData.focus,
                         exercises: [],
+                        fieldWork: [...dayData.fieldWork],
+                        lifting: [...dayData.lifting],
                         duration: duration,
                         block: block,
-                        blockLength: blockLength
+                        blockLength: blockLength,
+                        title: program.title
                     };
-
-                    // Select exercises based on intensity and type
-                    if (plan[day].type === 'lifting') {
-                        plan[day].exercises = [...trainingData.lifting.exercises[intensity]];
-                        plan[day].title = trainingData.lifting.title;
-                    } else {
-                        plan[day].exercises = [...trainingData.field.exercises[intensity]];
-                        plan[day].title = trainingData.field.title;
-                    }
-
-                    // Adjust for equipment
+                    
+                    // Apply equipment modifications
                     if (equipment === 'bodyweight') {
-                        plan[day].exercises = plan[day].exercises.map(exercise => 
-                            exercise.replace(/Back Squat|Power Clean|Bench Press/g, 'Bodyweight equivalent')
-                                .replace(/Dumbbell|Barbell/g, 'Bodyweight')
+                        plan[day].fieldWork = plan[day].fieldWork.map(exercise => 
+                            applyBodyweightModifications(exercise)
+                        );
+                        plan[day].lifting = plan[day].lifting.map(exercise => 
+                            applyBodyweightModifications(exercise)
                         );
                     }
-
-                    // Adjust for block type
+                    
+                    // Apply block modifications
                     if (block === 'transition-gpp') {
-                        plan[day].exercises = plan[day].exercises.map(exercise => 
-                            exercise.replace(/@ \d+%/, '@ 50-60%').replace(/x\d+/, 'x12-15')
+                        plan[day].fieldWork = plan[day].fieldWork.map(exercise => 
+                            applyGPPModifications(exercise)
+                        );
+                        plan[day].lifting = plan[day].lifting.map(exercise => 
+                            applyGPPModifications(exercise)
                         );
                     } else if (block === 'realization') {
-                        plan[day].exercises = plan[day].exercises.map(exercise => 
-                            exercise.replace(/x\d+/, 'x3-5').replace(/@ \d+%/, '@ 85-95%')
+                        plan[day].fieldWork = plan[day].fieldWork.map(exercise => 
+                            applyRealizationModifications(exercise)
+                        );
+                        plan[day].lifting = plan[day].lifting.map(exercise => 
+                            applyRealizationModifications(exercise)
                         );
                     }
                 }
             });
+            
+            return plan;
+        }
 
+        // Helper function for bodyweight modifications
+        function applyBodyweightModifications(exercise) {
+            if (exercise.includes('===')) return exercise; // Don't modify section headers
+            
+            return exercise
+                .replace(/Incline.*Press.*Drop Sets/gi, 'Incline Push-ups - 4x8-12')
+                .replace(/Barbell Press.*Drop Sets/gi, 'Pike Push-ups - 4x6-10') 
+                .replace(/Chin-ups.*Drop Sets/gi, 'Assisted Chin-ups - 4x5-8')
+                .replace(/Front Squat.*Drop Sets/gi, 'Jump Squats - 4x8-10')
+                .replace(/Pin.*Press/gi, 'Push-up Variations')
+                .replace(/Pin.*Squat/gi, 'Bodyweight Squats')
+                .replace(/Barbell|Dumbbell/gi, 'Bodyweight')
+                .replace(/KB Swings/gi, 'Squat Thrusts')
+                .replace(/MB.*Pass/gi, 'Explosive Push-ups');
+        }
+
+        // Helper function for GPP modifications  
+        function applyGPPModifications(exercise) {
+            return exercise
+                .replace(/@ \d+-\d+%/g, '@ 50-60%')
+                .replace(/6 Drop Sets/g, '3x12-15')
+                .replace(/8x\d+/g, '4x10-12')
+                .replace(/\d+x\d+-\d+/g, '3x12-15');
+        }
+
+        // Helper function for realization modifications
+        function applyRealizationModifications(exercise) {
+            return exercise
+                .replace(/6 Drop Sets/g, '5x3-5')
+                .replace(/@ \d+-\d+%/g, '@ 85-95%')
+                .replace(/\d+x\d+-\d+/g, '5x3-5')
+                .replace(/8x\d+/g, '5x3');
+        }
+
+        // Fallback function for non-3-day-high-low splits
+        function generateLegacyPlan(goal, split, equipment, duration, block, blockLength) {
+            // Simple fallback for other splits
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+            const plan = {};
+            
+            days.forEach((day, index) => {
+                plan[day] = {
+                    intensity: index % 2 === 0 ? 'high' : 'low',
+                    focus: `${split} Day ${index + 1}`,
+                    exercises: ['Basic exercise placeholder'],
+                    fieldWork: ['Basic field work'],
+                    lifting: ['Basic lifting'],
+                    duration: duration,
+                    title: 'Basic Training Plan'
+                };
+            });
+            
             return plan;
         }
 
@@ -799,30 +1531,65 @@
 
             Object.entries(plan).forEach(([day, dayPlan]) => {
                 const dayCard = document.createElement('div');
-                dayCard.className = 'day-card';
-                dayCard.innerHTML = `
+                dayCard.className = `day-card ${dayPlan.intensity}-day`;
+                
+                // Create the day header
+                const dayHeader = `
                     <div class="day-header">
                         <div class="day-title">${day}</div>
                         <div>
                             <span class="intensity-indicator ${dayPlan.intensity}-intensity"></span>
-                            ${dayPlan.intensity.toUpperCase()}
+                            ${dayPlan.intensity.toUpperCase()} DAY
                         </div>
                     </div>
                     <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">
-                        ${dayPlan.title} • ${dayPlan.duration} min
+                        ${dayPlan.focus} • ${dayPlan.duration} min
                     </div>
-                    <ul class="exercise-list">
-                        ${dayPlan.exercises.map((exercise, index) => `
-                            <li class="exercise-item">
-                                <span>${exercise}</span>
-                                <div class="exercise-actions">
-                                    <button class="btn btn-secondary btn-small" onclick="swapExercise('${day}', ${index})">Swap</button>
-                                    <button class="btn btn-secondary btn-small" onclick="removeExercise('${day}', ${index})">Remove</button>
-                                </div>
-                            </li>
-                        `).join('')}
-                    </ul>
                 `;
+                
+                let exerciseHTML = '';
+                
+                // Handle the new structure with separate field work and lifting
+                if (dayPlan.fieldWork && dayPlan.fieldWork.length > 0) {
+                    exerciseHTML += `
+                        <div class="exercise-section field-section">
+                            <h4 class="section-header">🏃‍♂️ Field Work</h4>
+                            <ul class="exercise-list">
+                                ${dayPlan.fieldWork.map((exercise, index) => `
+                                    <li class="exercise-item field-exercise">
+                                        <span>${exercise}</span>
+                                        <div class="exercise-actions">
+                                            <button class="btn btn-secondary btn-small" onclick="swapFieldExercise('${day}', ${index})">Swap</button>
+                                            <button class="btn btn-secondary btn-small" onclick="removeFieldExercise('${day}', ${index})">Remove</button>
+                                        </div>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                // Only show lifting section for high days
+                if (dayPlan.intensity === 'high' && dayPlan.lifting && dayPlan.lifting.length > 0) {
+                    exerciseHTML += `
+                        <div class="exercise-section lifting-section">
+                            <h4 class="section-header">🏋️‍♂️ Weight Room</h4>
+                            <ul class="exercise-list">
+                                ${dayPlan.lifting.map((exercise, index) => `
+                                    <li class="exercise-item lifting-exercise">
+                                        <span>${exercise}</span>
+                                        <div class="exercise-actions">
+                                            <button class="btn btn-secondary btn-small" onclick="swapLiftingExercise('${day}', ${index})">Swap</button>
+                                            <button class="btn btn-secondary btn-small" onclick="removeLiftingExercise('${day}', ${index})">Remove</button>
+                                        </div>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                dayCard.innerHTML = dayHeader + exerciseHTML;
                 container.appendChild(dayCard);
             });
         }
@@ -831,13 +1598,31 @@
             let totalVolume = 0;
             let highDays = 0;
             let lowDays = 0;
+            let totalFieldExercises = 0;
+            let totalLiftingExercises = 0;
 
             Object.values(plan).forEach(day => {
-                totalVolume += day.exercises.length;
-                if (day.intensity === 'high') highDays++;
-                else lowDays++;
+                // Count field work exercises
+                if (day.fieldWork && day.fieldWork.length > 0) {
+                    totalFieldExercises += day.fieldWork.length;
+                    totalVolume += day.fieldWork.length;
+                }
+                
+                // Count lifting exercises (only on high days)
+                if (day.lifting && day.lifting.length > 0) {
+                    totalLiftingExercises += day.lifting.length;
+                    totalVolume += day.lifting.length;
+                }
+                
+                // Count intensity days
+                if (day.intensity === 'high') {
+                    highDays++;
+                } else if (day.intensity === 'low') {
+                    lowDays++;
+                }
             });
 
+            // Update the display
             document.getElementById('weeklyVolume').textContent = totalVolume;
             document.getElementById('highIntensityDays').textContent = highDays;
             document.getElementById('lowIntensityDays').textContent = lowDays;
@@ -849,6 +1634,44 @@
             progressBar.style.width = progress + '%';
         }
 
+        // New helper functions for the separate field work and lifting arrays
+        function swapFieldExercise(day, exerciseIndex) {
+            const newExercise = prompt('Enter replacement field exercise:');
+            if (newExercise && currentPlan[day] && currentPlan[day].fieldWork) {
+                currentPlan[day].fieldWork[exerciseIndex] = newExercise;
+                displayWeeklyPlan(currentPlan);
+                addChatMessage("Assistant", `Swapped field exercise in ${day} session.`);
+            }
+        }
+
+        function swapLiftingExercise(day, exerciseIndex) {
+            const newExercise = prompt('Enter replacement lifting exercise:');
+            if (newExercise && currentPlan[day] && currentPlan[day].lifting) {
+                currentPlan[day].lifting[exerciseIndex] = newExercise;
+                displayWeeklyPlan(currentPlan);
+                addChatMessage("Assistant", `Swapped lifting exercise in ${day} session.`);
+            }
+        }
+
+        function removeFieldExercise(day, exerciseIndex) {
+            if (currentPlan[day] && currentPlan[day].fieldWork) {
+                const removed = currentPlan[day].fieldWork.splice(exerciseIndex, 1)[0];
+                displayWeeklyPlan(currentPlan);
+                updateStats(currentPlan);
+                addChatMessage("Assistant", `Removed "${removed}" from ${day} field work.`);
+            }
+        }
+
+        function removeLiftingExercise(day, exerciseIndex) {
+            if (currentPlan[day] && currentPlan[day].lifting) {
+                const removed = currentPlan[day].lifting.splice(exerciseIndex, 1)[0];
+                displayWeeklyPlan(currentPlan);
+                updateStats(currentPlan);
+                addChatMessage("Assistant", `Removed "${removed}" from ${day} lifting.`);
+            }
+        }
+
+        // Keep your original functions for backwards compatibility  
         function swapExercise(day, exerciseIndex) {
             const newExercise = prompt('Enter replacement exercise:');
             if (newExercise && currentPlan[day]) {
@@ -894,14 +1717,22 @@
             if (!currentPlan) return;
             
             Object.keys(currentPlan).forEach(day => {
-                currentPlan[day].exercises = currentPlan[day].exercises.map(exercise => {
-                    return exercise
-                        .replace(/Back Squat.*/, 'Bodyweight Squats - 3x15')
-                        .replace(/Bench Press.*/, 'Push-ups - 3x12')
-                        .replace(/Pull-ups.*/, 'Assisted Pull-ups - 3x8')
-                        .replace(/Romanian Deadlift.*/, 'Single-leg RDL - 3x10/leg')
-                        .replace(/Power Clean.*/, 'Burpees - 4x5');
-                });
+                const dayPlan = currentPlan[day];
+                
+                // Update lifting exercises
+                if (dayPlan.lifting && dayPlan.lifting.length > 0) {
+                    dayPlan.lifting = dayPlan.lifting.map(exercise => {
+                        return applyBodyweightModifications(exercise);
+                    });
+                }
+                
+                // Update field work (less changes needed here)
+                if (dayPlan.fieldWork && dayPlan.fieldWork.length > 0) {
+                    dayPlan.fieldWork = dayPlan.fieldWork.map(exercise => {
+                        return exercise.replace(/KB Swings/gi, 'Squat Thrusts')
+                                      .replace(/MB.*Pass/gi, 'Explosive Push-ups');
+                    });
+                }
             });
             
             displayWeeklyPlan(currentPlan);
@@ -912,43 +1743,85 @@
             if (!currentPlan) return;
             
             Object.keys(currentPlan).forEach(day => {
-                if (currentPlan[day].exercises.length > 3) {
-                    currentPlan[day].exercises = currentPlan[day].exercises.slice(0, 3);
-                    currentPlan[day].duration = targetMinutes;
+                const dayPlan = currentPlan[day];
+                
+                // For high days, reduce lifting exercises first
+                if (dayPlan.intensity === 'high' && dayPlan.lifting && dayPlan.lifting.length > 3) {
+                    dayPlan.lifting = dayPlan.lifting.slice(0, 3);
                 }
+                
+                // Then reduce field work if still too long
+                if (dayPlan.fieldWork && dayPlan.fieldWork.length > 3) {
+                    dayPlan.fieldWork = dayPlan.fieldWork.slice(0, 3);
+                }
+                
+                dayPlan.duration = targetMinutes;
             });
             
             displayWeeklyPlan(currentPlan);
             updateStats(currentPlan);
-            addChatMessage("Assistant", `Shortened all workouts to ${targetMinutes} minutes by removing accessory exercises.`);
+            addChatMessage("Assistant", `Shortened all workouts to ${targetMinutes} minutes by reducing exercise volume.`);
         }
 
         function swapSquatVariations() {
             if (!currentPlan) return;
             
             Object.keys(currentPlan).forEach(day => {
-                currentPlan[day].exercises = currentPlan[day].exercises.map(exercise => {
-                    if (exercise.toLowerCase().includes('squat')) {
-                        return 'Goblet Squats - 3x12';
-                    }
-                    return exercise;
-                });
+                const dayPlan = currentPlan[day];
+                
+                // Update lifting exercises
+                if (dayPlan.lifting) {
+                    dayPlan.lifting = dayPlan.lifting.map(exercise => {
+                        if (exercise.toLowerCase().includes('squat')) {
+                            return 'Goblet Squats - 3x12';
+                        }
+                        return exercise;
+                    });
+                }
+                
+                // Update field work exercises
+                if (dayPlan.fieldWork) {
+                    dayPlan.fieldWork = dayPlan.fieldWork.map(exercise => {
+                        if (exercise.toLowerCase().includes('squat')) {
+                            return 'Bodyweight Squats - 3x15';
+                        }
+                        return exercise;
+                    });
+                }
             });
             
             displayWeeklyPlan(currentPlan);
-            addChatMessage("Assistant", "Swapped all squat variations to goblet squats.");
+            addChatMessage("Assistant", "Swapped all squat variations to goblet/bodyweight squats.");
         }
 
         function regressExercises() {
             if (!currentPlan) return;
             
             Object.keys(currentPlan).forEach(day => {
-                currentPlan[day].exercises = currentPlan[day].exercises.map(exercise => {
-                    return exercise
-                        .replace(/4x8|4x10/, '3x8')
-                        .replace(/3x10|3x12/, '3x8')
-                        .replace(/@ 65%|@ 80%|@ 85%/, '@ 50%');
-                });
+                const dayPlan = currentPlan[day];
+                
+                // Regress lifting exercises
+                if (dayPlan.lifting) {
+                    dayPlan.lifting = dayPlan.lifting.map(exercise => {
+                        return exercise
+                            .replace(/6 Drop Sets/g, '3x8-10')
+                            .replace(/4x8|4x10/g, '3x8')
+                            .replace(/3x10|3x12/g, '3x8')
+                            .replace(/@ 70-85%|@ 80-95%/g, '@ 50-60%')
+                            .replace(/120s rest|150s rest/g, '90s rest');
+                    });
+                }
+                
+                // Regress field work (reduce intensity markers)
+                if (dayPlan.fieldWork) {
+                    dayPlan.fieldWork = dayPlan.fieldWork.map(exercise => {
+                        return exercise
+                            .replace(/≤85% Vmax/g, '≤70% Vmax')
+                            .replace(/3×5/g, '2×5')
+                            .replace(/4×/g, '3×')
+                            .replace(/6×/g, '4×');
+                    });
+                }
             });
             
             displayWeeklyPlan(currentPlan);
