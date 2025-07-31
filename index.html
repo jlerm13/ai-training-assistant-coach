@@ -1,603 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ignition APG AI Training Assistant Dashboard</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --error-color: #ef4444;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #e2e8f0;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --high-intensity: #ef4444;
-            --low-intensity: #10b981;
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --border-color: #475569;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            transition: all 0.3s ease;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: var(--bg-primary);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        .theme-toggle {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: var(--bg-primary);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
-        }
-
-        .card h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-secondary {
-            background: var(--text-secondary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--text-primary);
-        }
-
-        .intensity-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .high-intensity {
-            background: var(--high-intensity);
-        }
-
-        .low-intensity {
-            background: var(--low-intensity);
-        }
-
-        .weekly-plan {
-            grid-column: 1 / -1;
-        }
-
-        .plan-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .day-card {
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            padding: 18px;
-            border: 2px solid var(--border-color);
-        }
-
-        .high-day {
-            border-left: 4px solid #ff6b35;
-        }
-
-        .low-day {
-            border-left: 4px solid #4ecdc4;
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .day-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .exercise-section {
-            margin-bottom: 20px;
-        }
-
-        .section-header {
-            margin: 0 0 10px 0;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #333;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .field-section .section-header {
-            color: #2d8b2d;
-        }
-
-        .lifting-section .section-header {
-            color: #8b2d2d;
-        }
-
-        .exercise-list {
-            list-style: none;
-            space-y: 8px;
-        }
-
-        .exercise-item {
-            padding: 8px 12px;
-            background: var(--bg-primary);
-            border-radius: 6px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-        }
-
-        .field-exercise {
-            background: linear-gradient(90deg, #e8f5e8 0%, #f9f9f9 100%);
-            border-left: 3px solid #4caf50;
-        }
-
-        .lifting-exercise {
-            background: linear-gradient(90deg, #ffeaea 0%, #f9f9f9 100%);
-            border-left: 3px solid #f44336;
-        }
-
-        .section-divider {
-            background: linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 100%);
-            border-left: 3px solid #666;
-            font-weight: bold;
-            text-align: center;
-            color: #666;
-        }
-
-        .section-divider .exercise-actions {
-            display: none;
-        }
-
-        .exercise-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-small {
-            padding: 4px 8px;
-            font-size: 12px;
-            min-width: auto;
-        }
-
-        .modification-panel {
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .chat-interface {
-            background: var(--bg-primary);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid var(--border-color);
-        }
-
-        .chat-input {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .tooltip {
-            position: relative;
-            cursor: help;
-        }
-
-        .tooltip:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--text-primary);
-            color: var(--bg-primary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            white-space: nowrap;
-            font-size: 12px;
-            z-index: 1000;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--bg-secondary);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .collapsible {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-
-        .collapsible-header {
-            padding: 12px 15px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-        }
-
-        .collapsible-content {
-            padding: 0 15px;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .collapsible.active .collapsible-content {
-            max-height: 200px;
-            padding: 15px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        /* Dark mode support for new elements */
-        [data-theme="dark"] .section-header {
-            color: #e0e0e0;
-            border-bottom-color: #444;
-        }
-
-        [data-theme="dark"] .field-section .section-header {
-            color: #81c784;
-        }
-
-        [data-theme="dark"] .lifting-section .section-header {
-            color: #e57373;
-        }
-
-        [data-theme="dark"] .field-exercise {
-            background: linear-gradient(90deg, #1a2e1a 0%, #2a2a2a 100%);
-            border-left-color: #66bb6a;
-        }
-
-        [data-theme="dark"] .lifting-exercise {
-            background: linear-gradient(90deg, #2e1a1a 0%, #2a2a2a 100%);
-            border-left-color: #ef5350;
-        }
-
-        [data-theme="dark"] .section-divider {
-            background: linear-gradient(90deg, #333 0%, #444 100%);
-            border-left-color: #888;
-            color: #ccc;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .plan-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .container {
-                padding: 15px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ignition APG AI Training Assistant Dashboard</title>
+  <style>
+    :root {
+      /* Primary palette */
+      --color-primary:   #003366; /* deep navy */
+      --color-secondary: #0052cc; /* corporate blue */
+      --color-success:   #28a745;
+      --color-warning:   #ffc107;
+      --color-error:     #dc3545;
+
+      /* Backgrounds */
+      --bg-page:      #f5f7fa;
+      --bg-surface:   #ffffff;
+      --border:       #e1e5eb;
+
+      /* Text */
+      --text-primary:   #1f2933;
+      --text-secondary: #556074;
+
+      /* Intensity */
+      --intensity-high: #dc3545;
+      --intensity-low:  #28a745;
+    }
+
+    [data-theme="dark"] {
+      --bg-page:        #0e1218;
+      --bg-surface:     #1a1f26;
+      --border:         #2f3642;
+      --text-primary:   #e5e9f0;
+      --text-secondary: #a0a8b8;
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                   Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 1400px; margin: 0 auto; padding: 20px;
+    }
+    .header {
+      background: var(--bg-surface);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+    .theme-toggle {
+      background: var(--color-secondary);
+      color: #fff;
+      border: none;
+      padding: 0.6em 1.2em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .theme-toggle:hover {
+      background: var(--color-primary);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.6em;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--color-secondary);
+      box-shadow: 0 0 0 3px rgba(0,82,204,0.15);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-secondary);
+      color: #fff;
+      border: none;
+      padding: 0.6em 1.2em;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:hover {
+      background: var(--color-primary);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: var(--text-secondary);
+    }
+    .btn-secondary:hover {
+      background: var(--text-primary);
+    }
+    .btn-small {
+      padding: 0.3em 0.6em;
+      font-size: 0.8rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .collapsible {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .collapsible-header {
+      padding: 0.8em 1em;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+    }
+    .collapsible-content {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s, padding 0.3s;
+    }
+    .collapsible.active .collapsible-content {
+      max-height: 200px;
+      padding: 1em;
+    }
+
+    .weekly-plan {
+      grid-column: 1 / -1;
+    }
+    .day-card {
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 18px;
+    }
+    .high-day { border-left: 4px solid var(--intensity-high); }
+    .low-day  { border-left: 4px solid var(--intensity-low); }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .day-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .section-header {
+      margin-bottom: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+    }
+    .exercise-list {
+      list-style: none;
+      padding: 0;
+    }
+    .exercise-item {
+      background: var(--bg-surface);
+      border-radius: 4px;
+      padding: 0.6em;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .tooltip {
+      position: relative;
+      cursor: help;
+    }
+    .tooltip:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-primary);
+      color: var(--bg-surface);
+      padding: 0.4em 0.8em;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .plan-grid      { grid-template-columns: 1fr; }
+      .container      { padding: 15px; }
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🏋️ AI Training Assistant</h1>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
-        </div>
-
-        <div class="dashboard-grid">
-            <!-- Input Panel -->
-            <div class="card">
-                <h2>📋 Training Configuration</h2>
-                
-                <div class="form-group">
-                    <label>Training Goal Selection</label>
-                    <select class="form-control" id="trainingGoal">
-                        <option value="hypertrophy">Hypertrophy (Muscle Growth)</option>
-                        <option value="power">Power Development</option>
-                        <option value="strength">Max Strength</option>
-                        <option value="balanced">Balanced</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Training Split Preference</label>
-                    <select class="form-control" id="splitType">
-                        <option value="3-day-high-low">3 Day-High/Low</option>
-                        <option value="4-day-upper-lower">4 Day-Upper/Lower Split</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Session Duration (minutes)</label>
-                    <select class="form-control" id="duration">
-                        <option value="30">30 minutes</option>
-                        <option value="45">45 minutes</option>
-                        <option value="60" selected>60 minutes</option>
-                        <option value="75">75 minutes</option>
-                        <option value="90">90 minutes</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Current Training Block</label>
-                    <select class="form-control" id="trainingBlock">
-                        <option value="transition-gpp">Transition/GPP</option>
-                        <option value="accumulation">Accumulation</option>
-                        <option value="transmutation">Transmutation</option>
-                        <option value="realization">Realization (Taper)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Length of Training Block (weeks)</label>
-                    <select class="form-control" id="blockLength">
-                        <option value="1">1 week</option>
-                        <option value="2">2 weeks</option>
-                        <option value="3">3 weeks</option>
-                        <option value="4" selected>4 weeks</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Available Equipment</label>
-                    <select class="form-control" id="equipment">
-                        <option value="full-gym">Full Gym Access</option>
-                        <option value="home-gym">Home Gym</option>
-                        <option value="bodyweight">Bodyweight Only</option>
-                        <option value="minimal">Minimal Equipment</option>
-                    </select>
-                </div>
-
-                <button class="btn" onclick="generatePlan()">🚀 Generate Weekly Plan</button>
-            </div>
-
-            <!-- Plan Overview -->
-            <div class="card">
-                <h2>📊 Plan Overview</h2>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="weeklyVolume">0</div>
-                        <div class="stat-label">Weekly Volume</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="highIntensityDays">0</div>
-                        <div class="stat-label">High Days</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="lowIntensityDays">0</div>
-                        <div class="stat-label">Low Days</div>
-                    </div>
-                </div>
-
-                <div class="collapsible">
-                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                        High-Low Training Principles
-                        <span>+</span>
-                    </div>
-                    <div class="collapsible-content">
-                        <p>The High-Low training model alternates between high CNS demanding days and low recovery days. This optimizes adaptation while preventing overtraining.</p>
-                    </div>
-                </div>
-
-                <div class="collapsible">
-                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                        Training Goal: <span id="currentGoalDisplay">Hypertrophy</span>
-                        <span>+</span>
-                    </div>
-                    <div class="collapsible-content">
-                        <p id="goalExplanation">Hypertrophy training focuses on muscle growth through moderate to high volume, moderate intensity, and controlled tempos.</p>
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px;">
-                    <label>Weekly Progress</label>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="weeklyProgress" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Weekly Plan Display -->
-        <div class="card weekly-plan">
-            <h2>📅 Weekly Training Plan</h2>
-            
-            <div class="plan-grid" id="weeklyPlanContainer">
-                <!-- Plan will be generated here -->
-            </div>
-
-            <!-- Modification Panel -->
-            <div class="modification-panel">
-                <h3>🔧 Quick Modifications</h3>
-                <div class="chat-interface">
-                    <div id="chatHistory" style="max-height: 200px; overflow-y: auto; margin-bottom: 10px;"></div>
-                    <div class="chat-input">
-                        <input type="text" class="form-control" id="chatInput" placeholder="e.g., 'Make today bodyweight only' or 'Swap squats for lunges'">
-                        <button class="btn" onclick="processModification()">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body data-theme="light">
+  <div class="container">
+    <div class="header">
+      <h1>🏋️ AI Training Assistant</h1>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
     </div>
 
-    <script>
-        // Training data structure
-        let currentPlan = null;
-        let currentDay = 0;
+    <div class="dashboard-grid">
+      <!-- Input Panel -->
+      <div class="card">
+        <h2>📋 Training Configuration</h2>
+        <div class="form-group">
+          <label for="trainingGoal">Training Goal</label>
+          <select class="form-control" id="trainingGoal">
+            <option value="hypertrophy">Hypertrophy</option>
+            <option value="power">Power</option>
+            <option value="strength">Strength</option>
+            <option value="balanced">Balanced</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="splitType">Split Preference</label>
+          <select class="form-control" id="splitType">
+            <option value="3-day-high-low">3-Day High/Low</option>
+            <option value="4-day-upper-lower">4-Day Upper/Lower</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="duration">Session Duration</label>
+          <select class="form-control" id="duration">
+            <option value="30">30m</option>
+            <option value="45">45m</option>
+            <option value="60" selected>60m</option>
+            <option value="75">75m</option>
+            <option value="90">90m</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="trainingBlock">Training Block</label>
+          <select class="form-control" id="trainingBlock">
+            <option value="transition-gpp">Transition/GPP</option>
+            <option value="accumulation">Accumulation</option>
+            <option value="transmutation">Transmutation</option>
+            <option value="realization">Realization</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="blockLength">Block Length (weeks)</label>
+          <select class="form-control" id="blockLength">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="equipment">Equipment Available</label>
+          <select class="form-control" id="equipment">
+            <option value="full-gym">Full Gym</option>
+            <option value="home-gym">Home Gym</option>
+            <option value="bodyweight">Bodyweight</option>
+            <option value="minimal">Minimal</option>
+          </select>
+        </div>
+        <button class="btn" onclick="generatePlan()">🚀 Generate Plan</button>
+      </div>
+
+      <!-- Plan Overview -->
+      <div class="card">
+        <h2>📊 Plan Overview</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="weeklyVolume">0</div>
+            <div class="stat-label">Volume</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="highIntensityDays">0</div>
+            <div class="stat-label">High Days</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="lowIntensityDays">0</div>
+            <div class="stat-label">Low Days</div>
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header" onclick="toggleCollapsible(this)">
+            High-Low Principles <span>+</span>
+          </div>
+          <div class="collapsible-content">
+            <p>Alternate CNS-demand and recovery to maximize adaptation and prevent overtraining.</p>
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header" onclick="toggleCollapsible(this)">
+            Current Goal: <span id="currentGoalDisplay">Hypertrophy</span> <span>+</span>
+          </div>
+          <div class="collapsible-content">
+            <p id="goalExplanation">High-volume, moderate load, controlled tempo for muscle growth.</p>
+          </div>
+        </div>
+
+        <label>Weekly Progress</label>
+        <div class="progress-bar">
+          <div class="progress-fill" id="weeklyProgress" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Plan Display -->
+    <div class="card weekly-plan">
+      <h2>📅 Weekly Training Plan</h2>
+      <div class="plan-grid" id="weeklyPlanContainer">
+        <!-- generated days -->
+      </div>
+
+      <div class="modification-panel">
+        <h3>🔧 Quick Modifications</h3>
+        <div class="chat-interface">
+          <div id="chatHistory" style="max-height:200px;overflow-y:auto;margin-bottom:10px;"></div>
+          <div class="chat-input">
+            <input type="text" class="form-control" id="chatInput" placeholder="e.g., 'Swap squats for lunges'">
+            <button class="btn" onclick="processModification()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle
+    function toggleTheme() {
+      const root = document.documentElement;
+      const dark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', dark ? 'light' : 'dark');
+      document.querySelector('.theme-toggle').textContent = dark ? '🌙 Dark Mode' : '☀️ Light Mode';
+    }
+
+    // Collapsible panels
+    function toggleCollapsible(el) {
+      const card = el.parentElement;
+      card.classList.toggle('active');
+      el.querySelector('span').textContent = card.classList.contains('active') ? '–' : '+';
+    }
 
         const trainingBlocks = {
     balanced: {
