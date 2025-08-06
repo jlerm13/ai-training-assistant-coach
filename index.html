@@ -626,64 +626,91 @@
             <div class="card">
                 <h2>📋 Training Configuration</h2>
                 
-                <div class="form-group">
-                    <label>Training Goal Selection</label>
-                    <select class="form-control" id="trainingGoal">
-                        <option value="hypertrophy">Hypertrophy (Muscle Growth)</option>
-                        <option value="power">Power Development</option>
-                        <option value="strength">Max Strength</option>
-                        <option value="balanced">Balanced</option>
-                    </select>
-                </div>
+                <div class="field-group">
+            <label class="field-label">What's your main goal right now?</label>
+            <p class="field-description">Choose what you want to focus on most in the next few months</p>
+            <select class="dropdown">
+                <option>Build Muscle (Hypertrophy)</option>
+                <option>Get Stronger (Max Strength)</option>
+                <option>Improve Power & Speed</option>
+                <option>Build Endurance Base</option>
+                <option>Prepare for Competition</option>
+                <option>General Fitness</option>
+            </select>
+            <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
+            <div class="technical-details technical-note" id="goal-tech">
+                <strong>Technical terms:</strong> Hypertrophy, Maximum Strength, Power Development, Aerobic Base Building, Sport-Specific Preparation, General Physical Preparation (GPP)
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>Training Split Preference</label>
-                    <select class="form-control" id="splitType">
-                        <option value="3-day-high-low">3 Day-High/Low</option>
-                        <option value="4-day-upper-lower">4 Day-Upper/Lower Split</option>
-                    </select>
-                </div>
+                <div class="field-group">
+            <label class="field-label">How many days can you train per week?</label>
+            <p class="field-description">We'll design your schedule 6-day split to optimize recovery and progress</p>
+            <select class="dropdown">
+                <option>3 Days - Whole Body (alternating hard/easy)</option>
+                <option>3 Days - Alternating Upper Lower Split (alternating hard/easy)</option>
+                <option>4 Days - Whole Body Split</option>
+                <option>4 Days - Upper/Lower Split</option>
+                <option>6+ Days - Advanced Split</option>
+            </select>
+            <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
+            <div class="technical-details technical-note" id="split-tech">
+                <strong>Technical terms:</strong> Full Body, High/Low, Upper/Lower, Push/Pull/Legs, Body Part Split, Conjugate Method
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>Session Duration (minutes)</label>
-                    <select class="form-control" id="duration">
-                        <option value="30">30 minutes</option>
-                        <option value="45">45 minutes</option>
-                        <option value="60" selected>60 minutes</option>
-                        <option value="75">75 minutes</option>
-                        <option value="90">90 minutes</option>
-                    </select>
-                </div>
+                <div class="field-group">
+            <label class="field-label">How long are your typical workouts?</label>
+            <p class="field-description">This helps us plan the right amount of work for each session</p>
+            <select class="dropdown">
+                <option>45 minutes</option>
+                <option>60 minutes (recommended)</option>
+                <option>75 minutes</option>
+                <option>90+ minutes</option>
+            </select>
+        </div>
+                <div class="field-group">
+            <label class="field-label">What training phase are you in?</label>
+            <p class="field-description">Different times of year call for different training focuses</p>
+            <select class="dropdown">
+                <option>Build Phase - Foundation Building</option>
+                <option>Convert Phase - Sport-Specific Training</option>
+                <option>Peak Phase - Competition Preparation</option>
+                <option>Recovery Phase - Active Rest</option>
+                <option>Not sure - Help me decide</option>
+            </select>
+            <span class="toggle-technical" onclick="toggleTechnical('phase-tech')">Show technical details</span>
+            <div class="technical-details technical-note" id="phase-tech">
+                <strong>Technical terms:</strong> Accumulation (GPP), Transmutation (SPP), Realization (Competition Prep), Deload/Recovery, Block Periodization
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>Current Training Block</label>
-                    <select class="form-control" id="trainingBlock">
-                        <option value="transition-gpp">Transition (GPP)</option>
-                        <option value="accumulation">Base (Accumulation)</option>
-                        <option value="transmutation">Train (Transmutation)</option>
-                        <option value="realization">Peak (Realization)</option>
-                    </select>
-                </div>
+                <div class="field-group">
+            <label class="field-label">How long should this training phase last?</label>
+            <p class="field-description">Enough time to adapt and improve, but not so long you get stale</p>
+            <select class="dropdown">
+                <option>3 weeks (short adaptation)</option>
+                <option>4 weeks (recommended)</option>
+                <option>6 weeks (extended focus)</option>
+                <option>8+ weeks (specialized program)</option>
+            </select>
+            <span class="toggle-technical" onclick="toggleTechnical('block-tech')">Show technical details</span>
+            <div class="technical-details technical-note" id="block-tech">
+                <strong>Technical concept:</strong> Training blocks (mesocycles) should be long enough for adaptation but short enough to prevent staleness and allow for progression to the next phase
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>Length of Training Block (weeks)</label>
-                    <select class="form-control" id="blockLength">
-                        <option value="1">1 week</option>
-                        <option value="2">2 weeks</option>
-                        <option value="3">3 weeks</option>
-                        <option value="4" selected>4 weeks</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Available Equipment</label>
-                    <select class="form-control" id="equipment">
-                        <option value="full-gym">Full Gym Access (recommended)</option>
-                        <option value="home-gym">Home Gym</option>
-                        <option value="bodyweight">Bodyweight Only</option>
-                        <option value="minimal">Minimal Equipment</option>
-                    </select>
-                </div>
+                <div class="field-group">
+            <label class="field-label">What equipment do you have access to?</label>
+            <p class="field-description">We'll design your program around what's available to you</p>
+            <select class="dropdown">
+                <option>Full Gym Access (recommended)</option>
+                <option>Home Gym (barbell + weights)</option>
+                <option>Basic Equipment (dumbbells, bands)</option>
+                <option>Bodyweight Only</option>
+                <option>Specialized Facility (weightlifting, powerlifting)</option>
+            </select>
+        </div>
 
                 <button class="btn" onclick="generatePlan()">🚀 Generate Weekly Plan</button>
             </div>
