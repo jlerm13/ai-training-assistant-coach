@@ -712,17 +712,19 @@
             <!-- Input Panel -->
             <div class="card">
                 <h2>📋 Training Configuration</h2>
-                
+
+                <!-- Goal -->
                 <div class="field-group">
                     <label class="field-label">What's your main goal right now?</label>
                     <p class="field-description">Choose what you want to focus on most in the next few months</p>
                     <select class="dropdown">
-                        <option>Build Muscle (Hypertrophy)</option>
-                        <option>Get Stronger (Max Strength)</option>
-                        <option>Improve Power & Speed</option>
-                        <option>Build Endurance Base</option>
-                        <option>Prepare for Competition</option>
-                        <option>General Fitness</option>
+                    <select id="goalSelect" class="dropdown">
+                      <option value="hypertrophy">Build Muscle (Hypertrophy)</option>
+                      <option value="max_strength">Get Stronger (Max Strength)</option>
+                      <option value="power_speed">Improve Power & Speed</option>
+                      <option value="endurance">Build Endurance Base</option>
+                      <option value="competition">Prepare for Competition</option>
+                      <option value="general">General Fitness</option>
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="goal-tech">
@@ -730,15 +732,16 @@
                     </div>
                 </div>
 
+                <!-- Split -->
                 <div class="field-group">
                     <label class="field-label">How many days can you train per week?</label>
                     <p class="field-description">We'll design your schedule to optimize recovery and progress</p>
-                    <select class="dropdown">
-                        <option>3 Days - Whole Body (alternating hard/easy)</option>
-                        <option>3 Days - Alternating Upper Lower Split (alternating hard/easy)</option>
-                        <option>4 Days - Whole Body Split</option>
-                        <option>4 Days - Upper/Lower Split</option>
-                        <option>6+ Days - Advanced Split</option>
+                    <select id="splitSelect" class="dropdown">
+                      <option value="3_day_whole">3 Days - Whole Body (alternating hard/easy)</option>
+                      <option value="3_day_upper_lower">3 Days - Alternating Upper Lower Split (alternating hard/easy)</option>
+                      <option value="4_day_whole">4 Days - Whole Body Split</option>
+                      <option value="4_day_upper_lower">4 Days - Upper/Lower Split</option>
+                      <option value="6_plus">6+ Days - Advanced Split</option>
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="split-tech">
@@ -760,12 +763,13 @@
                 <div class="field-group">
                     <label class="field-label">What training phase are you in?</label>
                     <p class="field-description">Different times of year call for different training focuses</p>
-                    <select class="dropdown">
-                        <option>Build Phase - Foundation Building</option>
-                        <option>Convert Phase - Sport-Specific Training</option>
-                        <option>Peak Phase - Competition Preparation</option>
-                        <option>Recovery Phase - Active Rest</option>
-                        <option>Not sure - Help me decide</option>
+                    <!-- Phase (optional to route weeks later; for now we default to A) -->
+                    <select id="phaseSelect" class="dropdown">
+                      <option value="build">Build Phase - Foundation Building</option>
+                      <option value="convert">Convert Phase - Sport-Specific Training</option>
+                      <option value="peak">Peak Phase - Competition Preparation</option>
+                      <option value="recovery">Recovery Phase - Active Rest</option>
+                      <option value="auto">Not sure - Help me decide</option>
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('phase-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="phase-tech">
@@ -880,6 +884,149 @@
 
         // Enhanced training blocks with structured exercise data
         const trainingBlocks = {
+            <script>
+  // === CONFIGURE YOUR MAPPING HERE ===
+  // Map the selected goal to the key in `trainingBlocks` you want to use.
+  // If your object uses different keys, edit these values to match (e.g., "balanced", "strength", etc.).
+  const GOAL_TO_BLOCK = {
+    hypertrophy: "balanced",     // <-- change to your hypertrophy block key if different
+    max_strength: "balanced",    // e.g., "max_strength_block"
+    power_speed: "balanced",
+    endurance: "balanced",
+    competition: "balanced",
+    general: "balanced"
+  };
+
+  // Which week letter to use by default (A/B/C...). You can make this dynamic later.
+  const DEFAULT_WEEK_KEY = "A";
+
+  const DAY_ORDER = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+
+  // Hook up the button (if you keep inline onclick, you can remove this)
+  document.querySelector('.btn')?.addEventListener('click', generatePlan);
+
+  // Optional: re-render automatically when dropdowns change
+  document.getElementById('goalSelect')?.addEventListener('change', generatePlan);
+  document.getElementById('splitSelect')?.addEventListener('change', generatePlan);
+  document.getElementById('phaseSelect')?.addEventListener('change', generatePlan);
+
+  function generatePlan() {
+    // 1) Read user choices
+    const goal = (document.getElementById('goalSelect')?.value) || "hypertrophy";
+    const split = (document.getElementById('splitSelect')?.value) || "3_day_whole"; // not used yet, but wired for later
+    const phase = (document.getElementById('phaseSelect')?.value) || "build";       // not used yet, but wired for later
+
+    // 2) Pick block and week
+    const blockKey = GOAL_TO_BLOCK[goal] || "balanced";
+    const block = trainingBlocks?.[blockKey];
+    if (!block || !block.weeks) {
+      console.error(`Block not found for key: ${blockKey}`);
+      toast(`No training block found for goal: ${goal}. Check GOAL_TO_BLOCK mapping.`);
+      return;
+    }
+
+    // Simple week selection: default to 'A' if present, else first key
+    let weekKey = DEFAULT_WEEK_KEY;
+    if (!block.weeks[weekKey]) {
+      const keys = Object.keys(block.weeks);
+      weekKey = keys.length ? keys[0] : null;
+    }
+    if (!weekKey) {
+      console.error("No weeks defined in this block.");
+      toast("No weeks defined in this block.");
+      return;
+    }
+
+    const week = block.weeks[weekKey];
+
+    // 3) Normalize week object to an ordered array of days
+    const plan = DAY_ORDER
+      .filter(d => week[d]) // include only defined days
+      .map(d => {
+        const day = week[d];
+        return {
+          key: d,
+          label: capitalize(d),
+          type: day.type || "low",
+          focus: day.focus || "",
+          fieldWork: Array.isArray(day.fieldWork) ? day.fieldWork : [],
+          lifting: Array.isArray(day.lifting) ? day.lifting : []
+        };
+      });
+
+    // 4) Render days into the grid
+    const container = document.getElementById('weeklyPlanContainer');
+    if (!container) {
+      console.error("#weeklyPlanContainer not found");
+      return;
+    }
+
+    container.innerHTML = plan.map(p => `
+      <div class="plan-day ${escapeAttr(p.type)}">
+        <h3>${escapeHTML(p.label)} — ${capitalize(p.type)} Day${p.focus ? ` (${escapeHTML(p.focus)})` : ""}</h3>
+
+        ${p.fieldWork.length ? `
+          <h4>Field Work</h4>
+          <ul>
+            ${p.fieldWork.map(x => `<li>${escapeHTML(fmtItem(x))}</li>`).join("")}
+          </ul>
+        ` : ""}
+
+        ${p.lifting.length ? `
+          <h4>Lifting</h4>
+          <ul>
+            ${p.lifting.map(x => `<li>${escapeHTML(fmtItem(x))}</li>`).join("")}
+          </ul>
+        ` : ""}
+      </div>
+    `).join('');
+
+    // 5) Update overview stats
+    const weeklyVolume =
+      plan.reduce((sum, p) => sum + p.fieldWork.length + p.lifting.length, 0);
+    setText('weeklyVolume', weeklyVolume);
+    setText('highIntensityDays', plan.filter(p => p.type.toLowerCase() === 'high').length);
+    setText('lowIntensityDays',  plan.filter(p => p.type.toLowerCase() === 'low').length);
+
+    const progress = document.getElementById('weeklyProgress');
+    if (progress) {
+      const pct = Math.round((plan.length / 7) * 100);
+      progress.style.width = pct + '%';
+    }
+  }
+
+  // ============ Helpers ============
+  function fmtItem(x) {
+    const n = x?.name || "Exercise";
+    const s = x?.sets ?? "";
+    const r = x?.reps ?? "";
+    return `${n}${(s || r) ? ` — ${s} x ${r}` : ""}`;
+  }
+
+  function setText(id, v) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = v;
+  }
+
+  function capitalize(s) {
+    return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+  }
+
+  function escapeHTML(s) {
+    return String(s)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;");
+  }
+  function escapeAttr(s) {
+    return String(s).replace(/[^a-z0-9_-]/gi,'');
+  }
+
+  function toast(msg) {
+    console.warn(msg);
+    // optional: surface to UI if you want
+  }
+</script>
             
     balanced: {
         title: "B1P1 - Alactic Capacity Development",
