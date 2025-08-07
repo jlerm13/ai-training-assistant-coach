@@ -152,6 +152,7 @@
             gap: 10px;
         }
 
+        /* Original form styles - keeping for compatibility */
         .form-group {
             margin-bottom: 20px;
         }
@@ -184,6 +185,86 @@
             border-color: var(--primary-color);
             box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
             background: var(--bg-primary);
+        }
+
+        /* NEW STYLES - Adding the missing field-group styles */
+        .field-group {
+            margin-bottom: 25px;
+        }
+
+        .field-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .field-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .dropdown {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown:hover {
+            border-color: #d0d0d0;
+        }
+
+        .dropdown:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+            background: var(--bg-primary);
+        }
+
+        .toggle-technical {
+            font-size: 12px;
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .toggle-technical:hover {
+            color: #e55a2b;
+        }
+
+        .technical-details {
+            display: none;
+            margin-top: 8px;
+        }
+
+        .technical-details.show {
+            display: block;
+        }
+
+        .technical-note {
+            background: var(--bg-tertiary);
+            padding: 12px 16px;
+            border-left: 3px solid var(--primary-color);
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            border-radius: 0 6px 6px 0;
+            line-height: 1.4;
+        }
+
+        .technical-note strong {
+            color: var(--text-primary);
         }
 
         .btn {
@@ -588,6 +669,12 @@
             background: var(--bg-tertiary);
         }
 
+        /* Dark mode for technical notes */
+        [data-theme="dark"] .technical-note {
+            background: var(--bg-tertiary);
+            border-left-color: var(--primary-color);
+        }
+
         /* Loading state animation */
         @keyframes pulse {
             0% { opacity: 0.6; }
@@ -627,93 +714,124 @@
                 <h2>📋 Training Configuration</h2>
                 
                 <div class="field-group">
-            <label class="field-label">What's your main goal right now?</label>
-            <p class="field-description">Choose what you want to focus on most in the next few months</p>
-            <select class="dropdown">
-                <option>Build Muscle (Hypertrophy)</option>
-                <option>Get Stronger (Max Strength)</option>
-                <option>Improve Power & Speed</option>
-                <option>Build Endurance Base</option>
-                <option>Prepare for Competition</option>
-                <option>General Fitness</option>
-            </select>
-            <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
-            <div class="technical-details technical-note" id="goal-tech">
-                <strong>Technical terms:</strong> Hypertrophy, Maximum Strength, Power Development, Aerobic Base Building, Sport-Specific Preparation, General Physical Preparation (GPP)
-            </div>
-        </div>
+                    <label class="field-label">What's your main goal right now?</label>
+                    <p class="field-description">Choose what you want to focus on most in the next few months</p>
+                    <select class="dropdown">
+                        <option>Build Muscle (Hypertrophy)</option>
+                        <option>Get Stronger (Max Strength)</option>
+                        <option>Improve Power & Speed</option>
+                        <option>Build Endurance Base</option>
+                        <option>Prepare for Competition</option>
+                        <option>General Fitness</option>
+                    </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="goal-tech">
+                        <strong>Technical terms:</strong> Hypertrophy, Maximum Strength, Power Development, Aerobic Base Building, Sport-Specific Preparation, General Physical Preparation (GPP)
+                    </div>
+                </div>
 
                 <div class="field-group">
-            <label class="field-label">How many days can you train per week?</label>
-            <p class="field-description">We'll design your schedule 6-day split to optimize recovery and progress</p>
-            <select class="dropdown">
-                <option>3 Days - Whole Body (alternating hard/easy)</option>
-                <option>3 Days - Alternating Upper Lower Split (alternating hard/easy)</option>
-                <option>4 Days - Whole Body Split</option>
-                <option>4 Days - Upper/Lower Split</option>
-                <option>6+ Days - Advanced Split</option>
-            </select>
-            <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
-            <div class="technical-details technical-note" id="split-tech">
-                <strong>Technical terms:</strong> Full Body, High/Low, Upper/Lower, Push/Pull/Legs, Body Part Split, Conjugate Method
-            </div>
-        </div>
+                    <label class="field-label">How many days can you train per week?</label>
+                    <p class="field-description">We'll design your schedule to optimize recovery and progress</p>
+                    <select class="dropdown">
+                        <option>3 Days - Whole Body (alternating hard/easy)</option>
+                        <option>3 Days - Alternating Upper Lower Split (alternating hard/easy)</option>
+                        <option>4 Days - Whole Body Split</option>
+                        <option>4 Days - Upper/Lower Split</option>
+                        <option>6+ Days - Advanced Split</option>
+                    </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="split-tech">
+                        <strong>Technical terms:</strong> Full Body, High/Low, Upper/Lower, Push/Pull/Legs, Body Part Split, Conjugate Method
+                    </div>
+                </div>
 
                 <div class="field-group">
-            <label class="field-label">How long are your typical workouts?</label>
-            <p class="field-description">This helps us plan the right amount of work for each session</p>
-            <select class="dropdown">
-                <option>45 minutes</option>
-                <option>60 minutes (recommended)</option>
-                <option>75 minutes</option>
-                <option>90+ minutes</option>
-            </select>
-        </div>
-                <div class="field-group">
-            <label class="field-label">What training phase are you in?</label>
-            <p class="field-description">Different times of year call for different training focuses</p>
-            <select class="dropdown">
-                <option>Build Phase - Foundation Building</option>
-                <option>Convert Phase - Sport-Specific Training</option>
-                <option>Peak Phase - Competition Preparation</option>
-                <option>Recovery Phase - Active Rest</option>
-                <option>Not sure - Help me decide</option>
-            </select>
-            <span class="toggle-technical" onclick="toggleTechnical('phase-tech')">Show technical details</span>
-            <div class="technical-details technical-note" id="phase-tech">
-                <strong>Technical terms:</strong> Accumulation (GPP), Transmutation (SPP), Realization (Competition Prep), Deload/Recovery, Block Periodization
-            </div>
-        </div>
+                    <label class="field-label">How long are your typical workouts?</label>
+                    <p class="field-description">This helps us plan the right amount of work for each session</p>
+                    <select class="dropdown">
+                        <option>45 minutes</option>
+                        <option>60 minutes (recommended)</option>
+                        <option>75 minutes</option>
+                        <option>90+ minutes</option>
+                    </select>
+                </div>
 
                 <div class="field-group">
-            <label class="field-label">How long should this training phase last?</label>
-            <p class="field-description">Enough time to adapt and improve, but not so long you get stale</p>
-            <select class="dropdown">
-                <option>3 weeks (short adaptation)</option>
-                <option>4 weeks (recommended)</option>
-                <option>6 weeks (extended focus)</option>
-                <option>8+ weeks (specialized program)</option>
-            </select>
-            <span class="toggle-technical" onclick="toggleTechnical('block-tech')">Show technical details</span>
-            <div class="technical-details technical-note" id="block-tech">
-                <strong>Technical concept:</strong> Training blocks (mesocycles) should be long enough for adaptation but short enough to prevent staleness and allow for progression to the next phase
-            </div>
-        </div>
+                    <label class="field-label">What training phase are you in?</label>
+                    <p class="field-description">Different times of year call for different training focuses</p>
+                    <select class="dropdown">
+                        <option>Build Phase - Foundation Building</option>
+                        <option>Convert Phase - Sport-Specific Training</option>
+                        <option>Peak Phase - Competition Preparation</option>
+                        <option>Recovery Phase - Active Rest</option>
+                        <option>Not sure - Help me decide</option>
+                    </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('phase-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="phase-tech">
+                        <strong>Technical terms:</strong> Accumulation (GPP), Transmutation (SPP), Realization (Competition Prep), Deload/Recovery, Block Periodization
+                    </div>
+                </div>
 
                 <div class="field-group">
-            <label class="field-label">What equipment do you have access to?</label>
-            <p class="field-description">We'll design your program around what's available to you</p>
-            <select class="dropdown">
-                <option>Full Gym Access (recommended)</option>
-                <option>Home Gym (barbell + weights)</option>
-                <option>Basic Equipment (dumbbells, bands)</option>
-                <option>Bodyweight Only</option>
-                <option>Specialized Facility (weightlifting, powerlifting)</option>
-            </select>
-        </div>
+                    <label class="field-label">How long should this training phase last?</label>
+                    <p class="field-description">Enough time to adapt and improve, but not so long you get stale</p>
+                    <select class="dropdown">
+                        <option>3 weeks (short adaptation)</option>
+                        <option>4 weeks (recommended)</option>
+                        <option>6 weeks (extended focus)</option>
+                        <option>8+ weeks (specialized program)</option>
+                    </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('block-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="block-tech">
+                        <strong>Technical concept:</strong> Training blocks (mesocycles) should be long enough for adaptation but short enough to prevent staleness and allow for progression to the next phase
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">What equipment do you have access to?</label>
+                    <p class="field-description">We'll design your program around what's available to you</p>
+                    <select class="dropdown">
+                        <option>Full Gym Access (recommended)</option>
+                        <option>Home Gym (barbell + weights)</option>
+                        <option>Basic Equipment (dumbbells, bands)</option>
+                        <option>Bodyweight Only</option>
+                        <option>Specialized Facility (weightlifting, powerlifting)</option>
+                    </select>
+                </div>
 
                 <button class="btn" onclick="generatePlan()">🚀 Generate Weekly Plan</button>
             </div>
+
+            <!-- Results Panel (you can add your existing results content here) -->
+            <div class="card">
+                <h2>📊 Training Results</h2>
+                <p>Click "Generate Weekly Plan" to see your personalized training program.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTechnical(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('show');
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            
+            const themeButton = document.querySelector('.theme-toggle');
+            themeButton.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+
+        function generatePlan() {
+            console.log('Generate plan clicked');
 
             <!-- Plan Overview -->
             <div class="card">
