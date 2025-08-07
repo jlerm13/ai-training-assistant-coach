@@ -803,44 +803,14 @@
                 <button class="btn" onclick="generatePlan()">🚀 Generate Weekly Plan</button>
             </div>
 
-            <!-- Results Panel (you can add your existing results content here) -->
-            <div class="card">
-                <h2>📊 Training Results</h2>
-                <p>Click "Generate Weekly Plan" to see your personalized training program.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function toggleTechnical(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.classList.toggle('show');
-            }
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            body.setAttribute('data-theme', newTheme);
-            
-            const themeButton = document.querySelector('.theme-toggle');
-            themeButton.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-        }
-
-        function generatePlan() {
-            console.log('Generate plan clicked');
-
-            <!-- Plan Overview -->
+            <!-- Plan Overview Panel -->
             <div class="card">
                 <h2>📊 Plan Overview</h2>
                 
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value" id="weeklyVolume">0</div>
-                        <div class="stat-label">Weekly Volume</div>
+                        <div class="stat-label">Weekly Exercises</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value" id="highIntensityDays">0</div>
@@ -910,6 +880,7 @@
 
         // Enhanced training blocks with structured exercise data
         const trainingBlocks = {
+            
     balanced: {
         title: "B1P1 - Alactic Capacity Development",
         description: "Develops explosive repeated efforts with incomplete recovery periods",
