@@ -2679,16 +2679,23 @@
         }
 
         function generatePlan() {
-            const goal = document.getElementById('trainingGoal').value;
-            const split = document.getElementById('splitType').value;
-            const equipment = document.getElementById('equipment').value;
-            const duration = document.getElementById('duration').value;
-            const block = document.getElementById('trainingBlock').value;
-            const blockLength = document.getElementById('blockLength').value;
+            console.log('Generate plan called');
+            
+            // Get form values with fallbacks
+            const goal = document.getElementById('trainingGoal')?.value || 'balanced';
+            const split = document.getElementById('splitType')?.value || '3-day-high-low';
+            const equipment = document.getElementById('equipment')?.value || 'full-gym';
+            const duration = document.getElementById('duration')?.value || '60';
+            const block = document.getElementById('trainingBlock')?.value || 'accumulation';
+            const blockLength = document.getElementById('blockLength')?.value || '4';
+
+            console.log('Form values:', { goal, split, equipment, duration, block, blockLength });
 
             // Update goal display
-            document.getElementById('currentGoalDisplay').textContent = 
-                goal.charAt(0).toUpperCase() + goal.slice(1);
+            const goalDisplay = document.getElementById('currentGoalDisplay');
+            if (goalDisplay) {
+                goalDisplay.textContent = goal.charAt(0).toUpperCase() + goal.slice(1);
+            }
 
             // Update goal explanation
             const explanations = {
@@ -2697,10 +2704,16 @@
                 strength: "Strength training focuses on developing maximum force production through heavy loads and low repetitions.",
                 balanced: "Balanced training combines elements of strength, power, and hypertrophy for well-rounded athletic development."
             };
-            document.getElementById('goalExplanation').textContent = explanations[goal];
+            
+            const goalExplanation = document.getElementById('goalExplanation');
+            if (goalExplanation) {
+                goalExplanation.textContent = explanations[goal] || explanations.balanced;
+            }
 
             // Generate weekly plan
             currentPlan = generateWeeklyPlan(goal, split, equipment, duration, block, blockLength);
+            console.log('Generated plan:', currentPlan);
+            
             displayWeeklyPlan(currentPlan);
             updateStats(currentPlan);
             updateProgress();
@@ -2711,7 +2724,11 @@
         function generateWeeklyPlan(goal, split, equipment, duration, block, blockLength) {
             const program = trainingBlocks[goal];
             
-            if (!program || split !== '3-day-high-low') {
+            // Map the split type to match our training blocks
+            // '3-day-upper-lower' is the High/Low split in our system
+            const mappedSplit = split === '3-day-upper-lower' ? '3-day-high-low' : split;
+            
+            if (!program || (mappedSplit !== '3-day-high-low')) {
                 // Fallback for other splits - basic structure
                 return generateLegacyPlan(goal, split, equipment, duration, block, blockLength);
             }
@@ -3423,9 +3440,32 @@
         }
 
         // Initialize with sample plan
-        window.onload = function() {
-            generatePlan();
-        };
+        window.addEventListener('load', function() {
+            console.log('Window loaded, generating initial plan...');
+            // Small delay to ensure all elements are ready
+            setTimeout(function() {
+                try {
+                    generatePlan();
+                    console.log('Initial plan generated successfully');
+                } catch (error) {
+                    console.error('Error generating initial plan:', error);
+                    // Fallback - try again
+                    setTimeout(generatePlan, 500);
+                }
+            }, 100);
+        });
+        
+        // Backup initialization
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            // Document already loaded
+            setTimeout(function() {
+                const container = document.getElementById('weeklyPlanContainer');
+                if (container && container.innerHTML === '') {
+                    console.log('Backup initialization triggered');
+                    generatePlan();
+                }
+            }, 500);
+        }
     </script>
 </body>
 </html>
