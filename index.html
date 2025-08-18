@@ -671,17 +671,17 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="splitType">Step 2: How many days can you train per week?</label>
+                    <label class="field-label" for="splitType">Step 2: How many days can you lift weights per week?</label>
                     <p class="field-description">We'll design your schedule to optimize recovery and progress</p>
                     <select class="dropdown" id="splitType">
                         <option value="3-day-full-body">3 Days - Full Body Split</option>
-                        <option value="3-day-upper-lower">3 Days - High/Low Split</option>
+                        <option value="3-day-upper-lower">3 Days - Upper/Lower Split</option>
                         <option value="4-day-full-body">4 Days - Full Body Split</option>
                         <option value="4-day-upper-lower">4 Days - Upper/Lower Split</option>
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="split-tech">
-                        <strong>Technical terms:</strong> High/Low alternates high CNS days with recovery days. Upper/Lower splits body parts. Full Body trains everything each session.
+                        <strong>Technical terms:</strong> High/Low alternates high CNS days with recovery days. Upper/Lower splits body parts. Full Body trains the upper and lower body in each session.
                     </div>
                 </div>
 
@@ -715,6 +715,7 @@
                     <label class="field-label" for="blockLength">Step 5: How long should this training phase last?</label>
                     <p class="field-description">Enough time to adapt and improve, but not so long you get stale</p>
                     <select class="dropdown" id="blockLength">
+                        <option value="2">2 weeks (transitional adaptation)</option>
                         <option value="3">3 weeks (short adaptation)</option>
                         <option value="4">4 weeks (recommended)</option>
                         <option value="6">6 weeks (extended focus)</option>
