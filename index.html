@@ -654,9 +654,23 @@
             <!-- Input Panel -->
             <div class="card">
                 <h2>📋 Training Configuration</h2>
+
+                <div class="field-group">
+                    <label class="field-label" for="trainingAge">Step 1: What's your training age?</label>
+                    <p class="field-description">Choose what you want to focus on most in the next few months</p>
+                    <select class="dropdown" id="trainingGoal">
+                        <option value="beginner">Beginner/Novice (Introductory)</option>
+                        <option value="intermediate">Intermediate </option>
+                        <option value="advanced">Advanced/Elite </option>
+                    </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="goal-tech">
+                        <strong>Technical terms:</strong> TBD
+                    </div>
+                </div>
                 
                 <div class="field-group">
-                    <label class="field-label" for="trainingGoal">Step 1: What's your main goal right now?</label>
+                    <label class="field-label" for="trainingGoal">Step 2: What's your main goal right now?</label>
                     <p class="field-description">Choose what you want to focus on most in the next few months</p>
                     <select class="dropdown" id="trainingGoal">
                         <option value="hypertrophy">Build Muscle (Hypertrophy)</option>
@@ -671,7 +685,7 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="splitType">Step 2: How many days can you lift weights per week?</label>
+                    <label class="field-label" for="splitType">Step 3: How many days can you lift weights per week?</label>
                     <p class="field-description">We'll design your schedule to optimize recovery and progress</p>
                     <select class="dropdown" id="splitType">
                         <option value="3-day-full-body">3 Days - Full Body Split (Beginners/Busy Athletes)</option>
@@ -686,7 +700,7 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="duration">Step 3: How long are your typical workouts?</label>
+                    <label class="field-label" for="duration">Step 4: How long are your typical workouts?</label>
                     <p class="field-description">This helps us plan the right amount of work for each session</p>
                     <select class="dropdown" id="duration">
                         <option value="45">45 minutes</option>
@@ -697,7 +711,7 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="trainingBlock">Step 4: What training phase are you in?</label>
+                    <label class="field-label" for="trainingBlock">Step 5: What training phase are you in?</label>
                     <p class="field-description">Different times of year call for different training focuses</p>
                     <select class="dropdown" id="trainingBlock">
                         <option value="accumulation">Accumulation - Building Base</option>
@@ -712,7 +726,7 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="blockLength">Step 5: How long should this training phase last?</label>
+                    <label class="field-label" for="blockLength">Step 6: How long should this training phase last?</label>
                     <p class="field-description">Enough time to adapt and improve, but not so long you get stale</p>
                     <select class="dropdown" id="blockLength">
                         <option value="2">2 weeks (Short Adaptation)</option>
@@ -726,7 +740,7 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="equipment">Step 6: What equipment do you have access to?</label>
+                    <label class="field-label" for="equipment">Step 7: What equipment do you have access to?</label>
                     <p class="field-description">We'll design your program around what's available to you</p>
                     <select class="dropdown" id="equipment">
                         <option value="full-gym">Full Gym Access (Recommended)</option>
