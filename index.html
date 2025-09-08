@@ -741,9 +741,9 @@
                     <p class="field-description">Determines High-Low weekly pattern and session distribution</p>
                     <select class="dropdown" id="frequency" onchange="validateForm()">
                         <option value="">Select frequency...</option>
-                        <option value="2">2 Days/Week Full Body Split (L-H-L-L-H-L-L-L Pattern)</option>
+                        <option value="2">2 Days/Week Full Body Split (L-H-L-L-H-L-L Pattern)</option>
                         <option value="3">3 Days/Week Full Body Split (L-H-L-H-L-H-L Pattern)</option>
-                        <option value="4">4 Days/Week Lower/Upper Split (L-H-L-L-H-L-L-L Pattern)</option>
+                        <option value="4">4 Days/Week Lower/Upper Split (L-H-L-L-H-L-L Pattern)</option>
                         <option value="5">5 Days/Week (Advanced)</option>
                         <option value="6">6 Days/Week (Elite Only)</option>
                     </select>
@@ -878,8 +878,8 @@
             <div class="education-section">
                 <h3>⚖️ High-Low System (Weekly)</h3>
                 <p><strong>Purpose:</strong> Alternates high CNS demand with recovery for optimal adaptation.</p>
-                <p><strong>3-Day Pattern:</strong> H-L-H-L-H-L-L (SAQ + Lift on high days)</p>
-                <p><strong>4-Day Pattern:</strong> H-L-L-H-L-L-L (SAQ + Lower / LI + Upper)</p>
+                <p><strong>3-Day Pattern:</strong> H-L-H-L-H-L-L (High Days-SAQ + Full Body Lift)</p>
+                <p><strong>4-Day Pattern:</strong> H-L-L-H-L-L-L (High Days-SAQ + Lower Body Lift. Low Days- Tempo + Upper Body Lift)</p>
                 <p><strong>CNS Scoring:</strong> 1-10 scale based on neural demand and context.</p>
                 <p><strong>Recovery Rule:</strong> Minimum 1 low day between high days.</p>
             </div>
@@ -974,10 +974,11 @@
                         lowSessions: { type: 'Recovery/Optional', targetCNS: [1, 3], optional: true }
                     },
                     4: {
-                        schedule: ['H', 'L', 'L', 'H', 'L', 'L', 'L'],
+                        schedule: ['H', 'M', 'L', 'H', 'M', 'L', 'L'],
                         description: 'SAQ + Lower on High, LI + Upper on Low',
                         highSessions: { type: 'SAQ + Lower Body', targetCNS: [8, 10] },
-                        lowSessions: { type: 'LI + Upper Body', targetCNS: [3, 5], optional: false }
+                        mediumSession: { type: 'Tempo + Upper Body', targetCNS: [8, 10] },
+                        lowSessions: { type: 'Recovery/Optional', targetCNS: [3, 5], optional: false }
                     },
                     5: {
                         schedule: ['H', 'L', 'H', 'L', 'H', 'L', 'L'],
