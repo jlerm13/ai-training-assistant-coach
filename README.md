@@ -1,15 +1,11 @@
-# AI Training Assistant Dashboard
+# Interactive AI Training Plan Generator
 
-# ai-training-assistant-coach
-
-Interactive training plan generator using High-Low methodology.
-
-## Features
-- Training goal emphasis (Hypertrophy, Power, Strength, Balanced)
-- 3-day High/Low and 4-day Upper/Lower splits
-- Equipment adaptation
-- Chat-based modifications
-- Periodization blocks (Transition/GPP, Accumulation, Transmutation, Realization)
+## New Features (v6.0)
+- ✅ Proper Vertical Integration sequencing (Speed → Power → Strength → Hypertrophy → Endurance)
+- ✅ Medium Day support for 4-day Upper/Lower splits  
+- ✅ Enhanced exercise database with 20+ movements
+- ✅ 3 Anchor methodology implementation (Block Periodization, Vertical Integration, High-Low Planning)
+- ✅ Improved program templates with phase-specific adaptations
 
 ## Demo
 [Live Dashboard](https://jlerm13.github.io/ai-training-assistant-coach)
