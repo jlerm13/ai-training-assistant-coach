@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Training Assistant - 3 Anchor High-Low ME/DE/SE/RE System</title>
+    <title>AI Training Assistant - 3 Anchor System</title>
     <style>
         * {
             margin: 0;
@@ -850,7 +850,7 @@
             bench_press: {
                 name: "Bench Press", 
                 classification: "Max Effort",
-                adaptation: "Upper Body Strength",
+                adaptation: "Relative Strength",
                 component: "strength",
                 cns: 6,
                 sets: 3, reps: 3,
@@ -861,7 +861,7 @@
             deadlift: {
                 name: "Deadlift",
                 classification: "Max Effort", 
-                adaptation: "Posterior Chain Strength",
+                adaptation: "Relative Strength",
                 component: "strength",
                 cns: 10,
                 sets: 3, reps: 3,
@@ -874,7 +874,7 @@
             power_clean: {
                 name: "Power Clean",
                 classification: "Dynamic Effort",
-                adaptation: "Rate of Force Development", 
+                adaptation: "Power", 
                 component: "power",
                 cns: 10,
                 sets: 5, reps: 2,
@@ -885,7 +885,7 @@
             jump_squat: {
                 name: "Jump Squats",
                 classification: "Dynamic Effort",
-                adaptation: "Lower Body Power",
+                adaptation: "Power",
                 component: "power", 
                 cns: 7,
                 sets: 4, reps: 5,
@@ -896,7 +896,7 @@
             med_ball_slam: {
                 name: "Medicine Ball Slam",
                 classification: "Dynamic Effort",
-                adaptation: "Power Endurance",
+                adaptation: "Power",
                 component: "power",
                 cns: 6,
                 sets: 4, reps: 6,
@@ -909,7 +909,7 @@
             front_squat: {
                 name: "Front Squat",
                 classification: "Submaximal Effort",
-                adaptation: "Functional Strength",
+                adaptation: "Functional Hypertrophy",
                 component: "strength",
                 cns: 7,
                 sets: 4, reps: 5,
@@ -920,7 +920,7 @@
             incline_press: {
                 name: "Incline Press",
                 classification: "Submaximal Effort",
-                adaptation: "Upper Body Strength",
+                adaptation: "Functional Hypertrophy",
                 component: "strength",
                 cns: 5,
                 sets: 4, reps: 6,
@@ -933,7 +933,7 @@
             db_row: {
                 name: "Single-Arm DB Row",
                 classification: "Repetition Effort",
-                adaptation: "Functional Hypertrophy",
+                adaptation: "Strength Endurance",
                 component: "hypertrophy",
                 cns: 3,
                 sets: 4, reps: "12-15",
@@ -944,7 +944,7 @@
             lunges: {
                 name: "Reverse Lunges",
                 classification: "Repetition Effort", 
-                adaptation: "Lower Body Hypertrophy",
+                adaptation: "Hypertrophy",
                 component: "hypertrophy",
                 cns: 4,
                 sets: 3, reps: "12 each leg",
@@ -1060,7 +1060,7 @@
                         {...ME_DE_SE_RE_EXERCISES.mobility_flow}
                     ]
                 },
-                thursday: {
+                wednesday: {
                     type: "high",
                     focus: "Full Vertical Integration - Power/Strength", 
                     exercises: [
@@ -1075,6 +1075,49 @@
                         {...ME_DE_SE_RE_EXERCISES.incline_press, classification: "Repetition Effort", component: "hypertrophy"},
                         // ENDURANCE
                         {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                },
+                thursday: {
+                    type: "low", 
+                    focus: "Recovery + Low CNS Maintenance",
+                    exercises: [
+                        // Low days: Tempo/Recovery focus only
+                        {...ME_DE_SE_RE_EXERCISES.tempo_run},
+                        {...ME_DE_SE_RE_EXERCISES.lunges, cns: 3}, // Reduced CNS
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                },
+                friday: {
+                    type: "high",
+                    focus: "Full Vertical Integration - Power/Strength", 
+                    exercises: [
+                        // SPEED
+                        {...ME_DE_SE_RE_EXERCISES.agility_ladder},
+                        // POWER
+                        {...ME_DE_SE_RE_EXERCISES.med_ball_slam},
+                        // STRENGTH
+                        {...ME_DE_SE_RE_EXERCISES.deadlift},
+                        {...ME_DE_SE_RE_EXERCISES.front_squat},
+                        // HYPERTROPHY
+                        {...ME_DE_SE_RE_EXERCISES.incline_press, classification: "Repetition Effort", component: "hypertrophy"},
+                        // ENDURANCE
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                },
+                saturday: {
+                    type: "low", 
+                    focus: "Recovery + Low CNS Maintenance",
+                    exercises: [
+                        // Low days: Tempo/Recovery focus only
+                        {...ME_DE_SE_RE_EXERCISES.tempo_run},
+                        {...ME_DE_SE_RE_EXERCISES.lunges, cns: 3}, // Reduced CNS
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                },
+                sunday: {
+                    type: "off", 
+                    focus: "Recovery + Low CNS Maintenance",
+                    exercises: [
                     ]
                 }
             },
