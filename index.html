@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Training Assistant - Three Anchor System</title>
+    <title>AI Training Assistant - High-Low ME/DE/SE/RE System</title>
     <style>
         * {
             margin: 0;
@@ -13,20 +13,22 @@
         }
 
         :root {
-            /* Brand Colors */
+            /* Brand Colors from Ignition APG */
             --primary-color: #ff6b35;
             --secondary-color: #f7931e;
             --accent-color: #4ecdc4;
+            
+            /* Semantic Colors */
             --success-color: #4ecdc4;
             --warning-color: #f7931e;
             --error-color: #e74c3c;
             
-            /* Background Colors */
+            /* Background Colors - Cleaner whites/grays */
             --bg-primary: #ffffff;
             --bg-secondary: #fafafa;
             --bg-tertiary: #f5f5f5;
             
-            /* Text Colors */
+            /* Text Colors - Better contrast */
             --text-primary: #1a1a1a;
             --text-secondary: #666666;
             --text-tertiary: #999999;
@@ -39,7 +41,7 @@
             --high-intensity: #ff6b35;
             --low-intensity: #4ecdc4;
             
-            /* Shadows */
+            /* Shadows - Subtle depth */
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
             --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
@@ -55,6 +57,8 @@
             --text-tertiary: #737373;
             --border-color: #404040;
             --border-light: #2a2a2a;
+            
+            /* Shadows for dark mode */
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
             --shadow-lg: 0 10px 15px rgba(0,0,0,0.5);
@@ -99,13 +103,7 @@
             letter-spacing: -0.03em;
         }
 
-        .header-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .theme-toggle, .info-toggle {
+        .theme-toggle {
             background: var(--bg-tertiary);
             color: var(--text-primary);
             border: 1px solid var(--border-color);
@@ -117,7 +115,7 @@
             transition: all 0.2s ease;
         }
 
-        .theme-toggle:hover, .info-toggle:hover {
+        .theme-toggle:hover {
             background: var(--bg-secondary);
             box-shadow: var(--shadow-sm);
             transform: translateY(-1px);
@@ -196,10 +194,32 @@
             background: var(--bg-primary);
         }
 
-        .validation-feedback {
+        .toggle-technical {
+            font-size: 12px;
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .toggle-technical:hover {
+            color: #e55a2b;
+        }
+
+        .technical-details {
+            display: none;
+            margin-top: 8px;
+        }
+
+        .technical-details.show {
+            display: block;
+        }
+
+        .technical-note {
             background: var(--bg-tertiary);
             padding: 12px 16px;
-            border-left: 3px solid var(--warning-color);
+            border-left: 3px solid var(--primary-color);
             margin-top: 8px;
             font-size: 13px;
             color: var(--text-secondary);
@@ -207,12 +227,8 @@
             line-height: 1.4;
         }
 
-        .validation-feedback.success {
-            border-left-color: var(--success-color);
-        }
-
-        .validation-feedback.error {
-            border-left-color: var(--error-color);
+        .technical-note strong {
+            color: var(--text-primary);
         }
 
         .btn {
@@ -243,13 +259,6 @@
             box-shadow: 0 1px 4px rgba(255, 107, 53, 0.25);
         }
 
-        .btn:disabled {
-            background: var(--text-tertiary);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
         .btn-secondary {
             background: var(--text-secondary);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -258,12 +267,6 @@
         .btn-secondary:hover {
             background: var(--text-primary);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-small {
-            padding: 4px 8px;
-            font-size: 11px;
-            min-width: auto;
         }
 
         .intensity-indicator {
@@ -284,12 +287,11 @@
 
         .weekly-plan {
             grid-column: 1 / -1;
-            position: relative;
         }
 
         .plan-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
@@ -300,7 +302,6 @@
             padding: 20px;
             border: 1.5px solid var(--border-color);
             transition: all 0.2s ease;
-            position: relative;
         }
 
         .high-day {
@@ -325,48 +326,27 @@
             font-size: 1.1rem;
         }
 
-        .day-meta {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cns-badge {
-            background: var(--bg-tertiary);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .component-section {
+        .exercise-section {
             margin-bottom: 20px;
         }
 
-        .component-header {
-            margin: 0 0 12px 0;
-            font-size: 13px;
+        .section-header {
+            margin: 0 0 16px 0;
+            font-size: 14px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-secondary);
-            padding: 6px 0;
+            padding: 8px 0;
             border-bottom: 1px solid var(--border-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .component-priority {
-            font-size: 11px;
-            background: var(--bg-secondary);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: normal;
-            text-transform: none;
+        .field-section .section-header {
+            color: var(--accent-color);
+        }
+
+        .lifting-section .section-header {
+            color: var(--primary-color);
         }
 
         .exercise-list {
@@ -375,8 +355,8 @@
 
         .exercise-item {
             background: var(--bg-secondary);
-            border-radius: 8px;
-            margin-bottom: 6px;
+            border-radius: 10px;
+            margin-bottom: 8px;
             font-size: 14px;
             transition: all 0.15s ease;
             border: 1px solid var(--border-light);
@@ -395,34 +375,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 12px;
+            padding: 12px;
         }
 
         .exercise-name {
             flex: 1;
             font-weight: 500;
-            font-size: 13px;
         }
 
         .exercise-quick-info {
             font-weight: 600;
             color: var(--primary-color);
-            margin: 0 8px;
-            font-size: 11px;
-        }
-
-        .cns-score {
-            background: var(--primary-color);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 600;
-            margin-left: 6px;
+            margin: 0 10px;
         }
 
         .expand-icon {
-            font-size: 10px;
+            font-size: 12px;
             transition: transform 0.3s ease;
             color: var(--text-secondary);
         }
@@ -432,7 +400,7 @@
         }
 
         .exercise-details {
-            padding: 0 12px 12px 12px;
+            padding: 0 15px 15px 15px;
             background: var(--bg-tertiary);
             border-top: 1px solid var(--border-color);
             display: none;
@@ -444,19 +412,19 @@
 
         .parameter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            margin: 10px 0;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
         }
 
         .param {
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .param strong {
             display: block;
             color: var(--text-secondary);
-            font-size: 10px;
+            font-size: 12px;
             margin-bottom: 2px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -465,97 +433,44 @@
         .param .value {
             color: var(--text-primary);
             font-weight: 500;
-            line-height: 1.3;
         }
 
         .param.full-width {
             grid-column: 1 / -1;
         }
 
+        .tempo-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-left: 5px;
+        }
+
+        .field-exercise {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.05) 0%, var(--bg-secondary) 100%);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .lifting-exercise {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, var(--bg-secondary) 100%);
+            border-left: 3px solid var(--primary-color);
+        }
+
         .exercise-actions {
             display: flex;
-            gap: 6px;
-            margin-top: 8px;
+            gap: 8px;
+            margin-top: 10px;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--bg-secondary);
-            border-radius: 10px;
-            padding: 16px;
-            text-align: center;
-            border: 1px solid var(--border-light);
-            transition: all 0.2s ease;
-        }
-
-        .stat-card:hover {
-            box-shadow: var(--shadow-sm);
-            transform: translateY(-1px);
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            letter-spacing: -0.03em;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        .block-progress {
-            background: var(--bg-secondary);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-light);
-        }
-
-        .block-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .block-title {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .block-week {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            overflow: hidden;
-            margin: 8px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 6px;
-            transition: width 0.3s ease;
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            min-width: auto;
         }
 
         .modification-panel {
             background: var(--bg-tertiary);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 20px;
             margin-top: 20px;
         }
@@ -576,12 +491,12 @@
 
         .form-control {
             width: 100%;
-            padding: 12px 14px;
+            padding: 14px 16px;
             border: 1.5px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 10px;
             background: var(--bg-secondary);
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 15px;
             transition: all 0.2s ease;
         }
 
@@ -592,83 +507,125 @@
             background: var(--bg-primary);
         }
 
-        .education-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: var(--bg-primary);
-            box-shadow: var(--shadow-xl);
-            transition: right 0.3s ease;
-            z-index: 1000;
-            overflow-y: auto;
-            border-left: 1px solid var(--border-color);
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .education-panel.open {
-            right: 0;
-        }
-
-        .education-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
+        .stat-card {
             background: var(--bg-secondary);
-        }
-
-        .education-content {
+            border-radius: 12px;
             padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
         }
 
-        .education-section {
-            margin-bottom: 25px;
+        .stat-card:hover {
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px);
         }
 
-        .education-section h3 {
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            letter-spacing: -0.03em;
         }
 
-        .education-section p {
+        .stat-label {
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 8px;
         }
 
-        .close-panel {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            float: right;
-        }
-
-        .anchor-indicator {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 12px;
+        .collapsible {
             background: var(--bg-secondary);
-            padding: 4px 8px;
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            color: var(--text-secondary);
+            margin-bottom: 10px;
         }
 
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
+        .collapsible-header {
+            padding: 12px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
         }
 
-        .generating {
-            animation: pulse 1.5s ease-in-out infinite;
+        .collapsible-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
+        .collapsible.active .collapsible-content {
+            max-height: 200px;
+            padding: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        /* Dark mode support for new elements */
+        [data-theme="dark"] .section-header {
+            color: #e0e0e0;
+            border-bottom-color: #444;
+        }
+
+        [data-theme="dark"] .field-section .section-header {
+            color: #81c784;
+        }
+
+        [data-theme="dark"] .lifting-section .section-header {
+            color: #e57373;
+        }
+
+        [data-theme="dark"] .field-exercise {
+            background: linear-gradient(90deg, #1a2e1a 0%, #2a2a2a 100%);
+            border-left-color: #66bb6a;
+        }
+
+        [data-theme="dark"] .lifting-exercise {
+            background: linear-gradient(90deg, #2e1a1a 0%, #2a2a2a 100%);
+            border-left-color: #ef5350;
+        }
+
+        [data-theme="dark"] .exercise-details {
+            background: var(--bg-tertiary);
+        }
+
+        [data-theme="dark"] .technical-note {
+            background: var(--bg-tertiary);
+            border-left-color: var(--primary-color);
+        }
+
+        /* Loading state animation */
         @keyframes pulse {
             0% { opacity: 0.6; }
             50% { opacity: 1; }
             100% { opacity: 0.6; }
+        }
+
+        .generating {
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
         @media (max-width: 768px) {
@@ -683,152 +640,160 @@
             .container {
                 padding: 15px;
             }
-
-            .parameter-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .education-panel {
-                width: 100%;
-                right: -100%;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏋️ Ignition APG - Three Anchor System</h1>
-            <div class="header-controls">
-                <button class="info-toggle" onclick="toggleEducationPanel()">📚 Learn System</button>
-                <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
-            </div>
+            <h1>🏋️ Ignition APG - High-Low ME/DE/SE/RE System</h1>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
         </div>
 
         <div class="dashboard-grid">
             <!-- Input Panel -->
             <div class="card">
-                <h2>⚙️ Training Configuration</h2>
+                <h2>📋 Training Configuration</h2>
 
                 <div class="field-group">
-                    <label class="field-label" for="trainingAge">Training Experience Level</label>
-                    <p class="field-description">Determines exercise complexity and loading parameters</p>
-                    <select class="dropdown" id="trainingAge" onchange="validateForm()">
-                        <option value="">Select experience level...</option>
-                        <option value="newcomer">Newcomer (0-6 months)</option>
-                        <option value="beginner">Beginner (6-18 months)</option>
-                        <option value="intermediate">Intermediate (1.5-3 years)</option>
-                        <option value="advanced">Advanced (3-5 years)</option>
-                        <option value="elite">Elite (5+ years)</option>
+                    <label class="field-label" for="trainingAge">Step 1: What's your training experience?</label>
+                    <p class="field-description">Determines exercise complexity and CNS loading capacity</p>
+                    <select class="dropdown" id="trainingAge">
+                        <option value="beginner">Beginner/Novice (Introductory)</option>
+                        <option value="intermediate" selected>Intermediate</option>
+                        <option value="advanced">Advanced/Elite</option>
                     </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('age-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="age-tech">
+                        <strong>Technical terms:</strong> CNS Capacity, Neural Adaptation Potential, Training Complexity Tolerance
+                    </div>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label" for="trainingGoal">Step 2: What's your main goal right now?</label>
+                    <p class="field-description">Determines ME/DE/SE/RE method emphasis and volume distribution</p>
+                    <select class="dropdown" id="trainingGoal">
+                        <option value="hypertrophy">Build Muscle (Repetition Effort Focus)</option>
+                        <option value="strength" selected>Get Stronger (Max Effort Focus)</option>
+                        <option value="power">Improve Power & Speed (Dynamic Effort Focus)</option>
+                        <option value="balanced">Balanced Development (Mixed Methods)</option>
+                    </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="goal-tech">
+                        <strong>Technical terms:</strong> Max Effort (85-100% 1RM), Dynamic Effort (50-75% max speed), Submaximal Effort (75-85%), Repetition Effort (60-75% to failure)
+                    </div>
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="emphasis">Primary Training Emphasis</label>
-                    <p class="field-description">Determines biomotor quality prioritization and volume distribution</p>
-                    <select class="dropdown" id="emphasis" onchange="validateForm()">
-                        <option value="">Select primary emphasis...</option>
-                        <option value="hypertrophy">Hypertrophy (Muscle Growth)</option>
-                        <option value="strength">Strength (Maximum Force)</option>
-                        <option value="power">Power (Explosive Movement)</option>
-                        <option value="speed">Speed (Velocity Focus)</option>
-                        <option value="mixed">Mixed (Balanced Development)</option>
+                    <label class="field-label" for="splitType">Step 3: How many days can you train per week?</label>
+                    <p class="field-description">High-Low pattern optimizes CNS recovery and adaptation</p>
+                    <select class="dropdown" id="splitType">
+                        <option value="3-day-high-low" selected>3 Days - High-Low Pattern (H-L-H-L-H-L-L)</option>
+                        <option value="4-day-high-low">4 Days - High-Low Pattern (H-L-L-H-L-L-L)</option>
                     </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="split-tech">
+                        <strong>High Days:</strong> SAQ + Heavy lifting (8-10 CNS). <strong>Low Days:</strong> Recovery + accessories (3-5 CNS). Ensures proper recovery between high CNS sessions.
+                    </div>
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="frequency">Training Frequency</label>
-                    <p class="field-description">Determines High-Low weekly pattern and session distribution</p>
-                    <select class="dropdown" id="frequency" onchange="validateForm()">
-                        <option value="">Select frequency...</option>
-                        <option value="2">2 Days/Week Full Body Split (L-H-L-L-H-L-L Pattern)</option>
-                        <option value="3">3 Days/Week Full Body Split (L-H-L-H-L-H-L Pattern)</option>
-                        <option value="4">4 Days/Week Lower/Upper Split (L-H-L-L-H-L-L Pattern)</option>
-                        <option value="5">5 Days/Week (Advanced)</option>
-                        <option value="6">6 Days/Week (Elite Only)</option>
-                    </select>
-                </div>
-
-                <div class="field-group">
-                    <label class="field-label" for="duration">Session Duration</label>
-                    <p class="field-description">Affects time allocation across vertical integration components</p>
-                    <select class="dropdown" id="duration" onchange="validateForm()">
-                        <option value="">Select duration...</option>
+                    <label class="field-label" for="duration">Step 4: How long are your typical workouts?</label>
+                    <p class="field-description">Affects exercise selection and volume distribution</p>
+                    <select class="dropdown" id="duration">
                         <option value="45">45 minutes</option>
-                        <option value="60">60 minutes (Recommended)</option>
+                        <option value="60" selected>60 minutes (Recommended)</option>
                         <option value="75">75 minutes</option>
                         <option value="90">90+ minutes</option>
                     </select>
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="phase">Current Training Phase</label>
-                    <p class="field-description">Block periodization phase determines adaptation focus</p>
-                    <select class="dropdown" id="phase" onchange="validateForm()">
-                        <option value="">Select phase...</option>
-                        <option value="gpp">GPP (General Preparation)</option>
-                        <option value="accumulation">Accumulation (Volume Focus)</option>
-                        <option value="transmutation">Transmutation (Intensity Focus)</option>
-                        <option value="realization">Realization (Competition Prep)</option>
+                    <label class="field-label" for="trainingBlock">Step 5: What training phase are you in?</label>
+                    <p class="field-description">Block periodization determines intensity and volume emphasis</p>
+                    <select class="dropdown" id="trainingBlock">
+                        <option value="accumulation" selected>Accumulation - Building Strength Base</option>
+                        <option value="transmutation">Transmutation - Converting to Power</option>
+                        <option value="realization">Realization - Competition Prep</option>
+                        <option value="transition-gpp">Transition/GPP - Recovery Phase</option>
+                    </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('phase-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="phase-tech">
+                        <strong>Accumulation:</strong> Higher volume ME/SE work. <strong>Transmutation:</strong> DE/Power focus. <strong>Realization:</strong> Peak intensity. <strong>GPP:</strong> Movement quality and base building.
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="blockLength">Step 6: How long should this phase last?</label>
+                    <p class="field-description">Adaptation time without staleness</p>
+                    <select class="dropdown" id="blockLength">
+                        <option value="2">2 weeks (Short Adaptation)</option>
+                        <option value="3">3 weeks (Moderate Adaptation)</option>
+                        <option value="4" selected>4 weeks (Recommended)</option>
                     </select>
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="equipment">Equipment Access</label>
-                    <p class="field-description">Determines exercise selection and progression options</p>
-                    <select class="dropdown" id="equipment" onchange="validateForm()">
-                        <option value="">Select equipment...</option>
-                        <option value="full_gym">Full Gym Access</option>
-                        <option value="basic_gym">Basic Gym (DBs, Adjustable Bench, Bands, SwissBall)</option>
-                        <option value="bodyweight">Bodyweight Only</option>
+                    <label class="field-label" for="equipment">Step 7: What equipment do you have access to?</label>
+                    <p class="field-description">Determines exercise selection and ME/DE/SE/RE implementations</p>
+                    <select class="dropdown" id="equipment">
+                        <option value="full-gym" selected>Full Gym Access (Barbell + Equipment)</option>
+                        <option value="basic">Basic Equipment (Dumbbells, Bands, Bench)</option>
+                        <option value="bodyweight">Bodyweight Only (Doorway Isometrics)</option>
                     </select>
+                    <span class="toggle-technical" onclick="toggleTechnical('equipment-tech')">Show technical details</span>
+                    <div class="technical-details technical-note" id="equipment-tech">
+                        <strong>Bodyweight Max Effort:</strong> Doorway isometrics with 100% force production against immovable objects. <strong>Dynamic Effort:</strong> Explosive bodyweight movements with maximum intent.
+                    </div>
                 </div>
 
-                <div id="validationFeedback"></div>
-
-                <button class="btn" id="generateBtn" onclick="generateProgram()" disabled>
-                    🚀 Generate Three-Anchor Program
-                </button>
+                <button class="btn" onclick="generatePlan()">🚀 Generate High-Low Program</button>
             </div>
 
-            <!-- Overview Panel -->
+            <!-- Plan Overview Panel -->
             <div class="card">
-                <h2>📊 Program Intelligence</h2>
+                <h2>📊 Plan Overview</h2>
                 
-                <div class="block-progress">
-                    <div class="block-header">
-                        <span class="block-title" id="currentPhase">Select Phase Above</span>
-                        <span class="block-week" id="blockWeek">Week 1 of 4</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="blockProgress" style="width: 25%"></div>
-                    </div>
-                </div>
-
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-value" id="highDays">0</div>
+                        <div class="stat-value" id="weeklyVolume">16</div>
+                        <div class="stat-label">Weekly Exercises</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="highIntensityDays">3</div>
                         <div class="stat-label">High CNS Days</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value" id="lowDays">0</div>
+                        <div class="stat-value" id="lowIntensityDays">2</div>
                         <div class="stat-label">Low CNS Days</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="avgCNS">0</div>
-                        <div class="stat-label">Avg CNS Load</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalComponents">0</div>
-                        <div class="stat-label">VI Components</div>
                     </div>
                 </div>
 
-                <div class="education-section">
-                    <h3>Three Anchor Principles</h3>
-                    <p><strong>Block Periodization:</strong> <span id="blockExplanation">4-week mesocycles with progressive adaptation</span></p>
-                    <p><strong>High-Low System:</strong> <span id="highLowExplanation">CNS demand alternation for optimal recovery</span></p>
-                    <p><strong>Vertical Integration:</strong> <span id="viExplanation">All biomotor qualities in every session</span></p>
+                <div class="collapsible">
+                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                        High-Low Training Principles
+                        <span>+</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <p>The High-Low training model alternates between high CNS-demanding days (8-10 CNS) and low recovery days (3-5 CNS). This optimizes adaptation while preventing overtraining and ensuring proper recovery.</p>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                        ME/DE/SE/RE Methods
+                        <span>+</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <p><strong>Max Effort:</strong> 85-100% loads for strength. <strong>Dynamic Effort:</strong> Explosive movements for power. <strong>Submaximal:</strong> 75-85% for strength-endurance. <strong>Repetition:</strong> Higher volume for hypertrophy.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <label>Weekly Progress</label>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="weeklyProgress" style="width: 25%"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -836,12 +801,9 @@
         <!-- Weekly Plan Display -->
         <div class="card weekly-plan">
             <h2>📅 Weekly Training Plan</h2>
-            <div class="anchor-indicator">Three Anchor System</div>
             
             <div class="plan-grid" id="weeklyPlanContainer">
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
-                    Configure your parameters above to generate your Three-Anchor training program
-                </div>
+                <!-- Plan will be generated here -->
             </div>
 
             <!-- Modification Panel -->
@@ -850,1227 +812,620 @@
                 <div class="chat-interface">
                     <div id="chatHistory" style="max-height: 200px; overflow-y: auto; margin-bottom: 10px;"></div>
                     <div class="chat-input">
-                        <input type="text" class="form-control" id="chatInput" 
-                               placeholder="e.g., 'reduce CNS load', 'increase power focus', 'make bodyweight only'" disabled>
-                        <button class="btn" onclick="processModification()" disabled>Apply</button>
+                        <input type="text" class="form-control" id="chatInput" placeholder="e.g., 'make bodyweight only', 'increase power focus', 'reduce CNS load'">
+                        <button class="btn" onclick="processModification()">Send</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Education Panel -->
-    <div class="education-panel" id="educationPanel">
-        <div class="education-header">
-            <h2>📚 Three Anchor System Education</h2>
-            <button class="close-panel" onclick="toggleEducationPanel()">&times;</button>
-        </div>
-        <div class="education-content">
-            <div class="education-section">
-                <h3>🏗️ Block Periodization (Macro)</h3>
-                <p><strong>Purpose:</strong> Organizes training into 4-week blocks for optimal adaptation.</p>
-                <p><strong>GPP Phase:</strong> High volume, moderate intensity, movement quality focus.</p>
-                <p><strong>Accumulation:</strong> Progressive volume increases, strength development.</p>
-                <p><strong>Transmutation:</strong> High intensity, power/speed focus, reduced volume.</p>
-                <p><strong>Realization:</strong> Competition preparation, peak performance readiness.</p>
-            </div>
-
-            <div class="education-section">
-                <h3>⚖️ High-Low System (Weekly)</h3>
-                <p><strong>Purpose:</strong> Alternates high CNS demand with recovery for optimal adaptation.</p>
-                <p><strong>3-Day Pattern:</strong> H-L-H-L-H-L-L (High Days-SAQ + Full Body Lift)</p>
-                <p><strong>4-Day Pattern:</strong> H-L-L-H-L-L-L (High Days-SAQ + Lower Body Lift. Low Days- Tempo + Upper Body Lift)</p>
-                <p><strong>CNS Scoring:</strong> 1-10 scale based on neural demand and context.</p>
-                <p><strong>Recovery Rule:</strong> Minimum 1 low day between high days.</p>
-            </div>
-
-            <div class="education-section">
-                <h3>🔄 Vertical Integration (Daily)</h3>
-                <p><strong>Purpose:</strong> Integrates all biomotor qualities in every session.</p>
-                <p><strong>Exercise Order:</strong> Speed → Power → Strength → Hypertrophy → Endurance</p>
-                <p><strong>Volume Distribution:</strong> Phase-specific emphasis with minimum maintenance.</p>
-                <p><strong>Component Balance:</strong> Primary qualities get higher volume, others maintained.</p>
-            </div>
-
-            <div class="education-section">
-                <h3>🧠 CNS Classification Logic</h3>
-                <p><strong>Context Dependent:</strong> Same exercise can be high or low CNS based on context.</p>
-                <p><strong>Upper Body Default:</strong> Up to 90% 1RM classified as low CNS.</p>
-                <p><strong>Lower + SAQ:</strong> Always high CNS due to neural demands.</p>
-                <p><strong>Heavy Lifting Alone:</strong> Can be low CNS if no other high demands.</p>
-            </div>
-
-            <div class="education-section">
-                <h3>🎯 Program Modifications</h3>
-                <p><strong>Anchor Respect:</strong> Modifications maintain three-anchor principles.</p>
-                <p><strong>Contextual Adjustments:</strong> Changes consider phase, CNS load, and VI balance.</p>
-                <p><strong>Smart Substitutions:</strong> Exercise swaps maintain movement patterns and CNS classification.</p>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // ==================== THREE ANCHOR SYSTEM CONFIGURATION ====================
+        // ==================== ME/DE/SE/RE EXERCISE DATABASE ====================
         
-        const THREE_ANCHOR_CONFIG = {
-            // Block Periodization Rules (4-week mesocycles)
-            blockPeriodization: {
-                defaultLength: 4,
-                phases: {
-                    gpp: {
-                        title: "General Physical Preparation",
-                        emphasis: "volume",
-                        intensity: "moderate",
-                        unilateralPriority: "high",
-                        bilateralPriority: "moderate",
-                        viMultipliers: {
-                            speed: 0.4, power: 0.5, strength: 0.6, 
-                            hypertrophy: 0.8, endurance: 0.9
-                        }
-                    },
-                    accumulation: {
-                        title: "Strength Accumulation",
-                        emphasis: "volume+",
-                        intensity: "moderate+",
-                        unilateralPriority: "moderate",
-                        bilateralPriority: "high",
-                        viMultipliers: {
-                            speed: 0.5, power: 0.6, strength: 0.9, 
-                            hypertrophy: 0.7, endurance: 0.6
-                        }
-                    },
-                    transmutation: {
-                        title: "Power Transmutation",
-                        emphasis: "intensity",
-                        intensity: "high",
-                        unilateralPriority: "low",
-                        bilateralPriority: "very_high",
-                        viMultipliers: {
-                            speed: 0.8, power: 0.9, strength: 0.7, 
-                            hypertrophy: 0.4, endurance: 0.4
-                        }
-                    },
-                    realization: {
-                        title: "Competition Realization",
-                        emphasis: "peaking",
-                        intensity: "very_high",
-                        unilateralPriority: "minimal",
-                        bilateralPriority: "maximal",
-                        viMultipliers: {
-                            speed: 0.9, power: 1.0, strength: 0.6, 
-                            hypertrophy: 0.2, endurance: 0.3
-                        }
-                    }
-                }
-            },
-
-            // High-Low Weekly Patterns
-            highLowSystem: {
-                patterns: {
-                    3: {
-                        schedule: ['H', 'L', 'H', 'L', 'H', 'L', 'L'],
-                        description: 'SAQ + Full Body on High, Recovery/Optional on Low',
-                        highSessions: { type: 'SAQ + Full Body', targetCNS: [8, 10] },
-                        lowSessions: { type: 'Recovery/Optional', targetCNS: [1, 3], optional: true }
-                    },
-                    4: {
-                        schedule: ['H', 'M', 'L', 'H', 'M', 'L', 'L'],
-                        description: 'SAQ + Lower on High, LI + Upper on Low',
-                        highSessions: { type: 'SAQ + Lower Body', targetCNS: [8, 10] },
-                        mediumSession: { type: 'Tempo + Upper Body', targetCNS: [8, 10] },
-                        lowSessions: { type: 'Recovery/Optional', targetCNS: [3, 5], optional: false }
-                    },
-                    5: {
-                        schedule: ['H', 'L', 'H', 'L', 'H', 'L', 'L'],
-                        description: 'Advanced High-Low with Push/Pull/Legs',
-                        highSessions: { type: 'SAQ + Strength Focus', targetCNS: [7, 9] },
-                        lowSessions: { type: 'Hypertrophy + Recovery', targetCNS: [3, 5] }
-                    },
-                    6: {
-                        schedule: ['H', 'L', 'H', 'L', 'H', 'L', 'H'],
-                        description: 'Elite Push/Pull/Legs Split',
-                        highSessions: { type: 'Full CNS Demand', targetCNS: [8, 10] },
-                        lowSessions: { type: 'Active Recovery', targetCNS: [2, 4] }
-                    }
-                },
-                cnsScoring: {
-                    // Speed Components (Always High CNS)
-                    sprint_max_v: 10,
-                    sprint_acceleration: 9,
-                    agility_open: 8,
-                    agility_closed: 7,
-                    
-                    // Power Components (Always High CNS)
-                    plyometric_intensive: 9,
-                    plyometric_extensive: 7,
-                    olympic_lifts: 10,
-                    explosive_throws: 8,
-                    
-                    // Strength Components (Context Dependent)
-                    maximal_strength_lower: 9,  // High if with SAQ
-                    maximal_strength_upper: 5,  // Default low CNS
-                    submaximal_strength: 6,
-                    
-                    // Hypertrophy Components (Generally Low CNS)
-                    hypertrophy_upper: 4,
-                    hypertrophy_lower: 5,
-                    isolation_work: 3,
-                    
-                    // Endurance Components (Low CNS)
-                    aerobic_base: 2,
-                    tempo_runs: 3,
-                    recovery_work: 1,
-                    mobility: 1
-                }
-            },
-
-            // Vertical Integration Rules
-            verticalIntegration: {
-                componentOrder: ['speed', 'power', 'strength', 'hypertrophy', 'endurance'],
-                minimumComponents: {
-                    speed: { weekly: 2, daily: 0.3 },
-                    power: { weekly: 2, daily: 0.4 },
-                    strength: { weekly: 3, daily: 0.5 },
-                    hypertrophy: { weekly: 2, daily: 0.3 },
-                    endurance: { weekly: 1, daily: 0.2 }
-                },
-                exercisePriority: {
-                    high_day: {
-                        tier1: ['speed', 'power'],           // Always include, highest volume
-                        tier2: ['strength'],                 // Core focus, moderate volume  
-                        tier3: ['hypertrophy', 'endurance']  // Always include, minimal volume
-                    },
-                    medium_day: {
-                        tier1: ['strength'],                 // Heavy upper body focus
-                        tier2: ['hypertrophy'],             // Moderate accessory work
-                        tier3: ['endurance', 'power']       // Light conditioning + power
-                    },
-                    low_day: {
-                        tier1: ['endurance'],               // Primary focus
-                        tier2: ['hypertrophy'],             // Upper body accessories
-                        tier3: ['mobility']                 // Recovery work
-                    }
-                },
-
-            // Training Age Constraints
-            ageRules: {
-                newcomer: {
-                    complexity: ['bodyweight', 'db'],
-                    intensityRange: [6, 8],
-                    volumeCap: 14,
-                    cnsLimit: 7
-                },
-                beginner: {
-                    complexity: ['bodyweight', 'db', 'barbell_basic'],
-                    intensityRange: [6, 8.5],
-                    volumeCap: 16,
-                    cnsLimit: 8
-                },
-                intermediate: {
-                    complexity: ['bodyweight', 'db', 'barbell_basic', 'barbell_advanced'],
-                    intensityRange: [6, 9],
-                    volumeCap: 18,
-                    cnsLimit: 9
-                },
-                advanced: {
-                    complexity: ['bodyweight', 'db', 'barbell_basic', 'barbell_advanced'],
-                    intensityRange: [5.5, 9.5],
-                    volumeCap: 20,
-                    cnsLimit: 10
-                },
-                elite: {
-                    complexity: ['bodyweight', 'db', 'barbell_basic', 'barbell_advanced'],
-                    intensityRange: [5, 10],
-                    volumeCap: 22,
-                    cnsLimit: 10
-                }
-            }
-        };
-
-        // Enhanced Exercise Database with proper equipment classifications
-        const ENHANCED_EXERCISE_DATABASE = {
-            // Speed Components
-            sprint_20m: {
-                name: "20m Sprints",
-                component: "speed",
-                cns: 10,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [4, 6], reps: [3, 5], rest: "3:00-4:00",
-                notes: "Maximum velocity, full recovery"
-            },
-            sprint_acceleration: {
-                name: "10m Accelerations", 
-                component: "speed",
-                cns: 9,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [6, 8], reps: [2, 3], rest: "2:00-3:00",
-                notes: "Drive phase focus, reset each rep"
-            },
-            
-            // Power Components  
-            depth_jump: {
-                name: "Depth Jumps",
-                component: "power",
-                cns: 9,
-                complexity: "bodyweight",
-                equipment: ["bodyweight", "basic_equipment"],
-                sets: [3, 5], reps: [3, 5], rest: "2:00-3:00",
-                notes: "18-30 inch box, minimal ground contact"
-            },
-            power_clean: {
-                name: "Power Clean",
-                component: "power", 
-                cns: 10,
-                complexity: "barbell_advanced",
-                equipment: ["full_gym"],
-                sets: [5, 6], reps: [2, 3], rest: "3:00-4:00",
-                notes: "Hang or floor, catch in quarter squat"
-            },
-            med_ball_slam: {
-                name: "Medicine Ball Slam",
-                component: "power",
-                cns: 7,
-                complexity: "basic_equipment",
-                equipment: ["basic_gym", "full_gym"],
-                sets: [3, 4], reps: [5, 8], rest: "1:30-2:00",
-                notes: "Overhead to floor, pick up and reset"
-            },
-            jump_squat: {
-                name: "Jump Squats",
-                component: "power",
-                cns: 6,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [3, 4], reps: [5, 8], rest: "2:00-3:00",
-                notes: "Explosive up, soft landing"
-            },
-
-            // Strength Components
+        const ME_DE_SE_RE_EXERCISES = {
+            // MAX EFFORT EXERCISES (85-100% 1RM)
             back_squat: {
                 name: "Back Squat",
+                classification: "Max Effort",
+                adaptation: "Relative Strength",
                 component: "strength",
-                cns: 8,
-                complexity: "barbell_basic",
-                equipment: ["full_gym"],
-                sets: [4, 6], reps: [3, 6], rest: "3:00-4:00",
-                notes: "Full depth, drive through heels"
-            },
-            goblet_squat: {
-                name: "Goblet Squat",
-                component: "strength",
-                cns: 5,
-                complexity: "db",
-                equipment: ["basic_gym", "full_gym"],
-                sets: [3, 4], reps: [6, 10], rest: "2:00-3:00",
-                notes: "Hold DB at chest, full depth"
-            },
-            bodyweight_squat: {
-                name: "Bodyweight Squats",
-                component: "strength",
-                cns: 3,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [3, 4], reps: [10, 15], rest: "1:30-2:00",
-                notes: "Full ROM, control tempo"
+                cns: 9,
+                sets: 3, reps: 3,
+                load: "85% 1RM / RPE 9",
+                rest: "3-4min",
+                notes: "Full depth, drive through heels, controlled eccentric"
             },
             bench_press: {
-                name: "Bench Press",
+                name: "Bench Press", 
+                classification: "Max Effort",
+                adaptation: "Upper Body Strength",
                 component: "strength",
-                cns: 5,
-                complexity: "barbell_basic",
-                equipment: ["full_gym"],
-                sets: [4, 6], reps: [3, 6], rest: "2:30-3:30", 
-                notes: "Controlled eccentric, drive with legs"
-            },
-            push_ups: {
-                name: "Push-ups",
-                component: "strength",
-                cns: 3,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [3, 4], reps: [8, 15], rest: "1:30-2:00", 
-                notes: "Full ROM, maintain plank"
-            },
-            db_press: {
-                name: "Dumbbell Press",
-                component: "strength", 
-                cns: 4,
-                complexity: "db",
-                equipment: ["basic_gym", "full_gym"],
-                sets: [3, 4], reps: [6, 10], rest: "2:00-2:30",
-                notes: "Full stretch, controlled tempo"
+                cns: 6,
+                sets: 3, reps: 3,
+                load: "85% 1RM / RPE 9",
+                rest: "3-4min",
+                notes: "Pause on chest, drive with legs, controlled eccentric"
             },
             deadlift: {
                 name: "Deadlift",
+                classification: "Max Effort", 
+                adaptation: "Posterior Chain Strength",
                 component: "strength",
-                cns: 9,
-                complexity: "barbell_basic",
-                equipment: ["full_gym"], 
-                sets: [3, 5], reps: [3, 5], rest: "3:00-4:00",
-                notes: "Hip hinge, neutral spine"
+                cns: 10,
+                sets: 3, reps: 3,
+                load: "90% 1RM / RPE 9-10",
+                rest: "4-5min",
+                notes: "Hip hinge, neutral spine, drive through heels"
             },
-            single_leg_rdl: {
-                name: "Single-leg RDL",
+            
+            // DYNAMIC EFFORT EXERCISES (Explosive Intent)
+            power_clean: {
+                name: "Power Clean",
+                classification: "Dynamic Effort",
+                adaptation: "Rate of Force Development", 
+                component: "power",
+                cns: 10,
+                sets: 5, reps: 2,
+                load: "75% 1RM / 100% intent",
+                rest: "3min",
+                notes: "Maximum bar speed, catch in quarter squat"
+            },
+            jump_squat: {
+                name: "Jump Squats",
+                classification: "Dynamic Effort",
+                adaptation: "Lower Body Power",
+                component: "power", 
+                cns: 7,
+                sets: 4, reps: 5,
+                load: "Bodyweight / 100% intent",
+                rest: "2min",
+                notes: "Explosive up, soft landing, full reset between reps"
+            },
+            med_ball_slam: {
+                name: "Medicine Ball Slam",
+                classification: "Dynamic Effort",
+                adaptation: "Power Endurance",
+                component: "power",
+                cns: 6,
+                sets: 4, reps: 6,
+                load: "10kg ball / 90% max effort",
+                rest: "90s",
+                notes: "Overhead to floor, pick up and reset each rep"
+            },
+            
+            // SUBMAXIMAL EFFORT EXERCISES (75-85% 1RM)
+            front_squat: {
+                name: "Front Squat",
+                classification: "Submaximal Effort",
+                adaptation: "Functional Strength",
                 component: "strength",
-                cns: 4,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [3, 4], reps: [8, 12], rest: "1:30-2:00",
-                notes: "Balance and control focus"
+                cns: 7,
+                sets: 4, reps: 5,
+                load: "80% 1RM / RPE 8",
+                rest: "3min",
+                notes: "Clean grip, upright torso, drive elbows up"
             },
-
-            // Hypertrophy Components
+            incline_press: {
+                name: "Incline Press",
+                classification: "Submaximal Effort",
+                adaptation: "Upper Body Strength",
+                component: "strength",
+                cns: 5,
+                sets: 4, reps: 6,
+                load: "75% 1RM / RPE 7-8", 
+                rest: "2-3min",
+                notes: "45° angle, controlled eccentric, full ROM"
+            },
+            
+            // REPETITION EFFORT EXERCISES (60-75% to failure)
             db_row: {
                 name: "Single-Arm DB Row",
+                classification: "Repetition Effort",
+                adaptation: "Functional Hypertrophy",
                 component: "hypertrophy",
                 cns: 3,
-                complexity: "db",
-                equipment: ["basic_gym", "full_gym"],
-                sets: [3, 4], reps: [8, 12], rest: "1:00-1:30",
-                notes: "Squeeze at top, control eccentric"
-            },
-            pull_ups: {
-                name: "Pull-ups",
-                component: "hypertrophy",
-                cns: 4,
-                complexity: "bodyweight",
-                equipment: ["bodyweight", "basic_gym", "full_gym"],
-                sets: [3, 4], reps: [5, 10], rest: "1:30-2:00",
-                notes: "Full hang, chest to bar"
+                sets: 4, reps: "12-15",
+                load: "70% effort / RPE 7-8",
+                rest: "90s",
+                notes: "Squeeze at top, control eccentric, full ROM"
             },
             lunges: {
                 name: "Reverse Lunges",
+                classification: "Repetition Effort", 
+                adaptation: "Lower Body Hypertrophy",
                 component: "hypertrophy",
                 cns: 4,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [3, 4], reps: [10, 12], rest: "1:30-2:00",
+                sets: 3, reps: "12 each leg",
+                load: "RPE 7-8",
+                rest: "90s",
                 notes: "Control descent, drive through front heel"
             },
-
-            // Endurance Components
+            
+            // BODYWEIGHT MAX EFFORT ALTERNATIVES
+            doorway_squat_hold: {
+                name: "Doorway Single-Leg Squat Hold",
+                classification: "Max Effort",
+                adaptation: "Unilateral Strength",
+                component: "strength",
+                cns: 7,
+                sets: 4, reps: "10-sec holds each leg",
+                load: "100% max effort isometric",
+                rest: "2min",
+                notes: "90° knee angle against doorframe, maximum force production"
+            },
+            doorway_chest_push: {
+                name: "Doorway Chest Push (Isometric)", 
+                classification: "Max Effort",
+                adaptation: "Upper Body Strength",
+                component: "strength",
+                cns: 6,
+                sets: 4, reps: "8-sec holds",
+                load: "100% max effort against immovable object",
+                rest: "2min",
+                notes: "Chest-height against doorframe, maximum force production"
+            },
+            
+            // SPEED/SAQ COMPONENTS
+            sprint_20m: {
+                name: "20m Sprints",
+                classification: "Alactic Power",
+                adaptation: "Neural Power",
+                component: "speed",
+                cns: 10,
+                sets: 5, reps: 3,
+                load: "95-100% max velocity",
+                rest: "3-4min",
+                notes: "Maximum velocity, full recovery between reps"
+            },
+            agility_ladder: {
+                name: "Agility Ladder (Multi-directional)",
+                classification: "Alactic Power", 
+                adaptation: "Neural Coordination",
+                component: "speed",
+                cns: 8,
+                sets: 6, reps: "15sec",
+                load: "100% max effort",
+                rest: "2min", 
+                notes: "Change direction patterns each set"
+            },
+            
+            // RECOVERY/ENDURANCE COMPONENTS
             tempo_run: {
                 name: "Tempo Runs",
+                classification: "Submaximal Effort",
+                adaptation: "Aerobic Base",
                 component: "endurance",
                 cns: 3,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"],
-                sets: [1, 1], reps: ["10-15min"], rest: "N/A",
-                notes: "70-75% effort, nasal breathing"
+                sets: 1, reps: "15min",
+                load: "70-75% effort / HR Zone 2",
+                rest: "N/A",
+                notes: "Nasal breathing, conversational pace"
             },
             mobility_flow: {
-                name: "Dynamic Mobility",
-                component: "endurance",
-                cns: 1,
-                complexity: "bodyweight",
-                equipment: ["bodyweight"], 
-                sets: [1, 2], reps: ["8-10 each"], rest: "minimal",
-                notes: "Full ROM, controlled movements"
-            },
-            bike_aerobic: {
-                name: "Aerobic Bike",
+                name: "Dynamic Mobility Flow",
+                classification: "Repetition Effort",
+                adaptation: "Movement Quality",
                 component: "endurance", 
-                cns: 2,
-                complexity: "equipment",
-                equipment: ["basic_gym", "full_gym"],
-                sets: [1, 1], reps: ["15-20min"], rest: "N/A",
-                notes: "Conversational pace, HR Zone 2"
+                cns: 1,
+                sets: 2, reps: "10 each direction",
+                load: "Bodyweight / RPE 3-4",
+                rest: "minimal",
+                notes: "Full ROM, controlled movements, focus on quality"
             }
         };
 
-        // Equipment availability mapping
-        const EQUIPMENT_MAPPING = {
-            'full_gym': ['bodyweight', 'db', 'barbell_basic', 'barbell_advanced', 'equipment', 'basic_equipment'],
-            'basic_gym': ['bodyweight', 'db', 'basic_equipment', 'equipment'],
-            'bodyweight': ['bodyweight']
-        };
-
-        // Training age complexity restrictions
-        const COMPLEXITY_RESTRICTIONS = {
-            'newcomer': ['bodyweight', 'db'],
-            'beginner': ['bodyweight', 'db', 'barbell_basic'],
-            'intermediate': ['bodyweight', 'db', 'barbell_basic', 'barbell_advanced'],
-            'advanced': ['bodyweight', 'db', 'barbell_basic', 'barbell_advanced', 'equipment'],
-            'elite': ['bodyweight', 'db', 'barbell_basic', 'barbell_advanced', 'equipment']
-        };
-
-        // ==================== THREE ANCHOR ENGINE CLASSES ====================
-
-        class ExerciseSelector {
-            constructor(exerciseDB) {
-                this.exerciseDB = exerciseDB;
-            }
-
-            selectComponentExercises(component, timeMinutes, userInputs, dayStructure) {
-                // Filter exercises by component and appropriateness
-                const availableExercises = this.getAvailableExercises(component, userInputs);
-                
-                if (availableExercises.length === 0) {
-                    console.warn(`No ${component} exercises available for current config:`, userInputs);
-                    return [];
-                }
-                
-                // Determine number of exercises based on time allocation
-                const exerciseCount = this.calculateExerciseCount(timeMinutes, component);
-                
-                // Prioritize and select exercises
-                const prioritizedExercises = this.prioritizeExercises(availableExercises, userInputs, component);
-                const selectedExercises = prioritizedExercises.slice(0, exerciseCount);
-                
-                // Configure exercise parameters
-                return selectedExercises.map(exercise => this.configureExercise(exercise, timeMinutes, userInputs));
-            }
-
-            getAvailableExercises(component, userInputs) {
-                const availableEquipment = EQUIPMENT_MAPPING[userInputs.equipment] || ['bodyweight'];
-                const allowedComplexity = COMPLEXITY_RESTRICTIONS[userInputs.trainingAge] || ['bodyweight'];
-                const ageRules = THREE_ANCHOR_CONFIG.ageRules[userInputs.trainingAge];
-                
-                return Object.values(this.exerciseDB).filter(exercise => {
-                    // Component match
-                    if (exercise.component !== component) return false;
-                    
-                    // Equipment availability
-                    const hasEquipment = exercise.equipment.some(eq => availableEquipment.includes(eq));
-                    if (!hasEquipment) return false;
-                    
-                    // Complexity appropriateness
-                    if (!allowedComplexity.includes(exercise.complexity)) return false;
-                    
-                    // CNS appropriateness for training age
-                    if (exercise.cns > ageRules.cnsLimit) return false;
-                    
-                    return true;
-                });
-            }
-
-            calculateExerciseCount(timeMinutes, component) {
-                // More exercises for longer sessions and higher priority components
-                if (timeMinutes >= 20) return 2;
-                if (timeMinutes >= 10) return 1;
-                return component === 'speed' || component === 'power' ? 1 : 0; // Minimum for key components
-            }
-
-            prioritizeExercises(exercises, userInputs, component) {
-                const emphasisBonus = userInputs.emphasis === component ? 1000 : 0;
-                
-                return exercises.sort((a, b) => {
-                    // Primary sort: complexity appropriateness for training age
-                    const aComplexityScore = this.getComplexityScore(a, userInputs.trainingAge);
-                    const bComplexityScore = this.getComplexityScore(b, userInputs.trainingAge);
-                    
-                    if (aComplexityScore !== bComplexityScore) {
-                        return bComplexityScore - aComplexityScore;
-                    }
-                    
-                    // Secondary sort: CNS appropriateness
-                    const ageRules = THREE_ANCHOR_CONFIG.ageRules[userInputs.trainingAge];
-                    const aCNSScore = Math.min(a.cns, ageRules.cnsLimit);
-                    const bCNSScore = Math.min(b.cns, ageRules.cnsLimit);
-                    
-                    return bCNSScore - aCNSScore;
-                });
-            }
-
-            getComplexityScore(exercise, trainingAge) {
-                const complexityScores = {
-                    'newcomer': { 'bodyweight': 10, 'db': 5, 'barbell_basic': 0, 'barbell_advanced': 0 },
-                    'beginner': { 'bodyweight': 8, 'db': 10, 'barbell_basic': 6, 'barbell_advanced': 0 },
-                    'intermediate': { 'bodyweight': 6, 'db': 8, 'barbell_basic': 10, 'barbell_advanced': 7 },
-                    'advanced': { 'bodyweight': 5, 'db': 7, 'barbell_basic': 9, 'barbell_advanced': 10 },
-                    'elite': { 'bodyweight': 4, 'db': 6, 'barbell_basic': 8, 'barbell_advanced': 10 }
-                };
-                
-                return complexityScores[trainingAge][exercise.complexity] || 0;
-            }
-
-            configureExercise(exercise, timeMinutes, userInputs) {
-                const ageRules = THREE_ANCHOR_CONFIG.ageRules[userInputs.trainingAge];
-                
-                return {
-                    ...exercise,
-                    sets: this.calculateSets(exercise, timeMinutes, userInputs),
-                    reps: this.selectReps(exercise.reps, userInputs),
-                    load: this.determineLoad(exercise, userInputs),
-                    timeAllocated: timeMinutes,
-                    cns: Math.min(exercise.cns, ageRules.cnsLimit) // Ensure CNS within limits
-                };
-            }
-
-            calculateSets(exercise, timeMinutes, userInputs) {
-                const baseSets = Array.isArray(exercise.sets) ? exercise.sets[0] : 3;
-                
-                // Time multiplier
-                const timeMultiplier = Math.max(0.5, Math.min(1.5, timeMinutes / 10));
-                
-                // Age multiplier
-                const ageMultipliers = {
-                    'newcomer': 0.7,
-                    'beginner': 0.8,
-                    'intermediate': 1.0,
-                    'advanced': 1.1,
-                    'elite': 1.2
-                };
-                const ageMultiplier = ageMultipliers[userInputs.trainingAge] || 1.0;
-                
-                // Phase multiplier
-                const phaseMultipliers = {
-                    'gpp': 1.2,
-                    'accumulation': 1.3,
-                    'transmutation': 0.9,
-                    'realization': 0.7
-                };
-                const phaseMultiplier = phaseMultipliers[userInputs.phase] || 1.0;
-                
-                const finalSets = Math.round(baseSets * timeMultiplier * ageMultiplier * phaseMultiplier);
-                return Math.max(1, Math.min(6, finalSets)); // Cap between 1-6 sets
-            }
-
-            selectReps(repRange, userInputs) {
-                if (Array.isArray(repRange)) {
-                    const [min, max] = repRange;
-                    
-                    // Adjust based on emphasis
-                    const emphasisAdjustments = {
-                        'strength': { min: Math.max(1, min - 2), max: Math.max(3, max - 2) },
-                        'power': { min: Math.max(1, min - 1), max: Math.max(3, max - 1) },
-                        'hypertrophy': { min: min + 2, max: max + 3 },
-                        'speed': { min: Math.max(1, min - 2), max: Math.max(2, max - 3) },
-                        'mixed': { min, max }
-                    };
-                    
-                    const adjustment = emphasisAdjustments[userInputs.emphasis] || { min, max };
-                    return `${adjustment.min}-${adjustment.max}`;
-                }
-                return repRange;
-            }
-
-            determineLoad(exercise, userInputs) {
-                const ageRules = THREE_ANCHOR_CONFIG.ageRules[userInputs.trainingAge];
-                const [minRPE, maxRPE] = ageRules.intensityRange;
-                
-                if (exercise.component === 'speed' || exercise.component === 'power') {
-                    return 'Maximum Intent';
-                } else if (exercise.component === 'strength') {
-                    return `${Math.max(6, minRPE + 1)}-${maxRPE} RPE`;
-                } else if (exercise.component === 'hypertrophy') {
-                    return `${minRPE}-${Math.min(8, maxRPE - 1)} RPE`;
-                } else {
-                    return `${Math.max(4, minRPE - 1)}-${Math.min(7, maxRPE - 2)} RPE`;
-                }
-            }
-        }
-
-        class VerticalIntegrationEngine {
-            constructor(config, exerciseDB) {
-                this.config = config.verticalIntegration;
-                this.exerciseDB = exerciseDB;
-                this.exerciseSelector = new ExerciseSelector(this.exerciseDB);
-            }
-
-            buildWeeklyProgram(weeklyStructure, userInputs, blockRules) {
-                const program = {};
-                
-                Object.entries(weeklyStructure).forEach(([day, dayStructure]) => {
-                    if (dayStructure.intensity === 'high') {
-                        program[day] = this.buildHighDay(dayStructure, userInputs, blockRules);
-                    } else {
-                        program[day] = this.buildLowDay(dayStructure, userInputs, blockRules);
-                    }
-                });
-                
-                return program;
-            }
-
-            buildHighDay(dayStructure, userInputs, blockRules) {
-                const timeAllocation = this.config.timeAllocation[userInputs.duration];
-                const viMultipliers = this.getAdjustedVIMultipliers(blockRules.viMultipliers, userInputs.emphasis);
-                const exercises = [];
-                
-                // Build exercises in VI order: Speed → Power → Strength → Hypertrophy → Endurance
-                this.config.componentOrder.forEach(component => {
-                    const componentTime = timeAllocation[component] * viMultipliers[component];
-                    if (componentTime >= 5) { // Minimum 5 minutes to include component
-                        const componentExercises = this.selectComponentExercises(
-                            component, componentTime, userInputs, dayStructure
-                        );
-                        exercises.push(...componentExercises);
-                    }
-                });
-                
-                const totalCNS = this.calculateDayCNS(exercises, 'high');
-                const totalSets = exercises.reduce((sum, ex) => sum + (ex.sets || 0), 0);
-                
-                return {
-                    intensity: 'high',
-                    focus: dayStructure.focus,
-                    type: dayStructure.type,
-                    exercises: exercises,
-                    totalCNS: totalCNS,
-                    totalSets: totalSets,
-                    duration: userInputs.duration,
-                    phase: userInputs.phase
-                };
-            }
-
-            buildLowDay(dayStructure, userInputs, blockRules) {
-                if (dayStructure.optional && userInputs.frequency == 3) {
-                    return this.buildRecoveryDay(dayStructure, userInputs);
-                }
-                
-                const exercises = [];
-                const timeAllocation = this.config.timeAllocation[userInputs.duration];
-                
-                // Upper body strength/hypertrophy (low CNS)
-                const upperExercises = this.selectUpperBodyExercises(userInputs, timeAllocation);
-                exercises.push(...upperExercises);
-                
-                // Low intensity endurance
-                const enduranceExercises = this.selectEnduranceExercises(userInputs, 'low_intensity');
-                exercises.push(...enduranceExercises);
-                
-                const totalCNS = this.calculateDayCNS(exercises, 'low');
-                const totalSets = exercises.reduce((sum, ex) => sum + (ex.sets || 0), 0);
-                
-                return {
-                    intensity: 'low',
-                    focus: dayStructure.focus,
-                    type: dayStructure.type,
-                    exercises: exercises,
-                    totalCNS: totalCNS,
-                    totalSets: totalSets,
-                    duration: userInputs.duration,
-                    phase: userInputs.phase
-                };
-            }
-
-            buildRecoveryDay(dayStructure, userInputs) {
-                return {
-                    intensity: 'low',
-                    focus: 'Active Recovery',
-                    type: 'Optional',
+        // ==================== PROGRAM TEMPLATES ====================
+        
+        const PROGRAM_TEMPLATES = {
+            strength_focus: {
+                title: "Max Effort Strength Focus",
+                monday: {
+                    type: "high",
+                    focus: "Max Effort Upper/Lower",
                     exercises: [
-                        { ...this.exerciseDB.mobility_flow, sets: 2 },
-                        { ...this.exerciseDB.tempo_run, sets: 1 }
-                    ],
-                    totalCNS: 2,
-                    totalSets: 3,
-                    duration: 30,
-                    phase: userInputs.phase
-                };
-            }
-
-            getAdjustedVIMultipliers(baseMultipliers, emphasis) {
-                const emphasisAdjustments = {
-                    hypertrophy: { hypertrophy: 1.2, strength: 0.9, endurance: 0.8 },
-                    strength: { strength: 1.3, power: 0.8, hypertrophy: 0.7 },
-                    power: { power: 1.4, speed: 1.2, strength: 0.7, endurance: 0.6 },
-                    speed: { speed: 1.5, power: 1.1, strength: 0.6, endurance: 0.5 },
-                    mixed: {} // No adjustments, use base multipliers
-                };
-                
-                const adjustments = emphasisAdjustments[emphasis] || {};
-                const adjusted = {};
-                
-                Object.keys(baseMultipliers).forEach(component => {
-                    adjusted[component] = baseMultipliers[component] * (adjustments[component] || 1.0);
-                });
-                
-                return adjusted;
-            }
-
-            selectComponentExercises(component, timeMinutes, userInputs, dayStructure) {
-                return this.exerciseSelector.selectComponentExercises(component, timeMinutes, userInputs, dayStructure);
-            }
-
-            selectUpperBodyExercises(userInputs, timeAllocation) {
-                const upperExercises = Object.values(this.exerciseDB).filter(exercise => {
-                    return (exercise.component === 'strength' || exercise.component === 'hypertrophy') &&
-                           (exercise.name.toLowerCase().includes('press') || 
-                            exercise.name.toLowerCase().includes('row') ||
-                            exercise.name.toLowerCase().includes('pull')) &&
-                           this.exerciseSelector.getAvailableExercises(exercise.component, userInputs).includes(exercise);
-                });
-                
-                const selected = upperExercises.slice(0, 3);
-                
-                return selected.map(exercise => ({
-                    ...exercise,
-                    sets: 3,
-                    reps: this.exerciseSelector.selectReps(exercise.reps, userInputs),
-                    load: 'Moderate (Low CNS context)',
-                    cns: Math.min(exercise.cns, 4) // Cap CNS for low day context
-                }));
-            }
-
-            selectEnduranceExercises(userInputs, intensity) {
-                const enduranceExercises = Object.values(this.exerciseDB).filter(exercise => 
-                    exercise.component === 'endurance' && 
-                    this.exerciseSelector.getAvailableExercises(exercise.component, userInputs).includes(exercise)
-                );
-                
-                const selected = intensity === 'low_intensity' ? 
-                    enduranceExercises.slice(0, 1) : enduranceExercises.slice(0, 2);
-                
-                return selected.map(exercise => ({
-                    ...exercise,
-                    sets: 1,
-                    reps: exercise.reps,
-                    load: 'Low Intensity',
-                    notes: 'Recovery pace, nasal breathing'
-                }));
-            }
-
-            calculateDayCNS(exercises, dayType) {
-                if (exercises.length === 0) return 0;
-                
-                const hasSpeedPower = exercises.some(ex => 
-                    ex.component === 'speed' || ex.component === 'power'
-                );
-                
-                let totalCNS = 0;
-                exercises.forEach(exercise => {
-                    let cns = exercise.cns || 5;
-                    
-                    // Apply contextual CNS logic
-                    if (dayType === 'low' || (!hasSpeedPower && exercise.component === 'strength')) {
-                        cns = Math.min(cns, 5); // Cap CNS in low context
-                    }
-                    
-                    totalCNS += cns;
-                });
-                
-                return Math.round(totalCNS / exercises.length * 10) / 10; // Average with 1 decimal
-            }
-        }
-
-        class HighLowScheduler {
-            constructor(config) {
-                this.config = config.highLowSystem;
-            }
-
-            generateWeeklyPlan(frequency, trainingAge) {
-                const pattern = this.config.patterns[frequency];
-                if (!pattern) {
-                    throw new Error(`Unsupported frequency: ${frequency}. Supported frequencies: 3, 4, 5, 6`);
+                        {...ME_DE_SE_RE_EXERCISES.sprint_20m},
+                        {...ME_DE_SE_RE_EXERCISES.jump_squat},
+                        {...ME_DE_SE_RE_EXERCISES.back_squat},
+                        {...ME_DE_SE_RE_EXERCISES.bench_press},
+                        {...ME_DE_SE_RE_EXERCISES.front_squat, sets: 3, reps: 5}
+                    ]
+                },
+                tuesday: {
+                    type: "low", 
+                    focus: "Recovery + Upper Body Repetition Effort",
+                    exercises: [
+                        {...ME_DE_SE_RE_EXERCISES.tempo_run},
+                        {...ME_DE_SE_RE_EXERCISES.db_row},
+                        {...ME_DE_SE_RE_EXERCISES.lunges},
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                },
+                thursday: {
+                    type: "high",
+                    focus: "Max Effort Lower + Dynamic Effort Upper", 
+                    exercises: [
+                        {...ME_DE_SE_RE_EXERCISES.agility_ladder},
+                        {...ME_DE_SE_RE_EXERCISES.deadlift},
+                        {...ME_DE_SE_RE_EXERCISES.power_clean},
+                        {...ME_DE_SE_RE_EXERCISES.med_ball_slam},
+                        {...ME_DE_SE_RE_EXERCISES.incline_press}
+                    ]
                 }
-                
-                const weeklyPlan = {};
-                const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                
-                days.forEach((day, index) => {
-                    const dayType = pattern.schedule[index];
-                    const sessionConfig = dayType === 'H' ? pattern.highSessions : pattern.lowSessions;
-                    
-                    weeklyPlan[day] = {
-                        intensity: dayType === 'H' ? 'high' : 'low',
-                        type: sessionConfig.type,
-                        targetCNS: sessionConfig.targetCNS,
-                        optional: sessionConfig.optional || false,
-                        focus: this.generateSessionFocus(dayType, frequency, index)
-                    };
-                });
-                
-                return weeklyPlan;
-            }
-
-            generateSessionFocus(dayType, frequency, dayIndex) {
-                if (dayType === 'L') {
-                    return frequency == 3 ? 'Recovery/Optional' : 'Low Intensity + Upper Body';
+            },
+            
+            power_focus: {
+                title: "Dynamic Effort Power Focus",
+                monday: {
+                    type: "high",
+                    focus: "Speed + Dynamic Effort",
+                    exercises: [
+                        {...ME_DE_SE_RE_EXERCISES.sprint_20m, sets: 6},
+                        {...ME_DE_SE_RE_EXERCISES.power_clean, sets: 6},
+                        {...ME_DE_SE_RE_EXERCISES.jump_squat, sets: 5},
+                        {...ME_DE_SE_RE_EXERCISES.med_ball_slam, sets: 5},
+                        {...ME_DE_SE_RE_EXERCISES.back_squat, sets: 3, load: "75% 1RM / RPE 7"}
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Recovery + Strength Maintenance",
+                    exercises: [
+                        {...ME_DE_SE_RE_EXERCISES.tempo_run, reps: "12min"},
+                        {...ME_DE_SE_RE_EXERCISES.front_squat, sets: 3, load: "70% 1RM / RPE 6"},
+                        {...ME_DE_SE_RE_EXERCISES.incline_press, sets: 3, load: "70% 1RM / RPE 6"},
+                        {...ME_DE_SE_RE_EXERCISES.db_row, sets: 3}
+                    ]
+                },
+                thursday: {
+                    type: "high",
+                    focus: "Power + Agility",
+                    exercises: [
+                        {...ME_DE_SE_RE_EXERCISES.agility_ladder, sets: 8},
+                        {...ME_DE_SE_RE_EXERCISES.jump_squat, sets: 6, reps: 3},
+                        {...ME_DE_SE_RE_EXERCISES.med_ball_slam, sets: 6},
+                        {...ME_DE_SE_RE_EXERCISES.deadlift, sets: 3, load: "80% 1RM / RPE 8"},
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
                 }
-                
-                // High day focus rotation
-                const highDayFoci = frequency == 4 ? 
-                    ['SAQ + Lower Power', 'SAQ + Lower Strength'] :
-                    ['SAQ + Full Body Power', 'SAQ + Full Body Strength', 'SAQ + Full Body Mixed'];
-                    
-                let highDayCount = Math.floor(dayIndex / (frequency == 3 ? 2 : 3));
-                return highDayFoci[highDayCount % highDayFoci.length];
-            }
-
-            calculateContextualCNS(exercises, dayType) {
-                let totalCNS = 0;
-                const hasSpeedPower = exercises.some(ex => 
-                    ex.component === 'speed' || ex.component === 'power'
-                );
-                
-                exercises.forEach(exercise => {
-                    let exerciseCNS = exercise.cns || 5;
-                    
-                    // Context-dependent CNS adjustment
-                    if (exercise.component === 'strength') {
-                        if (!hasSpeedPower && exercise.name.toLowerCase().includes('press')) {
-                            exerciseCNS = Math.min(exerciseCNS, 5); // Upper body default low
+            },
+            
+            bodyweight_only: {
+                title: "Bodyweight High-Low with Isometric Max Effort",
+                monday: {
+                    type: "high",
+                    focus: "Max Effort Isometrics + Power",
+                    exercises: [
+                        {
+                            name: "Hill Sprints",
+                            classification: "Alactic Power",
+                            adaptation: "Neural Power", 
+                            component: "speed",
+                            cns: 9,
+                            sets: 5, reps: "20yd",
+                            load: "100% max effort uphill",
+                            rest: "3min",
+                            notes: "Focus on drive phase, walk down recovery"
+                        },
+                        {...ME_DE_SE_RE_EXERCISES.jump_squat},
+                        {...ME_DE_SE_RE_EXERCISES.doorway_squat_hold},
+                        {...ME_DE_SE_RE_EXERCISES.doorway_chest_push},
+                        {
+                            name: "Single-leg Glute Bridge Hold",
+                            classification: "Max Effort",
+                            adaptation: "Posterior Chain Strength",
+                            component: "strength",
+                            cns: 6,
+                            sets: 3, reps: "15-sec holds each leg", 
+                            load: "100% max effort",
+                            rest: "2min",
+                            notes: "Maximum glute contraction, hold at top"
                         }
-                    }
-                    
-                    totalCNS += exerciseCNS;
-                });
-                
-                return Math.min(10, totalCNS / exercises.length); // Average CNS score
-            }
-        }
-
-        class BlockPeriodizationEngine {
-            constructor(config) {
-                this.config = config.blockPeriodization;
-            }
-
-            getPhaseRules(phase) {
-                const phaseConfig = this.config.phases[phase];
-                if (!phaseConfig) {
-                    throw new Error(`Unknown phase: ${phase}. Available phases: ${Object.keys(this.config.phases).join(', ')}`);
+                    ]
+                },
+                tuesday: {
+                    type: "low",
+                    focus: "Repetition Effort + Recovery",
+                    exercises: [
+                        {...ME_DE_SE_RE_EXERCISES.tempo_run},
+                        {
+                            name: "Push-ups (High Volume)",
+                            classification: "Repetition Effort",
+                            adaptation: "Upper Body Hypertrophy",
+                            component: "hypertrophy",
+                            cns: 3,
+                            sets: 4, reps: "15-25",
+                            load: "RPE 7-8",
+                            rest: "90s",
+                            notes: "Modify angle as needed, focus on time under tension"
+                        },
+                        {...ME_DE_SE_RE_EXERCISES.lunges, sets: 4, reps: "15 each leg"},
+                        {
+                            name: "Pike Push-ups",
+                            classification: "Repetition Effort", 
+                            adaptation: "Shoulder Hypertrophy",
+                            component: "hypertrophy",
+                            cns: 4,
+                            sets: 3, reps: "8-12",
+                            load: "RPE 7-8",
+                            rest: "90s",
+                            notes: "Feet elevated if possible, focus on shoulders"
+                        }
+                    ]
+                },
+                thursday: {
+                    type: "high",
+                    focus: "Dynamic Effort + Unilateral Strength",
+                    exercises: [
+                        {
+                            name: "Broad Jumps",
+                            classification: "Dynamic Effort",
+                            adaptation: "Horizontal Power",
+                            component: "power",
+                            cns: 7,
+                            sets: 5, reps: 3,
+                            load: "100% max intent",
+                            rest: "2min",
+                            notes: "Maximum distance, full reset between reps"
+                        },
+                        {
+                            name: "Explosive Push-ups",
+                            classification: "Dynamic Effort",
+                            adaptation: "Upper Body Power",
+                            component: "power", 
+                            cns: 6,
+                            sets: 4, reps: 5,
+                            load: "100% max intent",
+                            rest: "90s",
+                            notes: "Hands leave ground, maximum explosive effort"
+                        },
+                        {
+                            name: "Single-leg Squat (Assisted)",
+                            classification: "Max Effort",
+                            adaptation: "Unilateral Strength",
+                            component: "strength",
+                            cns: 7,
+                            sets: 4, reps: "5 each leg",
+                            load: "85-90% max effort",
+                            rest: "2min",
+                            notes: "Use assistance as needed, focus on full ROM"
+                        },
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
                 }
-                
-                return {
-                    ...phaseConfig,
-                    currentWeek: 1, // Default to week 1, could be user input
-                    weeklyProgression: this.calculateWeeklyProgression(phaseConfig, 1)
-                };
             }
+        };
 
-            calculateWeeklyProgression(phaseConfig, week) {
-                // 4-week progression without deloads
-                const progressionMap = {
-                    1: 1.0,   // Base week
-                    2: 1.1,   // +10% progression
-                    3: 1.2,   // +20% progression  
-                    4: 1.0    // Return to base (natural taper)
-                };
-                
-                return progressionMap[week] || 1.0;
-            }
+        // ==================== GLOBAL VARIABLES ====================
+        
+        let currentPlan = null;
+        let currentDay = 0;
 
-            getNextPhaseRecommendation(currentPhase) {
-                const progressions = {
-                    gpp: 'accumulation',
-                    accumulation: 'transmutation', 
-                    transmutation: 'realization',
-                    realization: 'gpp' // Cycle back
-                };
-                
-                return progressions[currentPhase] || 'gpp';
+        // ==================== CORE FUNCTIONS ====================
+        
+        function generatePlan() {
+            console.log('Generate plan called');
+            
+            // Get form values
+            const goal = document.getElementById('trainingGoal')?.value || 'strength';
+            const split = document.getElementById('splitType')?.value || '3-day-high-low';
+            const equipment = document.getElementById('equipment')?.value || 'full-gym';
+            const duration = document.getElementById('duration')?.value || '60';
+            const block = document.getElementById('trainingBlock')?.value || 'accumulation';
+            const blockLength = document.getElementById('blockLength')?.value || '4';
+            const trainingAge = document.getElementById('trainingAge')?.value || 'intermediate';
+
+            console.log('Form values:', { goal, split, equipment, duration, block, blockLength, trainingAge });
+
+            // Select appropriate program template
+            let selectedTemplate;
+            if (equipment === 'bodyweight') {
+                selectedTemplate = PROGRAM_TEMPLATES.bodyweight_only;
+            } else if (goal === 'power') {
+                selectedTemplate = PROGRAM_TEMPLATES.power_focus; 
+            } else {
+                selectedTemplate = PROGRAM_TEMPLATES.strength_focus;
             }
+            
+            // Generate weekly plan
+            currentPlan = adaptTemplate(selectedTemplate, { goal, split, equipment, duration, block, blockLength, trainingAge });
+            console.log('Generated plan:', currentPlan);
+            
+            displayWeeklyPlan(currentPlan);
+            updateStats(currentPlan);
+            updateProgress();
+
+            addChatMessage("Assistant", `✅ Generated ${selectedTemplate.title} using High-Low ME/DE/SE/RE methodology. 
+                Max Effort: 85-95% loads for strength development. 
+                Dynamic Effort: Explosive movements with maximum intent. 
+                Submaximal Effort: 75-85% loads for strength-endurance. 
+                Repetition Effort: Higher volume for hypertrophy stimulus.`);
         }
 
-        class ThreeAnchorEngine {
-            constructor() {
-                this.config = THREE_ANCHOR_CONFIG;
-                this.exerciseDB = ENHANCED_EXERCISE_DATABASE;
-                this.blockPeriodization = new BlockPeriodizationEngine(this.config);
-                this.highLowScheduler = new HighLowScheduler(this.config);
-                this.verticalIntegration = new VerticalIntegrationEngine(this.config, this.exerciseDB);
-            }
-
-            generateProgram(userInputs) {
-                try {
-                    // Step 1: Block Periodization determines phase rules
-                    const blockRules = this.blockPeriodization.getPhaseRules(userInputs.phase);
+        function adaptTemplate(template, userInputs) {
+            const plan = {};
+            
+            // Add Saturday and Sunday as rest days for 3-day plan
+            const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            
+            allDays.forEach(day => {
+                const dayKey = day.toLowerCase();
+                
+                if (template[dayKey]) {
+                    // Use template day
+                    plan[day] = {
+                        ...template[dayKey],
+                        duration: userInputs.duration,
+                        block: userInputs.block,
+                        blockLength: userInputs.blockLength,
+                        title: template.title
+                    };
                     
-                    // Step 2: High-Low creates weekly structure
-                    const weeklyStructure = this.highLowScheduler.generateWeeklyPlan(
-                        userInputs.frequency, userInputs.trainingAge
+                    // Apply user-specific adaptations
+                    plan[day].exercises = plan[day].exercises.map(exercise => 
+                        adaptExercise(exercise, userInputs)
                     );
-                    
-                    // Step 3: Vertical Integration builds daily sessions
-                    const program = this.verticalIntegration.buildWeeklyProgram(
-                        weeklyStructure, userInputs, blockRules
-                    );
-                    
-                    return this.validateAndOptimize(program, userInputs);
-                    
-                } catch (error) {
-                    console.error('Three Anchor Engine Error:', error);
-                    return this.generateFallbackProgram(userInputs);
-                }
-            }
-
-            validateAndOptimize(program, userInputs) {
-                // Validate against three anchor principles
-                const ageRules = this.config.ageRules[userInputs.trainingAge];
-                
-                Object.values(program).forEach(day => {
-                    // Ensure CNS limits respected
-                    if (day.totalCNS > ageRules.cnsLimit) {
-                        this.reduceCNSLoad(day, ageRules.cnsLimit);
-                    }
-                    
-                    // Ensure volume caps respected  
-                    if (day.totalSets > ageRules.volumeCap) {
-                        this.reduceVolume(day, ageRules.volumeCap);
-                    }
-                });
-                
-                return program;
-            }
-
-            reduceCNSLoad(day, limit) {
-                // Remove highest CNS exercises first while maintaining VI
-                day.exercises.sort((a, b) => b.cns - a.cns);
-                while (day.totalCNS > limit && day.exercises.length > 3) {
-                    day.exercises.pop();
-                    day.totalCNS = day.exercises.reduce((sum, ex) => sum + ex.cns, 0);
-                }
-            }
-
-            reduceVolume(day, limit) {
-                // Reduce sets proportionally across exercises
-                const ratio = limit / day.totalSets;
-                day.exercises.forEach(exercise => {
-                    exercise.sets = Math.max(1, Math.floor(exercise.sets * ratio));
-                });
-                day.totalSets = day.exercises.reduce((sum, ex) => sum + ex.sets, 0);
-            }
-
-            generateFallbackProgram(userInputs) {
-                return {
-                    Monday: {
-                        intensity: 'high',
-                        focus: 'Full Body',
-                        totalCNS: 7,
-                        totalSets: 12,
-                        exercises: [
-                            { ...this.exerciseDB.push_ups, sets: 3 },
-                            { ...this.exerciseDB.bodyweight_squat, sets: 3 },
-                            { ...this.exerciseDB.single_leg_rdl, sets: 3 }
-                        ]
-                    }
-                };
-            }
-        }
-
-        // ==================== UI MANAGEMENT ====================
-
-        let currentProgram = null;
-        let threeAnchorEngine = new ThreeAnchorEngine();
-        let currentWeek = 1;
-
-        function validateForm() {
-            const formData = collectFormData();
-            const errors = [];
-            const warnings = [];
-
-            // Validate required fields
-            Object.entries(formData).forEach(([key, value]) => {
-                if (!value) {
-                    errors.push(`${key.replace(/([A-Z])/g, ' $1').toLowerCase()} is required`);
+                } else {
+                    // Rest day
+                    plan[day] = {
+                        type: "rest",
+                        focus: "Complete Rest",
+                        exercises: [],
+                        duration: 0,
+                        title: "Rest Day"
+                    };
                 }
             });
-
-            // Age-specific validation
-            if (formData.trainingAge && formData.frequency) {
-                if (formData.frequency > 4 && formData.trainingAge === 'newcomer') {
-                    warnings.push('High frequency training may exceed recovery capacity for newcomers');
-                }
-                if (formData.frequency == 6 && !['advanced', 'elite'].includes(formData.trainingAge)) {
-                    warnings.push('6-day training recommended for advanced/elite athletes only');
-                }
-            }
-
-            updateValidationFeedback(errors, warnings);
-            updateGenerateButton(errors.length === 0);
-            updateConfigDisplay(formData);
             
-            return errors.length === 0;
+            return plan;
         }
 
-        function updateValidationFeedback(errors, warnings) {
-            const feedbackDiv = document.getElementById('validationFeedback');
-            feedbackDiv.innerHTML = '';
-
-            if (errors.length > 0) {
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'validation-feedback error';
-                errorDiv.innerHTML = '<strong>Required:</strong> ' + errors.join(', ');
-                feedbackDiv.appendChild(errorDiv);
-            }
-
-            if (warnings.length > 0) {
-                const warningDiv = document.createElement('div');
-                warningDiv.className = 'validation-feedback';
-                warningDiv.innerHTML = '<strong>Note:</strong> ' + warnings.join(', ');
-                feedbackDiv.appendChild(warningDiv);
-            }
-
-            if (errors.length === 0 && warnings.length === 0) {
-                const successDiv = document.createElement('div');
-                successDiv.className = 'validation-feedback success';
-                successDiv.innerHTML = '<strong>✓ Three-Anchor Compatible</strong> - Ready to generate intelligent program';
-                feedbackDiv.appendChild(successDiv);
-            }
-        }
-
-        function updateGenerateButton(isValid) {
-            const generateBtn = document.getElementById('generateBtn');
-            generateBtn.disabled = !isValid;
-        }
-
-        function updateConfigDisplay(formData) {
-            // Update current phase display
-            const phaseSpan = document.getElementById('currentPhase');
-            const weekSpan = document.getElementById('blockWeek');
+        function adaptExercise(exercise, userInputs) {
+            let adapted = { ...exercise };
             
-            if (formData.phase) {
-                const phaseConfig = THREE_ANCHOR_CONFIG.blockPeriodization.phases[formData.phase];
-                phaseSpan.textContent = phaseConfig ? phaseConfig.title : formData.phase;
-                weekSpan.textContent = `Week ${currentWeek} of 4`;
-            }
-
-            // Update explanations
-            if (formData.frequency) {
-                const pattern = THREE_ANCHOR_CONFIG.highLowSystem.patterns[formData.frequency];
-                document.getElementById('highLowExplanation').textContent = 
-                    pattern ? pattern.description : 'CNS demand alternation';
-            }
-
-            if (formData.phase) {
-                const phaseConfig = THREE_ANCHOR_CONFIG.blockPeriodization.phases[formData.phase];
-                document.getElementById('blockExplanation').textContent = 
-                    phaseConfig ? `${phaseConfig.emphasis} focus, ${phaseConfig.intensity} intensity` : '4-week mesocycles';
-            }
-
-            document.getElementById('viExplanation').textContent = 
-                'Speed → Power → Strength → Hypertrophy → Endurance sequence';
-        }
-
-        function collectFormData() {
-            return {
-                trainingAge: document.getElementById('trainingAge')?.value || '',
-                emphasis: document.getElementById('emphasis')?.value || '',
-                frequency: parseInt(document.getElementById('frequency')?.value) || 0,
-                duration: parseInt(document.getElementById('duration')?.value) || 0,
-                phase: document.getElementById('phase')?.value || '',
-                equipment: document.getElementById('equipment')?.value || ''
-            };
-        }
-
-        function generateProgram() {
-            if (!validateForm()) return;
-
-            const formData = collectFormData();
-            const generateBtn = document.getElementById('generateBtn');
-            
-            // Show loading state
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = '⚡ Generating Three-Anchor Program...';
-            generateBtn.classList.add('generating');
-
-            setTimeout(() => {
-                try {
-                    currentProgram = threeAnchorEngine.generateProgram(formData);
-                    displayWeeklyPlan(currentProgram);
-                    updateStats(currentProgram);
-                    enableModifications();
-                    
-                    addChatMessage("System", `Generated Three-Anchor program: Block Periodization (${formData.phase}), High-Low (${formData.frequency}-day pattern), Vertical Integration (Speed→Power→Strength→Hypertrophy→Endurance). CNS management and recovery optimized.`);
-                } catch (error) {
-                    console.error('Program generation failed:', error);
-                    addChatMessage("System", "Program generation encountered an issue. Please verify your configuration and try again.");
-                } finally {
-                    generateBtn.disabled = false;
-                    generateBtn.innerHTML = '🚀 Generate Three-Anchor Program';
-                    generateBtn.classList.remove('generating');
+            // Training age adaptations
+            if (userInputs.trainingAge === 'beginner') {
+                // Reduce intensity for beginners
+                if (adapted.load && adapted.load.includes('85%')) {
+                    adapted.load = adapted.load.replace('85%', '75%');
                 }
-            }, 1200);
+                if (adapted.load && adapted.load.includes('90%')) {
+                    adapted.load = adapted.load.replace('90%', '80%');
+                }
+                // Reduce CNS for safety
+                adapted.cns = Math.min(adapted.cns, 7);
+            }
+            
+            // Phase adaptations
+            if (userInputs.block === 'gpp') {
+                // Increase volume, reduce intensity for GPP
+                if (typeof adapted.sets === 'number') {
+                    adapted.sets = Math.min(adapted.sets + 1, 6);
+                }
+                adapted.cns = Math.max(1, adapted.cns - 1);
+            } else if (userInputs.block === 'realization') {
+                // Reduce volume, increase intensity for peaking
+                if (typeof adapted.sets === 'number') {
+                    adapted.sets = Math.max(adapted.sets - 1, 1);
+                }
+                if (adapted.classification === 'Max Effort') {
+                    adapted.load = adapted.load.replace('85%', '90-95%');
+                }
+            }
+            
+            return adapted;
         }
 
-        // ==================== DISPLAY FUNCTIONS ====================
-
-        function displayWeeklyPlan(program) {
+        function displayWeeklyPlan(plan) {
             const container = document.getElementById('weeklyPlanContainer');
             container.innerHTML = '';
 
-            Object.entries(program).forEach(([day, dayPlan]) => {
+            Object.entries(plan).forEach(([day, dayPlan]) => {
+                if (dayPlan.type === 'rest') {
+                    // Rest day card
+                    const restCard = document.createElement('div');
+                    restCard.className = 'day-card';
+                    restCard.style.opacity = '0.6';
+                    restCard.innerHTML = `
+                        <div class="day-header">
+                            <div class="day-title">${day}</div>
+                            <div style="color: var(--text-secondary);">REST</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                            Complete rest and recovery
+                        </div>
+                    `;
+                    container.appendChild(restCard);
+                    return;
+                }
+
                 const dayCard = document.createElement('div');
-                dayCard.className = `day-card ${dayPlan.intensity}-day`;
+                dayCard.className = `day-card ${dayPlan.type}-day`;
                 
+                // Create the day header
                 const dayHeader = `
                     <div class="day-header">
                         <div class="day-title">${day}</div>
                         <div>
-                            <span class="intensity-indicator ${dayPlan.intensity}-intensity"></span>
-                            ${dayPlan.intensity.toUpperCase()}
+                            <span class="intensity-indicator ${dayPlan.type}-intensity"></span>
+                            ${dayPlan.type.toUpperCase()} DAY
                         </div>
                     </div>
-                    <div class="day-meta">
-                        <span>${dayPlan.focus} • ${dayPlan.duration || 60}min</span>
-                        <span class="cns-badge">CNS: ${dayPlan.totalCNS}/10</span>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">
+                        ${dayPlan.focus} • ${dayPlan.duration} min
                     </div>
                 `;
                 
                 let exerciseHTML = '';
                 
-                // Group exercises by component following VI order
-                const componentGroups = groupExercisesByComponent(dayPlan.exercises);
+                // Group exercises by component/classification
+                const speedPowerExercises = dayPlan.exercises.filter(ex => 
+                    ex.component === 'speed' || ex.component === 'power'
+                );
+                const strengthExercises = dayPlan.exercises.filter(ex => 
+                    ex.component === 'strength'
+                );
+                const hypertrophyEnduranceExercises = dayPlan.exercises.filter(ex => 
+                    ex.component === 'hypertrophy' || ex.component === 'endurance'
+                );
                 
-                THREE_ANCHOR_CONFIG.verticalIntegration.componentOrder.forEach(component => {
-                    const exercises = componentGroups[component];
-                    if (!exercises || exercises.length === 0) return;
-                    
+                // Speed/Power section
+                if (speedPowerExercises.length > 0) {
                     exerciseHTML += `
-                        <div class="component-section">
-                            <h4 class="component-header">
-                                ${getComponentIcon(component)} ${component.toUpperCase()}
-                                <span class="component-priority">${getComponentPriority(component, dayPlan.phase)}</span>
-                            </h4>
+                        <div class="exercise-section field-section">
+                            <h4 class="section-header">⚡ Speed/Power Work</h4>
                             <ul class="exercise-list">
-                                ${exercises.map((exercise, index) => 
-                                    renderExerciseItem(exercise, component, day, index)
+                                ${speedPowerExercises.map((exercise, index) => 
+                                    renderExerciseItem(exercise, 'field', day, index)
                                 ).join('')}
                             </ul>
                         </div>
                     `;
-                });
+                }
+                
+                // Strength section
+                if (strengthExercises.length > 0) {
+                    exerciseHTML += `
+                        <div class="exercise-section lifting-section">
+                            <h4 class="section-header">🏋️‍♂️ Strength Work</h4>
+                            <ul class="exercise-list">
+                                ${strengthExercises.map((exercise, index) => 
+                                    renderExerciseItem(exercise, 'lifting', day, index)
+                                ).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                // Hypertrophy/Endurance section
+                if (hypertrophyEnduranceExercises.length > 0) {
+                    exerciseHTML += `
+                        <div class="exercise-section">
+                            <h4 class="section-header">💪 Hypertrophy/Recovery</h4>
+                            <ul class="exercise-list">
+                                ${hypertrophyEnduranceExercises.map((exercise, index) => 
+                                    renderExerciseItem(exercise, 'accessory', day, index)
+                                ).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
                 
                 dayCard.innerHTML = dayHeader + exerciseHTML;
                 container.appendChild(dayCard);
             });
         }
 
-        function groupExercisesByComponent(exercises) {
-            const groups = {};
-            exercises.forEach(exercise => {
-                const component = exercise.component || 'other';
-                if (!groups[component]) groups[component] = [];
-                groups[component].push(exercise);
-            });
-            return groups;
-        }
-
-        function getComponentIcon(component) {
-            const icons = {
-                speed: '🏃‍♂️',
-                power: '💥', 
-                strength: '🏋️‍♂️',
-                hypertrophy: '💪',
-                endurance: '🫀'
-            };
-            return icons[component] || '⚡';
-        }
-
-        function getComponentPriority(component, phase) {
-            const phaseConfig = THREE_ANCHOR_CONFIG.blockPeriodization.phases[phase];
-            if (!phaseConfig) return 'Moderate';
-            
-            const multiplier = phaseConfig.viMultipliers[component] || 0.5;
-            if (multiplier >= 0.8) return 'HIGH';
-            if (multiplier >= 0.6) return 'Moderate';
-            return 'Maintenance';
-        }
-
-        function renderExerciseItem(exercise, component, day, index) {
+        function renderExerciseItem(exercise, section, day, index) {
             const sets = exercise.sets || 'N/A';
             const reps = exercise.reps || 'N/A';
             const quickInfo = `${sets}×${reps}`;
             
             return `
-                <li class="exercise-item expandable" onclick="toggleExerciseDetail(this, event)">
+                <li class="exercise-item ${section}-exercise expandable" onclick="toggleExerciseDetail(this, event)">
                     <div class="exercise-summary">
                         <span class="exercise-name">${exercise.name}</span>
                         <span class="exercise-quick-info">${quickInfo}</span>
-                        <span class="cns-score">${exercise.cns}</span>
                         <span class="expand-icon">▼</span>
                     </div>
                     <div class="exercise-details">
@@ -2096,6 +1451,14 @@
                                 <div class="value">${exercise.cns}/10</div>
                             </div>
                             <div class="param">
+                                <strong>Classification</strong>
+                                <div class="value">${exercise.classification || 'N/A'}</div>
+                            </div>
+                            <div class="param">
+                                <strong>Adaptation</strong>
+                                <div class="value">${exercise.adaptation || 'N/A'}</div>
+                            </div>
+                            <div class="param">
                                 <strong>Component</strong>
                                 <div class="value">${exercise.component || 'N/A'}</div>
                             </div>
@@ -2107,227 +1470,216 @@
                             ` : ''}
                         </div>
                         <div class="exercise-actions">
-                            <button class="btn btn-secondary btn-small" onclick="modifyExercise('${day}', ${index}); event.stopPropagation();">Modify</button>
-                            <button class="btn btn-secondary btn-small" onclick="substituteExercise('${day}', ${index}); event.stopPropagation();">Substitute</button>
+                            <button class="btn btn-secondary btn-small" onclick="swapExercise('${day}', ${index}); event.stopPropagation();">Swap</button>
+                            <button class="btn btn-secondary btn-small" onclick="removeExercise('${day}', ${index}); event.stopPropagation();">Remove</button>
                         </div>
                     </div>
                 </li>
             `;
         }
 
-        function updateStats(program) {
+        function updateStats(plan) {
+            let totalVolume = 0;
             let highDays = 0;
             let lowDays = 0;
-            let totalCNS = 0;
-            let totalComponents = 0;
-            let dayCount = 0;
 
-            Object.values(program).forEach(day => {
-                dayCount++;
-                if (day.intensity === 'high') {
+            Object.values(plan).forEach(day => {
+                if (day.type === 'rest') return;
+                
+                totalVolume += day.exercises.length;
+                
+                if (day.type === 'high') {
                     highDays++;
-                } else {
+                } else if (day.type === 'low') {
                     lowDays++;
                 }
-                
-                totalCNS += day.totalCNS || 0;
-                
-                const components = new Set(day.exercises.map(ex => ex.component));
-                totalComponents += components.size;
             });
 
-            document.getElementById('highDays').textContent = highDays;
-            document.getElementById('lowDays').textContent = lowDays;
-            document.getElementById('avgCNS').textContent = dayCount > 0 ? (totalCNS / dayCount).toFixed(1) : '0';
-            document.getElementById('totalComponents').textContent = Math.round(totalComponents / dayCount) || 0;
+            document.getElementById('weeklyVolume').textContent = totalVolume;
+            document.getElementById('highIntensityDays').textContent = highDays;
+            document.getElementById('lowIntensityDays').textContent = lowDays;
         }
 
-        function enableModifications() {
-            const chatInput = document.getElementById('chatInput');
-            const chatButton = chatInput.nextElementSibling;
-            
-            chatInput.disabled = false;
-            chatButton.disabled = false;
-            chatInput.placeholder = "e.g., 'reduce CNS load', 'increase power focus', 'make bodyweight only'";
+        function updateProgress() {
+            const progressBar = document.getElementById('weeklyProgress');
+            const progress = Math.min(currentDay * 16.67, 100);
+            progressBar.style.width = progress + '%';
         }
 
-        // ==================== MODIFICATION SYSTEM ====================
-
+        // ==================== MODIFICATION FUNCTIONS ====================
+        
         function processModification() {
             const input = document.getElementById('chatInput');
             const command = input.value.toLowerCase().trim();
             
-            if (!command || !currentProgram) return;
+            if (!command) return;
 
             addChatMessage("You", input.value);
             input.value = '';
 
-            try {
-                if (command.includes('reduce') && command.includes('cns')) {
-                    reduceCNSLoad();
-                } else if (command.includes('increase') && command.includes('power')) {
-                    increasePowerFocus();
-                } else if (command.includes('bodyweight')) {
-                    makeBodyweightOnly();
-                } else if (command.includes('reduce') && command.includes('volume')) {
-                    const match = command.match(/(\d+)%/);
-                    const percentage = match ? parseInt(match[1]) : 20;
-                    reduceVolume(percentage);
-                } else {
-                    addChatMessage("System", "Available modifications: 'reduce CNS load', 'increase power focus', 'make bodyweight only', 'reduce volume 20%'");
-                }
-            } catch (error) {
-                addChatMessage("System", "Error processing modification. Please try a different command.");
-                console.error('Modification error:', error);
+            // Process common modifications
+            if (command.includes('bodyweight')) {
+                makeBodyweightOnly();
+            } else if (command.includes('power') && command.includes('increase')) {
+                increasePowerFocus();
+            } else if (command.includes('cns') && command.includes('reduce')) {
+                reduceCNSLoad();
+            } else if (command.includes('volume') && command.includes('reduce')) {
+                reduceVolume(20);
+            } else {
+                addChatMessage("Assistant", "Available modifications: 'make bodyweight only', 'increase power focus', 'reduce CNS load', 'reduce volume'");
             }
         }
 
-        function reduceCNSLoad() {
-            Object.keys(currentProgram).forEach(day => {
-                const dayPlan = currentProgram[day];
-                if (dayPlan.intensity === 'high') {
-                    // Remove highest CNS exercises or reduce sets
-                    dayPlan.exercises = dayPlan.exercises.filter(ex => ex.cns <= 8);
-                    dayPlan.totalCNS = Math.max(1, dayPlan.totalCNS - 2);
-                }
-            });
-            
-            displayWeeklyPlan(currentProgram);
-            updateStats(currentProgram);
-            addChatMessage("System", "Reduced CNS load by removing highest demand exercises and capping intensity.");
-        }
-
-        function increasePowerFocus() {
-            Object.keys(currentProgram).forEach(day => {
-                const dayPlan = currentProgram[day];
-                if (dayPlan.intensity === 'high') {
-                    // Add more power exercises and increase their priority
-                    const powerExercises = [ENHANCED_EXERCISE_DATABASE.depth_jump, ENHANCED_EXERCISE_DATABASE.jump_squat];
-                    powerExercises.forEach(exercise => {
-                        if (!dayPlan.exercises.some(ex => ex.name === exercise.name)) {
-                            dayPlan.exercises.unshift({ ...exercise, sets: 3 });
-                        }
-                    });
-                    dayPlan.focus = dayPlan.focus.replace(/Strength|Mixed/, 'Power');
-                }
-            });
-            
-            displayWeeklyPlan(currentProgram);
-            addChatMessage("System", "Increased power focus by prioritizing explosive movements and plyometric exercises.");
-        }
-
         function makeBodyweightOnly() {
-            Object.keys(currentProgram).forEach(day => {
-                const dayPlan = currentProgram[day];
+            if (!currentPlan) return;
+            
+            Object.keys(currentPlan).forEach(day => {
+                const dayPlan = currentPlan[day];
+                if (dayPlan.type === 'rest') return;
+                
                 dayPlan.exercises = dayPlan.exercises.map(exercise => {
                     const bodyweightSub = findBodyweightSubstitution(exercise);
                     return {
                         ...exercise,
-                        name: bodyweightSub.name,
-                        complexity: 'bodyweight',
-                        load: 'Bodyweight',
-                        notes: bodyweightSub.notes || exercise.notes
+                        ...bodyweightSub
                     };
                 });
             });
             
-            displayWeeklyPlan(currentProgram);
-            addChatMessage("System", "Converted all exercises to bodyweight alternatives while maintaining Three-Anchor principles.");
+            displayWeeklyPlan(currentPlan);
+            updateStats(currentPlan);
+            addChatMessage("Assistant", "✅ Converted to bodyweight-only while preserving effort classifications: Max Effort → Doorway Isometrics, Dynamic Effort → Explosive movements.");
         }
 
         function findBodyweightSubstitution(exercise) {
-            const substitutions = {
-                'squat': { name: 'Bodyweight Squats', notes: 'Full depth, control tempo' },
-                'press': { name: 'Push-ups', notes: 'Modify angle as needed' },
-                'bench': { name: 'Push-ups', notes: 'Chest to floor, full ROM' },
-                'row': { name: 'Inverted Rows', notes: 'Body straight, squeeze shoulder blades' },
-                'deadlift': { name: 'Single-leg RDL', notes: 'Balance and control focus' },
-                'clean': { name: 'Jump Squats', notes: 'Explosive triple extension' },
-                'pull': { name: 'Pull-ups', notes: 'Full hang, control negative' }
-            };
-
+            const classification = exercise.classification || '';
             const exerciseName = exercise.name.toLowerCase();
-            for (const [key, sub] of Object.entries(substitutions)) {
-                if (exerciseName.includes(key)) {
-                    return sub;
+            
+            // Max Effort substitutions with doorway isometrics
+            if (classification.includes('Max Effort')) {
+                if (exerciseName.includes('squat')) {
+                    return { 
+                        name: 'Doorway Single-Leg Squat Hold',
+                        load: '100% max effort isometric',
+                        notes: '90° knee angle against doorframe, maximum force production each leg'
+                    };
+                }
+                if (exerciseName.includes('press') || exerciseName.includes('bench')) {
+                    return { 
+                        name: 'Doorway Chest Push (Isometric)',
+                        load: '100% max effort against immovable object',
+                        notes: 'Chest-height against doorframe, maximum force production'
+                    };
+                }
+                if (exerciseName.includes('deadlift')) {
+                    return { 
+                        name: 'Doorway Deadlift Pull (Isometric)',
+                        load: '100% max effort isometric',
+                        notes: 'Hip-height pull against immovable doorframe'
+                    };
                 }
             }
             
-            return { name: 'Bodyweight Movement', notes: 'Bodyweight alternative' };
+            // Dynamic Effort substitutions
+            if (classification.includes('Dynamic Effort')) {
+                if (exerciseName.includes('clean') || exerciseName.includes('power')) {
+                    return { 
+                        name: 'Explosive Jump Squats',
+                        load: '100% max intent',
+                        notes: 'Maximum explosive effort, full reset between reps'
+                    };
+                }
+                if (exerciseName.includes('slam') || exerciseName.includes('throw')) {
+                    return { 
+                        name: 'Explosive Push-ups',
+                        load: '100% max intent',
+                        notes: 'Hands leave ground, maximum explosive effort'
+                    };
+                }
+            }
+            
+            // Default bodyweight alternatives
+            return {
+                name: 'Bodyweight ' + exercise.name,
+                load: 'Bodyweight',
+                notes: 'Bodyweight alternative maintaining training stimulus'
+            };
+        }
+
+        function increasePowerFocus() {
+            if (!currentPlan) return;
+            
+            Object.keys(currentPlan).forEach(day => {
+                const dayPlan = currentPlan[day];
+                if (dayPlan.type === 'high') {
+                    // Add more dynamic effort exercises
+                    const powerExercise = {
+                        name: 'Added Jump Squats',
+                        classification: 'Dynamic Effort',
+                        adaptation: 'Lower Body Power',
+                        component: 'power',
+                        cns: 7,
+                        sets: 4, reps: 5,
+                        load: '100% max intent',
+                        rest: '2min',
+                        notes: 'Explosive up, soft landing'
+                    };
+                    dayPlan.exercises.unshift(powerExercise);
+                    dayPlan.focus = dayPlan.focus.replace(/Strength|Mixed/, 'Power');
+                }
+            });
+            
+            displayWeeklyPlan(currentPlan);
+            addChatMessage("Assistant", "✅ Increased power focus by adding Dynamic Effort exercises with maximum explosive intent.");
+        }
+
+        function reduceCNSLoad() {
+            if (!currentPlan) return;
+            
+            Object.keys(currentPlan).forEach(day => {
+                const dayPlan = currentPlan[day];
+                if (dayPlan.type === 'high') {
+                    // Remove highest CNS exercises or reduce intensity
+                    dayPlan.exercises = dayPlan.exercises.filter(ex => ex.cns <= 8);
+                    dayPlan.exercises.forEach(ex => {
+                        if (ex.load && ex.load.includes('85%')) {
+                            ex.load = ex.load.replace('85%', '80%');
+                        }
+                        if (ex.load && ex.load.includes('90%')) {
+                            ex.load = ex.load.replace('90%', '85%');
+                        }
+                    });
+                }
+            });
+            
+            displayWeeklyPlan(currentPlan);
+            updateStats(currentPlan);
+            addChatMessage("Assistant", "✅ Reduced CNS load by removing highest demand exercises and reducing intensities.");
         }
 
         function reduceVolume(percentage) {
-            Object.keys(currentProgram).forEach(day => {
-                const dayPlan = currentProgram[day];
+            if (!currentPlan) return;
+            
+            Object.keys(currentPlan).forEach(day => {
+                const dayPlan = currentPlan[day];
+                if (dayPlan.type === 'rest') return;
+                
                 dayPlan.exercises.forEach(exercise => {
                     exercise.sets = Math.max(1, Math.floor(exercise.sets * (1 - percentage / 100)));
                 });
-                dayPlan.totalSets = dayPlan.exercises.reduce((sum, ex) => sum + ex.sets, 0);
             });
             
-            displayWeeklyPlan(currentProgram);
-            updateStats(currentProgram);
-            addChatMessage("System", `Reduced training volume by ${percentage}% while maintaining Three-Anchor structure.`);
-        }
-
-        // Individual exercise modification functions
-        function modifyExercise(day, index) {
-            const exercise = currentProgram[day].exercises[index];
-            const newSets = prompt(`Sets for "${exercise.name}":`, exercise.sets);
-            const newReps = prompt(`Reps for "${exercise.name}":`, exercise.reps);
-            
-            if (newSets || newReps) {
-                currentProgram[day].exercises[index] = {
-                    ...exercise,
-                    sets: newSets ? parseInt(newSets) : exercise.sets,
-                    reps: newReps || exercise.reps
-                };
-                displayWeeklyPlan(currentProgram);
-                addChatMessage("System", `Modified "${exercise.name}" parameters for ${day}.`);
-            }
-        }
-
-        function substituteExercise(day, index) {
-            const exercise = currentProgram[day].exercises[index];
-            const component = exercise.component;
-            
-            // Find alternative exercises from same component
-            const alternatives = Object.values(ENHANCED_EXERCISE_DATABASE)
-                .filter(ex => ex.component === component && ex.name !== exercise.name)
-                .map(ex => ex.name);
-            
-            if (alternatives.length > 0) {
-                const choice = prompt(`Substitute "${exercise.name}" with:\n${alternatives.map((name, i) => `${i+1}. ${name}`).join('\n')}\n\nEnter number:`, '1');
-                const choiceIndex = parseInt(choice) - 1;
-                
-                if (choiceIndex >= 0 && choiceIndex < alternatives.length) {
-                    const newExercise = Object.values(ENHANCED_EXERCISE_DATABASE)
-                        .find(ex => ex.name === alternatives[choiceIndex]);
-                    
-                    currentProgram[day].exercises[index] = {
-                        ...newExercise,
-                        sets: exercise.sets,
-                        reps: exercise.reps,
-                        load: exercise.load
-                    };
-                    
-                    displayWeeklyPlan(currentProgram);
-                    addChatMessage("System", `Substituted "${exercise.name}" with "${newExercise.name}" while maintaining ${component} component.`);
-                }
-            } else {
-                addChatMessage("System", `No alternative ${component} exercises available for substitution.`);
-            }
+            displayWeeklyPlan(currentPlan);
+            updateStats(currentPlan);
+            addChatMessage("Assistant", `✅ Reduced training volume by ${percentage}% while maintaining ME/DE/SE/RE structure.`);
         }
 
         // ==================== UTILITY FUNCTIONS ====================
-
+        
         function toggleExerciseDetail(element, event) {
             if (event) event.stopPropagation();
             element.classList.toggle('expanded');
-            
-            // Update aria-expanded for accessibility
-            const isExpanded = element.classList.contains('expanded');
-            element.setAttribute('aria-expanded', isExpanded.toString());
         }
 
         function toggleTheme() {
@@ -2338,142 +1690,69 @@
             
             const button = document.querySelector('.theme-toggle');
             button.innerHTML = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-            
-            localStorage.setItem('theme', newTheme);
         }
 
-        function toggleEducationPanel() {
-            const panel = document.getElementById('educationPanel');
-            panel.classList.toggle('open');
+        function toggleCollapsible(element) {
+            const collapsible = element.parentElement;
+            const isActive = collapsible.classList.contains('active');
+            
+            // Close all other collapsibles
+            document.querySelectorAll('.collapsible.active').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.collapsible-header span').textContent = '+';
+            });
+            
+            if (!isActive) {
+                collapsible.classList.add('active');
+                element.querySelector('span').textContent = '-';
+            }
+        }
+
+        function toggleTechnical(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('show');
+            }
+        }
+
+        function swapExercise(day, exerciseIndex) {
+            const newExercise = prompt('Enter replacement exercise:');
+            if (newExercise && currentPlan[day]) {
+                currentPlan[day].exercises[exerciseIndex].name = newExercise;
+                displayWeeklyPlan(currentPlan);
+                addChatMessage("Assistant", `Swapped exercise in ${day} session.`);
+            }
+        }
+
+        function removeExercise(day, exerciseIndex) {
+            if (currentPlan[day]) {
+                const removed = currentPlan[day].exercises.splice(exerciseIndex, 1)[0];
+                displayWeeklyPlan(currentPlan);
+                updateStats(currentPlan);
+                addChatMessage("Assistant", `Removed "${removed.name}" from ${day} session.`);
+            }
         }
 
         function addChatMessage(sender, message) {
             const chatHistory = document.getElementById('chatHistory');
             const messageDiv = document.createElement('div');
-            messageDiv.style.marginBottom = '8px';
-            messageDiv.style.padding = '8px 10px';
-            messageDiv.style.borderRadius = '6px';
-            messageDiv.style.fontSize = '13px';
-            
-            if (sender === 'You') {
-                messageDiv.style.backgroundColor = 'var(--primary-color)';
-                messageDiv.style.color = 'white';
-                messageDiv.style.marginLeft = '15px';
-                messageDiv.innerHTML = `<strong>You:</strong> ${message}`;
-            } else {
-                messageDiv.style.backgroundColor = 'var(--bg-tertiary)';
-                messageDiv.style.color = 'var(--text-primary)';
-                messageDiv.style.marginRight = '15px';
-                messageDiv.innerHTML = `<strong>System:</strong> ${message}`;
-            }
-            
+            messageDiv.style.marginBottom = '10px';
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
             chatHistory.appendChild(messageDiv);
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
 
         // ==================== INITIALIZATION ====================
-
-        function addTestButton() {
-            const header = document.querySelector('.header-controls');
-            const testBtn = document.createElement('button');
-            testBtn.className = 'theme-toggle';
-            testBtn.innerHTML = '🧪 Test';
-            testBtn.onclick = function() {
-                console.log('=== THREE ANCHOR SYSTEM TEST ===');
-                
-                // Test with intermediate athlete sample data
-                const sampleData = {
-                    trainingAge: 'intermediate',
-                    emphasis: 'strength',
-                    frequency: 3,
-                    duration: 60,
-                    phase: 'accumulation',
-                    equipment: 'full_gym'
-                };
-                
-                console.log('Testing with sample data:', sampleData);
-                
-                try {
-                    const engine = new ThreeAnchorEngine();
-                    console.log('Engine created successfully');
-                    
-                    const program = engine.generateProgram(sampleData);
-                    console.log('Generated program:', program);
-                    
-                    if (program && Object.keys(program).length > 0) {
-                        currentProgram = program;
-                        displayWeeklyPlan(program);
-                        updateStats(program);
-                        enableModifications();
-                        
-                        console.log('✅ Three Anchor System Test PASSED!');
-                        addChatMessage("System", "✅ Test successful! Generated sample program using Three-Anchor methodology with proper CNS scoring and exercise selection.");
-                        
-                        // Verify key components
-                        const highDays = Object.values(program).filter(d => d.intensity === 'high').length;
-                        const lowDays = Object.values(program).filter(d => d.intensity === 'low').length;
-                        
-                        addChatMessage("System", `Program structure: ${highDays} High CNS days, ${lowDays} Low CNS days. Exercise order follows Speed→Power→Strength→Hypertrophy→Endurance based on CNS demand.`);
-                        
-                    } else {
-                        throw new Error('Empty program returned');
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Test failed:', error);
-                    addChatMessage("System", `❌ Test failed: ${error.message}`);
-                }
-            };
-            header.insertBefore(testBtn, header.firstChild);
-        }
-
+        
         function initializeApp() {
-            // Load theme preference
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.body.setAttribute('data-theme', savedTheme);
-                const button = document.querySelector('.theme-toggle');
-                button.innerHTML = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-            }
-
-            // Add test button for debugging
-            addTestButton();
-
-            // Set up form validation
-            const formElements = ['trainingAge', 'emphasis', 'frequency', 'duration', 'phase', 'equipment'];
-            formElements.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('change', validateForm);
-                } else {
-                    console.warn(`Form element not found: ${id}`);
-                }
-            });
-
-            // Set up chat input
-            const chatInput = document.getElementById('chatInput');
-            if (chatInput) {
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter' && !chatInput.disabled) {
-                        processModification();
-                    }
-                });
-            }
-
-            // Add welcome message explaining the system
-            addChatMessage("System", "Welcome to the Three Anchor Training System! This dashboard implements Block Periodization, High-Low CNS management, and Vertical Integration to create intelligent, evidence-based training programs.");
+            console.log('🏋️ High-Low ME/DE/SE/RE System Initializing...');
             
-            // Initialize progress display
-            updateConfigDisplay({});
-            
-            // Log system status
-            console.log('🏋️ Three Anchor System Initialized');
-            console.log('- CNS Scoring: Context-dependent classification with training age limits');
-            console.log('- Exercise Selection: Equipment and complexity filtering with emphasis adjustments');
-            console.log('- Program Structure: Block phases with High-Low weekly patterns');
+            // Generate initial plan automatically
+            setTimeout(() => {
+                generatePlan();
+                addChatMessage("Assistant", "Welcome to the High-Low ME/DE/SE/RE Training System! This sample program demonstrates proper effort classifications and CNS management. Modify the parameters above or use chat commands to customize your program.");
+            }, 500);
         }
-
-        // ==================== EVENT LISTENERS & STARTUP ====================
 
         // Initialize when DOM is ready
         if (document.readyState === 'loading') {
@@ -2482,148 +1761,12 @@
             initializeApp();
         }
 
-        // Handle window resize for responsive design
-        window.addEventListener('resize', function() {
-            const planGrid = document.querySelector('.plan-grid');
-            if (planGrid && window.innerWidth < 768) {
-                planGrid.style.gridTemplateColumns = '1fr';
-            } else if (planGrid) {
-                planGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(320px, 1fr))';
-            }
-        });
-
-        // Close education panel when clicking outside
-        document.addEventListener('click', function(e) {
-            const educationPanel = document.getElementById('educationPanel');
-            const infoToggle = document.querySelector('.info-toggle');
-            
-            if (educationPanel.classList.contains('open') && 
-                !educationPanel.contains(e.target) && 
-                !infoToggle.contains(e.target)) {
-                educationPanel.classList.remove('open');
-            }
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Escape to close education panel
-            if (e.key === 'Escape') {
-                const educationPanel = document.getElementById('educationPanel');
-                if (educationPanel.classList.contains('open')) {
-                    educationPanel.classList.remove('open');
-                }
-            }
-            
-            // Ctrl/Cmd + Enter to generate program
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                const generateBtn = document.getElementById('generateBtn');
-                if (!generateBtn.disabled) {
-                    generateProgram();
-                }
-            }
-        });
-
-        // Export for debugging and advanced users
-        if (typeof window !== 'undefined') {
-            window.ThreeAnchorSystem = {
-                engine: threeAnchorEngine,
-                config: THREE_ANCHOR_CONFIG,
-                exerciseDB: ENHANCED_EXERCISE_DATABASE,
-                currentProgram,
-                currentWeek,
-                
-                // Advanced functions for coaches
-                generateProgram,
-                validateForm,
-                processModification,
-                updateStats,
-                
-                // Component access
-                BlockPeriodizationEngine,
-                HighLowScheduler,
-                VerticalIntegrationEngine,
-                ExerciseSelector,
-                
-                // Debugging helpers
-                debugProgram: () => console.table(currentProgram),
-                debugConfig: () => console.log(THREE_ANCHOR_CONFIG),
-                debugExercises: () => console.table(Object.values(ENHANCED_EXERCISE_DATABASE))
-            };
-        }
-
-        // ==================== ACCESSIBILITY ENHANCEMENTS ====================
-
-        function enhanceAccessibility() {
-            // Add ARIA labels and roles for screen readers
-            document.querySelectorAll('.day-card').forEach(card => {
-                card.setAttribute('role', 'region');
-                const dayTitle = card.querySelector('.day-title')?.textContent;
-                const intensity = card.querySelector('.intensity-indicator')?.nextSibling?.textContent;
-                card.setAttribute('aria-label', `${dayTitle} - ${intensity} intensity training day`);
-            });
-
-            // Add aria-expanded to expandable exercises
-            document.querySelectorAll('.exercise-item.expandable').forEach(item => {
-                item.setAttribute('role', 'button');
-                item.setAttribute('aria-expanded', 'false');
-                item.setAttribute('tabindex', '0');
-                
-                // Add keyboard navigation
-                item.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleExerciseDetail(this, e);
-                    }
-                });
-            });
-        }
-
-        // Run accessibility enhancements after program display
-        const originalDisplayWeeklyPlan = displayWeeklyPlan;
-        displayWeeklyPlan = function(program) {
-            originalDisplayWeeklyPlan(program);
-            setTimeout(enhanceAccessibility, 100);
-        };
-
-        // ==================== SYSTEM READY ====================
-
-        console.log('🏋️ Three Anchor Training System Loaded Successfully');
-        console.log('📊 Block Periodization: 4-week mesocycles with phase-specific adaptations');
+        console.log('🏋️ High-Low ME/DE/SE/RE Training System Loaded Successfully');
+        console.log('💪 Max Effort: 85-100% loads with doorway isometric alternatives');
+        console.log('⚡ Dynamic Effort: Explosive movements with maximum intent focus');
+        console.log('🎯 Submaximal Effort: 75-85% loads for strength-endurance bridge');
+        console.log('🔄 Repetition Effort: Higher volume work for hypertrophy stimulus');
         console.log('⚖️ High-Low System: CNS-aware weekly patterns with intelligent recovery');
-        console.log('🔄 Vertical Integration: All biomotor qualities with emphasis-based prioritization');
-        console.log('🧠 Exercise Database:', Object.keys(ENHANCED_EXERCISE_DATABASE).length, 'movements with smart selection');
-        console.log('🎯 Ready for evidence-based program generation!');
-
-        // Final system validation
-        function validateSystemIntegrity() {
-            const requiredComponents = [
-                'BlockPeriodizationEngine',
-                'HighLowScheduler', 
-                'VerticalIntegrationEngine',
-                'ExerciseSelector',
-                'THREE_ANCHOR_CONFIG',
-                'ENHANCED_EXERCISE_DATABASE'
-            ];
-            
-            const missing = requiredComponents.filter(component => {
-                try {
-                    return !eval(`typeof ${component} !== 'undefined'`);
-                } catch (e) {
-                    return true;
-                }
-            });
-            
-            if (missing.length > 0) {
-                console.error('System integrity check failed. Missing components:', missing);
-                addChatMessage("System", "⚠️ System initialization incomplete. Some features may not work correctly.");
-            } else {
-                console.log('✅ System integrity check passed. All Three-Anchor components loaded successfully.');
-            }
-        }
-
-        // Run system validation
-        setTimeout(validateSystemIntegrity, 2000);
-
     </script>
 </body>
 </html>
