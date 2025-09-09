@@ -1034,13 +1034,23 @@
                     hypertrophy: { weekly: 2, daily: 0.3 },
                     endurance: { weekly: 1, daily: 0.2 }
                 },
-                timeAllocation: {
-                    45: { speed: 8, power: 12, strength: 15, hypertrophy: 8, endurance: 2 },
-                    60: { speed: 10, power: 15, strength: 20, hypertrophy: 12, endurance: 3 },
-                    75: { speed: 12, power: 18, strength: 25, hypertrophy: 15, endurance: 5 },
-                    90: { speed: 15, power: 22, strength: 30, hypertrophy: 18, endurance: 5 }
-                }
-            },
+                exercisePriority: {
+                    high_day: {
+                        tier1: ['speed', 'power'],           // Always include, highest volume
+                        tier2: ['strength'],                 // Core focus, moderate volume  
+                        tier3: ['hypertrophy', 'endurance']  // Always include, minimal volume
+                    },
+                    medium_day: {
+                        tier1: ['strength'],                 // Heavy upper body focus
+                        tier2: ['hypertrophy'],             // Moderate accessory work
+                        tier3: ['endurance', 'power']       // Light conditioning + power
+                    },
+                    low_day: {
+                        tier1: ['endurance'],               // Primary focus
+                        tier2: ['hypertrophy'],             // Upper body accessories
+                        tier3: ['mobility']                 // Recovery work
+                    }
+                },
 
             // Training Age Constraints
             ageRules: {
