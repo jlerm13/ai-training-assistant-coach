@@ -1745,12 +1745,24 @@
         // ==================== INITIALIZATION ====================
         
         function initializeApp() {
-            console.log('🏋️ High-Low ME/DE/SE/RE System Initializing...');
+            console.log('🏋️ 3 Anchor High-Low ME/DE/SE/RE System Initializing...');
+            
+            // Set up event listeners for dropdowns
+            const dropdowns = ['trainingAge', 'trainingGoal', 'splitType', 'duration', 'trainingBlock', 'blockLength', 'equipment'];
+            dropdowns.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', () => {
+                        console.log(`${id} changed to:`, element.value);
+                    });
+                }
+            });
             
             // Generate initial plan automatically
             setTimeout(() => {
+                console.log('Auto-generating initial plan...');
                 generatePlan();
-                addChatMessage("Assistant", "Welcome to the High-Low ME/DE/SE/RE Training System! This sample program demonstrates proper effort classifications and CNS management. Modify the parameters above or use chat commands to customize your program.");
+                addChatMessage("Assistant", "Welcome to the 3 Anchor High-Low ME/DE/SE/RE Training System! This sample program demonstrates proper effort classifications and CNS management. Modify the parameters above or use chat commands to customize your program.");
             }, 500);
         }
 
