@@ -17,6 +17,7 @@
             --primary-color: #ff6b35;
             --secondary-color: #f7931e;
             --accent-color: #4ecdc4;
+            --medium-color: #9b59b6;
             
             /* Semantic Colors */
             --success-color: #4ecdc4;
@@ -39,6 +40,7 @@
             
             /* Intensity Indicators */
             --high-intensity: #ff6b35;
+            --medium-intensity: #9b59b6;
             --low-intensity: #4ecdc4;
             
             /* Shadows - Subtle depth */
@@ -281,6 +283,10 @@
             background: var(--high-intensity);
         }
 
+        .medium-intensity {
+            background: var(--medium-intensity);
+        }
+
         .low-intensity {
             background: var(--low-intensity);
         }
@@ -307,6 +313,11 @@
         .high-day {
             border-left: 4px solid var(--high-intensity);
             background: linear-gradient(to right, rgba(255, 107, 53, 0.03) 0%, var(--bg-primary) 100%);
+        }
+
+        .medium-day {
+            border-left: 4px solid var(--medium-intensity);
+            background: linear-gradient(to right, rgba(155, 89, 182, 0.03) 0%, var(--bg-primary) 100%);
         }
 
         .low-day {
@@ -646,7 +657,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏋️ Ignition APG - High-Low ME/DE/SE/RE System</h1>
+            <h1>🏋️ Ignition APG - 3 Anchor High-Low ME/DE/SE/RE System</h1>
             <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
         </div>
 
@@ -689,11 +700,11 @@
                     <p class="field-description">High-Low pattern optimizes CNS recovery and adaptation</p>
                     <select class="dropdown" id="splitType">
                         <option value="3-day-high-low" selected>3 Days - High-Low Pattern (H-L-H-L-H-L-L)</option>
-                        <option value="4-day-high-low">4 Days - High-Low Pattern (H-L-L-H-L-L-L)</option>
+                        <option value="4-day-high-low">4 Days - Upper/Lower Pattern (H-M-L-H-L-L-L)</option>
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="split-tech">
-                        <strong>High Days:</strong> SAQ + Heavy lifting (8-10 CNS). <strong>Low Days:</strong> Recovery + accessories (3-5 CNS). Ensures proper recovery between high CNS sessions.
+                        <strong>High Days:</strong> Full vertical integration (8-10 CNS). <strong>Medium Days:</strong> Low base + upper lift (5-6 CNS). <strong>Low Days:</strong> Recovery focus (3-5 CNS).
                     </div>
                 </div>
 
@@ -760,32 +771,32 @@
                         <div class="stat-label">Weekly Exercises</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value" id="highIntensityDays">3</div>
+                        <div class="stat-value" id="highIntensityDays">2</div>
                         <div class="stat-label">High CNS Days</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value" id="lowIntensityDays">2</div>
-                        <div class="stat-label">Low CNS Days</div>
+                        <div class="stat-value" id="lowIntensityDays">1</div>
+                        <div class="stat-label" id="lowDaysLabel">Low/Medium Days</div>
                     </div>
                 </div>
 
                 <div class="collapsible">
                     <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                        High-Low Training Principles
+                        Vertical Integration Principles
                         <span>+</span>
                     </div>
                     <div class="collapsible-content">
-                        <p>The High-Low training model alternates between high CNS-demanding days (8-10 CNS) and low recovery days (3-5 CNS). This optimizes adaptation while preventing overtraining and ensuring proper recovery.</p>
+                        <p>High Days follow Speed → Power → Strength → Hypertrophy → Endurance sequencing. This progresses from highest neural demand/risk to lowest, while moving from least to most metabolic stress.</p>
                     </div>
                 </div>
 
                 <div class="collapsible">
                     <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                        ME/DE/SE/RE Methods
+                        High-Low-Medium System
                         <span>+</span>
                     </div>
                     <div class="collapsible-content">
-                        <p><strong>Max Effort:</strong> 85-100% loads for strength. <strong>Dynamic Effort:</strong> Explosive movements for power. <strong>Submaximal:</strong> 75-85% for strength-endurance. <strong>Repetition:</strong> Higher volume for hypertrophy.</p>
+                        <p><strong>High:</strong> Full vertical integration (8-10 CNS). <strong>Medium:</strong> Recovery base + upper body lift (5-6 CNS). <strong>Low:</strong> Pure recovery and mobility (3-5 CNS).</p>
                     </div>
                 </div>
 
@@ -1015,45 +1026,118 @@
             }
         };
 
-        // ==================== PROGRAM TEMPLATES ====================
+        // ==================== UPDATED PROGRAM TEMPLATES WITH PROPER VERTICAL INTEGRATION ====================
         
         const PROGRAM_TEMPLATES = {
-            strength_focus: {
-                title: "Max Effort Strength Focus",
+            // 3-Day High-Low Pattern (H-L-H-L-H-L-L)
+            strength_focus_3day: {
+                title: "3-Day Vertical Integration - Strength Focus",
                 monday: {
                     type: "high",
-                    focus: "Max Effort Upper/Lower",
+                    focus: "Full Vertical Integration - Strength Emphasis",
                     exercises: [
+                        // SPEED (Highest Neural, Highest Risk)
                         {...ME_DE_SE_RE_EXERCISES.sprint_20m},
+                        // POWER 
                         {...ME_DE_SE_RE_EXERCISES.jump_squat},
+                        {...ME_DE_SE_RE_EXERCISES.power_clean},
+                        // STRENGTH (Max Effort Primary)
                         {...ME_DE_SE_RE_EXERCISES.back_squat},
                         {...ME_DE_SE_RE_EXERCISES.bench_press},
-                        {...ME_DE_SE_RE_EXERCISES.front_squat, sets: 3, reps: 5}
+                        // HYPERTROPHY
+                        {...ME_DE_SE_RE_EXERCISES.db_row},
+                        // ENDURANCE (Lowest Neural, Most Metabolic)
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
                     ]
                 },
                 tuesday: {
                     type: "low", 
-                    focus: "Recovery + Upper Body Repetition Effort",
+                    focus: "Recovery + Low CNS Maintenance",
                     exercises: [
+                        // Low days: Tempo/Recovery focus only
                         {...ME_DE_SE_RE_EXERCISES.tempo_run},
-                        {...ME_DE_SE_RE_EXERCISES.db_row},
-                        {...ME_DE_SE_RE_EXERCISES.lunges},
+                        {...ME_DE_SE_RE_EXERCISES.lunges, cns: 3}, // Reduced CNS
                         {...ME_DE_SE_RE_EXERCISES.mobility_flow}
                     ]
                 },
                 thursday: {
                     type: "high",
-                    focus: "Max Effort Lower + Dynamic Effort Upper", 
+                    focus: "Full Vertical Integration - Power/Strength", 
                     exercises: [
+                        // SPEED
                         {...ME_DE_SE_RE_EXERCISES.agility_ladder},
-                        {...ME_DE_SE_RE_EXERCISES.deadlift},
-                        {...ME_DE_SE_RE_EXERCISES.power_clean},
+                        // POWER
                         {...ME_DE_SE_RE_EXERCISES.med_ball_slam},
-                        {...ME_DE_SE_RE_EXERCISES.incline_press}
+                        // STRENGTH
+                        {...ME_DE_SE_RE_EXERCISES.deadlift},
+                        {...ME_DE_SE_RE_EXERCISES.front_squat},
+                        // HYPERTROPHY
+                        {...ME_DE_SE_RE_EXERCISES.incline_press, classification: "Repetition Effort", component: "hypertrophy"},
+                        // ENDURANCE
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
                     ]
                 }
             },
-            
+
+            // 4-Day High-Low Pattern (H-M-L-H-L-L-L) - Upper/Lower Split
+            strength_focus_4day: {
+                title: "4-Day Upper/Lower - Vertical Integration",
+                monday: {
+                    type: "high",
+                    focus: "Lower Body - Full Vertical Integration",
+                    exercises: [
+                        // SPEED
+                        {...ME_DE_SE_RE_EXERCISES.sprint_20m},
+                        // POWER
+                        {...ME_DE_SE_RE_EXERCISES.jump_squat},
+                        // STRENGTH
+                        {...ME_DE_SE_RE_EXERCISES.back_squat},
+                        {...ME_DE_SE_RE_EXERCISES.deadlift, sets: 2, reps: 2}, // Reduced volume
+                        // HYPERTROPHY
+                        {...ME_DE_SE_RE_EXERCISES.lunges},
+                        // ENDURANCE
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                },
+                tuesday: {
+                    type: "medium",
+                    focus: "Upper Body - Recovery Base + Upper Lift",
+                    exercises: [
+                        // Medium day = Low day foundation + upper body strength work
+                        {...ME_DE_SE_RE_EXERCISES.tempo_run, reps: "10min"}, // Shorter tempo
+                        {...ME_DE_SE_RE_EXERCISES.bench_press, sets: 3, load: "80% 1RM / RPE 7"}, // Single upper lift
+                        {...ME_DE_SE_RE_EXERCISES.db_row, sets: 3},
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                },
+                wednesday: {
+                    type: "low",
+                    focus: "Complete Recovery",
+                    exercises: [
+                        {...ME_DE_SE_RE_EXERCISES.tempo_run},
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow, sets: 3}
+                    ]
+                },
+                thursday: {
+                    type: "high",
+                    focus: "Upper Body - Full Vertical Integration",
+                    exercises: [
+                        // SPEED (Upper body speed work)
+                        {...ME_DE_SE_RE_EXERCISES.agility_ladder, sets: 4, cns: 6}, // Reduced for upper focus
+                        // POWER
+                        {...ME_DE_SE_RE_EXERCISES.med_ball_slam},
+                        {...ME_DE_SE_RE_EXERCISES.power_clean}, 
+                        // STRENGTH
+                        {...ME_DE_SE_RE_EXERCISES.bench_press},
+                        {...ME_DE_SE_RE_EXERCISES.incline_press},
+                        // HYPERTROPHY
+                        {...ME_DE_SE_RE_EXERCISES.db_row},
+                        // ENDURANCE
+                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                    ]
+                }
+            },
+
             power_focus: {
                 title: "Dynamic Effort Power Focus",
                 monday: {
@@ -1201,6 +1285,141 @@
         let currentPlan = null;
         let currentDay = 0;
 
+        // ==================== VERTICAL INTEGRATION RENDERING FUNCTIONS ====================
+
+        function renderVerticalIntegrationSections(exercises, day) {
+            // Group exercises by vertical integration sequence
+            const speedExercises = exercises.filter(ex => ex.component === 'speed');
+            const powerExercises = exercises.filter(ex => ex.component === 'power');
+            const strengthExercises = exercises.filter(ex => ex.component === 'strength');
+            const hypertrophyExercises = exercises.filter(ex => ex.component === 'hypertrophy');
+            const enduranceExercises = exercises.filter(ex => ex.component === 'endurance');
+            
+            let html = '';
+            
+            // SPEED Section (Highest Neural/Risk)
+            if (speedExercises.length > 0) {
+                html += `
+                    <div class="exercise-section field-section">
+                        <h4 class="section-header">🚀 Speed/SAQ (Neural Prime)</h4>
+                        <ul class="exercise-list">
+                            ${speedExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'field', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // POWER Section
+            if (powerExercises.length > 0) {
+                html += `
+                    <div class="exercise-section field-section">
+                        <h4 class="section-header">⚡ Power/Explosive</h4>
+                        <ul class="exercise-list">
+                            ${powerExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'field', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // STRENGTH Section
+            if (strengthExercises.length > 0) {
+                html += `
+                    <div class="exercise-section lifting-section">
+                        <h4 class="section-header">🏋️‍♂️ Strength Work</h4>
+                        <ul class="exercise-list">
+                            ${strengthExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'lifting', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // HYPERTROPHY Section
+            if (hypertrophyExercises.length > 0) {
+                html += `
+                    <div class="exercise-section">
+                        <h4 class="section-header">💪 Hypertrophy</h4>
+                        <ul class="exercise-list">
+                            ${hypertrophyExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'accessory', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // ENDURANCE Section (Most Metabolic)
+            if (enduranceExercises.length > 0) {
+                html += `
+                    <div class="exercise-section">
+                        <h4 class="section-header">🔄 Endurance/Recovery</h4>
+                        <ul class="exercise-list">
+                            ${enduranceExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'accessory', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            return html;
+        }
+
+        function renderMediumDaySections(exercises, day) {
+            // Medium days: Group into Recovery + Upper Lift
+            const recoveryExercises = exercises.filter(ex => 
+                ex.component === 'endurance' || ex.classification === 'Submaximal Effort'
+            );
+            const strengthExercises = exercises.filter(ex => 
+                ex.component === 'strength' || ex.component === 'hypertrophy'
+            );
+            
+            let html = `
+                <div class="exercise-section">
+                    <h4 class="section-header">🔄 Recovery Base</h4>
+                    <ul class="exercise-list">
+                        ${recoveryExercises.map((exercise, index) => 
+                            renderExerciseItem(exercise, 'accessory', day, index)
+                        ).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            if (strengthExercises.length > 0) {
+                html += `
+                    <div class="exercise-section lifting-section">
+                        <h4 class="section-header">🏋️‍♂️ Upper Body Maintenance</h4>
+                        <ul class="exercise-list">
+                            ${strengthExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'lifting', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            return html;
+        }
+
+        function renderLowDaySections(exercises, day) {
+            // Low days: Simple recovery focus
+            return `
+                <div class="exercise-section">
+                    <h4 class="section-header">🔄 Recovery & Mobility</h4>
+                    <ul class="exercise-list">
+                        ${exercises.map((exercise, index) => 
+                            renderExerciseItem(exercise, 'accessory', day, index)
+                        ).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
         // ==================== CORE FUNCTIONS ====================
         
         function generatePlan() {
@@ -1217,14 +1436,16 @@
 
             console.log('Form values:', { goal, split, equipment, duration, block, blockLength, trainingAge });
 
-            // Select appropriate program template
+            // Select appropriate program template based on split type
             let selectedTemplate;
             if (equipment === 'bodyweight') {
                 selectedTemplate = PROGRAM_TEMPLATES.bodyweight_only;
+            } else if (split === '4-day-high-low') {
+                selectedTemplate = PROGRAM_TEMPLATES.strength_focus_4day;
             } else if (goal === 'power') {
-                selectedTemplate = PROGRAM_TEMPLATES.power_focus; 
+                selectedTemplate = PROGRAM_TEMPLATES.power_focus;
             } else {
-                selectedTemplate = PROGRAM_TEMPLATES.strength_focus;
+                selectedTemplate = PROGRAM_TEMPLATES.strength_focus_3day;
             }
             
             // Generate weekly plan
@@ -1235,11 +1456,7 @@
             updateStats(currentPlan);
             updateProgress();
 
-            addChatMessage("Assistant", `✅ Generated ${selectedTemplate.title} using High-Low ME/DE/SE/RE methodology. 
-                Max Effort: 85-95% loads for strength development. 
-                Dynamic Effort: Explosive movements with maximum intent. 
-                Submaximal Effort: 75-85% loads for strength-endurance. 
-                Repetition Effort: Higher volume for hypertrophy stimulus.`);
+            addChatMessage("Assistant", `✅ Generated ${selectedTemplate.title} with proper Vertical Integration sequencing: Speed → Power → Strength → Hypertrophy → Endurance`);
         }
 
         function adaptTemplate(template, userInputs) {
@@ -1340,15 +1557,20 @@
                 }
 
                 const dayCard = document.createElement('div');
-                dayCard.className = `day-card ${dayPlan.type}-day`;
+                // Handle medium day styling
+                const dayClass = dayPlan.type === 'medium' ? 'medium-day' : `${dayPlan.type}-day`;
+                dayCard.className = `day-card ${dayClass}`;
                 
-                // Create the day header
+                // Create the day header with proper medium day display
+                const dayTypeDisplay = dayPlan.type === 'medium' ? 'MEDIUM DAY' : `${dayPlan.type.toUpperCase()} DAY`;
+                const intensityClass = dayPlan.type === 'medium' ? 'medium-intensity' : `${dayPlan.type}-intensity`;
+                
                 const dayHeader = `
                     <div class="day-header">
                         <div class="day-title">${day}</div>
                         <div>
-                            <span class="intensity-indicator ${dayPlan.type}-intensity"></span>
-                            ${dayPlan.type.toUpperCase()} DAY
+                            <span class="intensity-indicator ${intensityClass}"></span>
+                            ${dayTypeDisplay}
                         </div>
                     </div>
                     <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">
@@ -1358,57 +1580,17 @@
                 
                 let exerciseHTML = '';
                 
-                // Group exercises by component/classification
-                const speedPowerExercises = dayPlan.exercises.filter(ex => 
-                    ex.component === 'speed' || ex.component === 'power'
-                );
-                const strengthExercises = dayPlan.exercises.filter(ex => 
-                    ex.component === 'strength'
-                );
-                const hypertrophyEnduranceExercises = dayPlan.exercises.filter(ex => 
-                    ex.component === 'hypertrophy' || ex.component === 'endurance'
-                );
-                
-                // Speed/Power section
-                if (speedPowerExercises.length > 0) {
-                    exerciseHTML += `
-                        <div class="exercise-section field-section">
-                            <h4 class="section-header">⚡ Speed/Power Work</h4>
-                            <ul class="exercise-list">
-                                ${speedPowerExercises.map((exercise, index) => 
-                                    renderExerciseItem(exercise, 'field', day, index)
-                                ).join('')}
-                            </ul>
-                        </div>
-                    `;
+                // For HIGH days: Full vertical integration sequencing
+                if (dayPlan.type === 'high') {
+                    exerciseHTML = renderVerticalIntegrationSections(dayPlan.exercises, day);
                 }
-                
-                // Strength section
-                if (strengthExercises.length > 0) {
-                    exerciseHTML += `
-                        <div class="exercise-section lifting-section">
-                            <h4 class="section-header">🏋️‍♂️ Strength Work</h4>
-                            <ul class="exercise-list">
-                                ${strengthExercises.map((exercise, index) => 
-                                    renderExerciseItem(exercise, 'lifting', day, index)
-                                ).join('')}
-                            </ul>
-                        </div>
-                    `;
+                // For MEDIUM days: Simplified sections
+                else if (dayPlan.type === 'medium') {
+                    exerciseHTML = renderMediumDaySections(dayPlan.exercises, day);
                 }
-                
-                // Hypertrophy/Endurance section
-                if (hypertrophyEnduranceExercises.length > 0) {
-                    exerciseHTML += `
-                        <div class="exercise-section">
-                            <h4 class="section-header">💪 Hypertrophy/Recovery</h4>
-                            <ul class="exercise-list">
-                                ${hypertrophyEnduranceExercises.map((exercise, index) => 
-                                    renderExerciseItem(exercise, 'accessory', day, index)
-                                ).join('')}
-                            </ul>
-                        </div>
-                    `;
+                // For LOW days: Simple recovery layout
+                else if (dayPlan.type === 'low') {
+                    exerciseHTML = renderLowDaySections(dayPlan.exercises, day);
                 }
                 
                 dayCard.innerHTML = dayHeader + exerciseHTML;
@@ -1481,6 +1663,7 @@
         function updateStats(plan) {
             let totalVolume = 0;
             let highDays = 0;
+            let mediumDays = 0;
             let lowDays = 0;
 
             Object.values(plan).forEach(day => {
@@ -1490,6 +1673,8 @@
                 
                 if (day.type === 'high') {
                     highDays++;
+                } else if (day.type === 'medium') {
+                    mediumDays++;
                 } else if (day.type === 'low') {
                     lowDays++;
                 }
@@ -1497,7 +1682,16 @@
 
             document.getElementById('weeklyVolume').textContent = totalVolume;
             document.getElementById('highIntensityDays').textContent = highDays;
-            document.getElementById('lowIntensityDays').textContent = lowDays;
+            
+            // Update the label to show medium days if present
+            const lowLabel = document.getElementById('lowDaysLabel');
+            if (mediumDays > 0) {
+                document.getElementById('lowIntensityDays').textContent = `${mediumDays}M + ${lowDays}L`;
+                lowLabel.textContent = 'Medium + Low Days';
+            } else {
+                document.getElementById('lowIntensityDays').textContent = lowDays;
+                lowLabel.textContent = 'Low CNS Days';
+            }
         }
 
         function updateProgress() {
@@ -1762,7 +1956,7 @@
             setTimeout(() => {
                 console.log('Auto-generating initial plan...');
                 generatePlan();
-                addChatMessage("Assistant", "Welcome to the 3 Anchor High-Low ME/DE/SE/RE Training System! This sample program demonstrates proper effort classifications and CNS management. Modify the parameters above or use chat commands to customize your program.");
+                addChatMessage("Assistant", "Welcome to the 3 Anchor High-Low ME/DE/SE/RE Training System! This program demonstrates proper Vertical Integration sequencing and evidence-based periodization. Modify parameters above or use chat commands to customize.");
             }, 500);
         }
 
@@ -1773,12 +1967,10 @@
             initializeApp();
         }
 
-        console.log('🏋️ High-Low ME/DE/SE/RE Training System Loaded Successfully');
-        console.log('💪 Max Effort: 85-100% loads with doorway isometric alternatives');
-        console.log('⚡ Dynamic Effort: Explosive movements with maximum intent focus');
-        console.log('🎯 Submaximal Effort: 75-85% loads for strength-endurance bridge');
-        console.log('🔄 Repetition Effort: Higher volume work for hypertrophy stimulus');
-        console.log('⚖️ High-Low System: CNS-aware weekly patterns with intelligent recovery');
+        console.log('🏋️ 3 Anchor Training System Loaded Successfully');
+        console.log('🎯 Vertical Integration: Speed → Power → Strength → Hypertrophy → Endurance');
+        console.log('⚖️ High-Low-Medium System: Intelligent CNS management with recovery optimization');
+        console.log('🔄 4-Day Split: Upper/Lower with medium day implementation');
     </script>
 </body>
 </html>
