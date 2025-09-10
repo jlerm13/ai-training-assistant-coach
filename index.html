@@ -758,7 +758,7 @@
                     </div>
                 </div>
 
-                <button class="btn" onclick="generatePlan()">🚀 Generate High-Low Program</button>
+                <button class="btn" onclick="generatePlan()">🚀 Generate Custom Program</button>
             </div>
 
             <!-- Plan Overview Panel -->
@@ -819,7 +819,7 @@
 
             <!-- Modification Panel -->
             <div class="modification-panel">
-                <h3>🔧 Intelligent Program Modifications</h3>
+                <h3>🔧 AI Powered Modifications</h3>
                 <div class="chat-interface">
                     <div id="chatHistory" style="max-height: 200px; overflow-y: auto; margin-bottom: 10px;"></div>
                     <div class="chat-input">
@@ -840,9 +840,9 @@
                 name: "Back Squat",
                 classification: "Max Effort",
                 adaptation: "Relative Strength",
-                component: "strength",
+                component: "relative strength",
                 cns: 9,
-                sets: 3, reps: 3,
+                sets: 3, reps: 5,
                 load: "85% 1RM / RPE 9",
                 rest: "3-4min",
                 notes: "Full depth, drive through heels, controlled eccentric"
@@ -851,9 +851,9 @@
                 name: "Bench Press", 
                 classification: "Max Effort",
                 adaptation: "Relative Strength",
-                component: "strength",
+                component: "relative strength",
                 cns: 6,
-                sets: 3, reps: 3,
+                sets: 3, reps: 4,
                 load: "85% 1RM / RPE 9",
                 rest: "3-4min",
                 notes: "Pause on chest, drive with legs, controlled eccentric"
@@ -862,7 +862,7 @@
                 name: "Deadlift",
                 classification: "Max Effort", 
                 adaptation: "Relative Strength",
-                component: "strength",
+                component: "relative strength",
                 cns: 10,
                 sets: 3, reps: 3,
                 load: "90% 1RM / RPE 9-10",
@@ -906,59 +906,134 @@
             },
             
             // SUBMAXIMAL EFFORT EXERCISES (75-85% 1RM)
-            front_squat: {
-                name: "Front Squat",
+            rfe_squat: {
+                name: "RFE Squat",
                 classification: "Submaximal Effort",
                 adaptation: "Functional Hypertrophy",
-                component: "strength",
+                component: "functional hypertrophy",
                 cns: 7,
-                sets: 4, reps: 5,
+                sets: 3, reps: 6,
                 load: "80% 1RM / RPE 8",
-                rest: "3min",
+                rest: "2-3min",
+                notes: "Upright torso, full ROM"
+            },
+            barbell_incline: {
+                name: "Barbell Incline Press",
+                classification: "Submaximal Effort",
+                adaptation: "Functional Hypertrophy",
+                component: "functional hypertrophy",
+                cns: 7,
+                sets: 3, reps: 6,
+                load: "80% 1RM / RPE 8",
+                rest: "2-3min",
+                notes: "Control descent, pause between reps"
+            },
+            walking_lunge: {
+                name: "Walking Lunge",
+                classification: "Submaximal Effort",
+                adaptation: "Functional Hypertrophy",
+                component: "functional hypertrophy",
+                cns: 7,
+                sets: 3, reps: 6,
+                load: "80% 1RM / RPE 8",
+                rest: "2-3min",
+                notes: "Upright torso, big lunge forward"
+            },
+            romanian_deadlift: {
+                name: "Romanian Deadlift (RDL)",
+                classification: "Submaximal Effort",
+                adaptation: "Functional Hypertrophy",
+                component: "functional hypertrophy",
+                cns: 7,
+                sets: 3, reps: 8,
+                load: "80% 1RM / RPE 8",
+                rest: "2-3min",
                 notes: "Clean grip, upright torso, drive elbows up"
             },
-            incline_press: {
-                name: "Incline Press",
+            overhead_press: {
+                name: "Overhead Press",
                 classification: "Submaximal Effort",
-                adaptation: "Functional Hypertrophy",
-                component: "strength",
+                adaptation: "Hypertrophy",
+                component: "hypertrophy",
                 cns: 5,
-                sets: 4, reps: 6,
+                sets: 3, reps: 10,
                 load: "75% 1RM / RPE 7-8", 
-                rest: "2-3min",
-                notes: "45° angle, controlled eccentric, full ROM"
+                rest: "1-2min",
+                notes: "Controlled eccentric, full ROM"
             },
-            
-            // REPETITION EFFORT EXERCISES (60-75% to failure)
             db_row: {
                 name: "Single-Arm DB Row",
-                classification: "Repetition Effort",
-                adaptation: "Strength Endurance",
+                classification: "Submixal Effort",
+                adaptation: "Hypertrophy",
                 component: "hypertrophy",
                 cns: 3,
-                sets: 4, reps: "12-15",
+                sets: 3, reps: "12",
                 load: "70% effort / RPE 7-8",
                 rest: "90s",
                 notes: "Squeeze at top, control eccentric, full ROM"
             },
-            lunges: {
-                name: "Reverse Lunges",
-                classification: "Repetition Effort", 
+            barbell_row: {
+                name: "BB Row",
+                classification: "Submixal Effort",
                 adaptation: "Hypertrophy",
                 component: "hypertrophy",
-                cns: 4,
-                sets: 3, reps: "12 each leg",
-                load: "RPE 7-8",
+                cns: 3,
+                sets: 3, reps: "12",
+                load: "70% effort / RPE 7-8",
                 rest: "90s",
-                notes: "Control descent, drive through front heel"
+                notes: "Squeeze at top, control eccentric, full ROM"
             },
-            
+            supported_row: {
+                name: "Chest Supported Row",
+                classification: "Submixal Effort",
+                adaptation: "Hypertrophy",
+                component: "hypertrophy",
+                cns: 3,
+                sets: 3, reps: "12",
+                load: "70% effort / RPE 7-8",
+                rest: "90s",
+                notes: "Squeeze at top, control eccentric, full ROM"
+            },
+            // REPETITION EFFORT EXERCISES (60-75% to failure)
+            bicep_curl: {
+                name: "Bicep Curl",
+                classification: "Repetition Effort",
+                adaptation: "Strength Endurance",
+                component: "strength endurance",
+                cns: 3,
+                sets: 2, reps: "15-20",
+                load: "70% effort / RPE 7-8",
+                rest: "30-60s",
+                notes: "Squeeze at top, control eccentric, full ROM"
+            },
+            tricep_extension: {
+                name: "Tricep Extension",
+                classification: "Repetition Effort", 
+                adaptation: "Strength Endurance",
+                component: "strength endurance",
+                cns: 4,
+                sets: 2, reps: "15-20",
+                load: "RPE 7-8",
+                rest: "30-60s",
+                notes: "Squeeze at bottom, keep elbows tight"
+            },
+            shoulder_fly: {
+                name: "DB Shoulder Fly",
+                classification: "Repetition Effort", 
+                adaptation: "Strength Endurance",
+                component: "strength endurance",
+                cns: 4,
+                sets: 2, reps: "15-20",
+                load: "RPE 7-8",
+                rest: "30-60s",
+                notes: "Squeeze at bottom, keep elbows tight"
+            },
             // BODYWEIGHT MAX EFFORT ALTERNATIVES
             doorway_squat_hold: {
                 name: "Doorway Single-Leg Squat Hold",
                 classification: "Max Effort",
                 adaptation: "Unilateral Strength",
-                component: "strength",
+                component: "relative strength",
                 cns: 7,
                 sets: 4, reps: "10-sec holds each leg",
                 load: "100% max effort isometric",
@@ -969,7 +1044,7 @@
                 name: "Doorway Chest Push (Isometric)", 
                 classification: "Max Effort",
                 adaptation: "Upper Body Strength",
-                component: "strength",
+                component: "relative strength",
                 cns: 6,
                 sets: 4, reps: "8-sec holds",
                 load: "100% max effort against immovable object",
@@ -1001,12 +1076,12 @@
                 notes: "Change direction patterns each set"
             },
             
-            // RECOVERY/ENDURANCE COMPONENTS
+            // RECOVERY/CONDITIONING COMPONENTS
             tempo_run: {
                 name: "Tempo Runs",
                 classification: "Submaximal Effort",
                 adaptation: "Aerobic Base",
-                component: "endurance",
+                component: "conditioning",
                 cns: 3,
                 sets: 1, reps: "15min",
                 load: "70-75% effort / HR Zone 2",
@@ -1017,7 +1092,7 @@
                 name: "Dynamic Mobility Flow",
                 classification: "Repetition Effort",
                 adaptation: "Movement Quality",
-                component: "endurance", 
+                component: "mobility", 
                 cns: 1,
                 sets: 2, reps: "10 each direction",
                 load: "Bodyweight / RPE 3-4",
@@ -1034,20 +1109,20 @@
                 title: "3-Day Vertical Integration - Strength Focus",
                 monday: {
                     type: "high",
-                    focus: "Full Vertical Integration - Strength Emphasis",
+                    focus: "Full Vertical Integration - Workout A",
                     exercises: [
                         // SPEED (Highest Neural, Highest Risk)
                         {...ME_DE_SE_RE_EXERCISES.sprint_20m},
-                        // POWER 
+                        // POWER (Explosive Effort)
                         {...ME_DE_SE_RE_EXERCISES.jump_squat},
-                        {...ME_DE_SE_RE_EXERCISES.power_clean},
-                        // STRENGTH (Max Effort Primary)
+                        // RELATIVE STRENGTH (Max Effort Primary)
                         {...ME_DE_SE_RE_EXERCISES.back_squat},
-                        {...ME_DE_SE_RE_EXERCISES.bench_press},
-                        // HYPERTROPHY
-                        {...ME_DE_SE_RE_EXERCISES.db_row},
-                        // ENDURANCE (Lowest Neural, Most Metabolic)
-                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                        // FUNCTIONAL HYPERTROPHY (Submaximal Effort Secondary)
+                        {...ME_DE_SE_RE_EXERCISES.barbell_incline},
+                        // HYPERTROPHY (Submaximal Effort Auxiliary)
+                        {...ME_DE_SE_RE_EXERCISES.supported_row},
+                        // STRENGTH ENDURANCE (Repetition Effort Isolation, Lowest Neural, Most Metabolic)
+                        {...ME_DE_SE_RE_EXERCISES.bicep_curl}
                     ]
                 },
                 tuesday: {
@@ -1062,19 +1137,20 @@
                 },
                 wednesday: {
                     type: "high",
-                    focus: "Full Vertical Integration - Power/Strength", 
+                    focus: "Full Vertical Integration - Workout B", 
                     exercises: [
                         // SPEED
                         {...ME_DE_SE_RE_EXERCISES.agility_ladder},
                         // POWER
-                        {...ME_DE_SE_RE_EXERCISES.med_ball_slam},
-                        // STRENGTH
-                        {...ME_DE_SE_RE_EXERCISES.deadlift},
+                        {...ME_DE_SE_RE_EXERCISES.power_clean},
+                        // RELATIVE STRENGTH
+                        {...ME_DE_SE_RE_EXERCISES.bench_press},
+                        // FUNCTIONAL HYPERTROPHY
                         {...ME_DE_SE_RE_EXERCISES.front_squat},
                         // HYPERTROPHY
-                        {...ME_DE_SE_RE_EXERCISES.incline_press, classification: "Repetition Effort", component: "hypertrophy"},
-                        // ENDURANCE
-                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                        {...ME_DE_SE_RE_EXERCISES.db_row},
+                        // STRENGTH ENDURANCE
+                        {...ME_DE_SE_RE_EXERCISES.tricep_extension}
                     ]
                 },
                 thursday: {
@@ -1089,19 +1165,20 @@
                 },
                 friday: {
                     type: "high",
-                    focus: "Full Vertical Integration - Power/Strength", 
+                    focus: "Full Vertical Integration - Workout C", 
                     exercises: [
                         // SPEED
-                        {...ME_DE_SE_RE_EXERCISES.agility_ladder},
+                        {...ME_DE_SE_RE_EXERCISES.sprint_20m},
                         // POWER
-                        {...ME_DE_SE_RE_EXERCISES.med_ball_slam},
-                        // STRENGTH
+                        {...ME_DE_SE_RE_EXERCISES.power_clean},
+                        // RELATIVE STRENGTH
                         {...ME_DE_SE_RE_EXERCISES.deadlift},
-                        {...ME_DE_SE_RE_EXERCISES.front_squat},
+                        // FUNCTIONAL HYPERTROPHY
+                        {...ME_DE_SE_RE_EXERCISES.overhead_press},
                         // HYPERTROPHY
-                        {...ME_DE_SE_RE_EXERCISES.incline_press, classification: "Repetition Effort", component: "hypertrophy"},
-                        // ENDURANCE
-                        {...ME_DE_SE_RE_EXERCISES.mobility_flow}
+                        {...ME_DE_SE_RE_EXERCISES.barbell_row},
+                        // STRENGTH ENDURANCE
+                        {...ME_DE_SE_RE_EXERCISES.shoulder_fly}
                     ]
                 },
                 saturday: {
