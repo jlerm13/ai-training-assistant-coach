@@ -1411,10 +1411,12 @@
             // Group exercises by vertical integration sequence
             const speedExercises = exercises.filter(ex => ex.component === 'speed');
             const powerExercises = exercises.filter(ex => ex.component === 'power');
-            const relativestrengthExercises = exercises.filter(ex => ex.component === 'relative strength');
-            const functional_hypertrophyExercises = exercises.filter(ex => ex.component === 'functional hypertrophy');
+            const relativeStrengthExercises = exercises.filter(ex => ex.component === 'relative strength');
+            const functionalHypertrophyExercises = exercises.filter(ex => ex.component === 'functional hypertrophy');
             const hypertrophyExercises = exercises.filter(ex => ex.component === 'hypertrophy');
-            const strength_enduranceExercises = exercises.filter(ex => ex.component === 'strength endurance');
+            const strengthEnduranceExercises = exercises.filter(ex => ex.component === 'strength endurance');
+            const conditioningExercises = exercises.filter(ex => ex.component === 'conditioning');
+            const mobilityExercises = exercises.filter(ex => ex.component === 'mobility');
             
             let html = '';
             
@@ -1446,13 +1448,27 @@
                 `;
             }
             
-            // STRENGTH Section
-            if (relativestrengthExercises.length > 0) {
+            // RELATIVE STRENGTH Section
+            if (relativeStrengthExercises.length > 0) {
                 html += `
                     <div class="exercise-section lifting-section">
                         <h4 class="section-header">🏋️‍♂️ Relative Strength Work</h4>
                         <ul class="exercise-list">
-                            ${relativestrengthExercises.map((exercise, index) => 
+                            ${relativeStrengthExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'lifting', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // FUNCTIONAL HYPERTROPHY Section
+            if (functionalHypertrophyExercises.length > 0) {
+                html += `
+                    <div class="exercise-section lifting-section">
+                        <h4 class="section-header">💪 Functional Hypertrophy</h4>
+                        <ul class="exercise-list">
+                            ${functionalHypertrophyExercises.map((exercise, index) => 
                                 renderExerciseItem(exercise, 'lifting', day, index)
                             ).join('')}
                         </ul>
@@ -1464,7 +1480,7 @@
             if (hypertrophyExercises.length > 0) {
                 html += `
                     <div class="exercise-section">
-                        <h4 class="section-header">💪 Fuctional Hypertrophy</h4>
+                        <h4 class="section-header">💪 Hypertrophy</h4>
                         <ul class="exercise-list">
                             ${hypertrophyExercises.map((exercise, index) => 
                                 renderExerciseItem(exercise, 'accessory', day, index)
@@ -1474,13 +1490,28 @@
                 `;
             }
             
-            // ENDURANCE Section (Most Metabolic)
-            if (enduranceExercises.length > 0) {
+            // STRENGTH ENDURANCE Section
+            if (strengthEnduranceExercises.length > 0) {
                 html += `
                     <div class="exercise-section">
                         <h4 class="section-header">🔄 Strength Endurance</h4>
                         <ul class="exercise-list">
-                            ${enduranceExercises.map((exercise, index) => 
+                            ${strengthEnduranceExercises.map((exercise, index) => 
+                                renderExerciseItem(exercise, 'accessory', day, index)
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // CONDITIONING/MOBILITY Section (Most Metabolic, Lowest Neural)
+            const recoveryExercises = [...conditioningExercises, ...mobilityExercises];
+            if (recoveryExercises.length > 0) {
+                html += `
+                    <div class="exercise-section">
+                        <h4 class="section-header">🔄 Conditioning/Recovery</h4>
+                        <ul class="exercise-list">
+                            ${recoveryExercises.map((exercise, index) => 
                                 renderExerciseItem(exercise, 'accessory', day, index)
                             ).join('')}
                         </ul>
