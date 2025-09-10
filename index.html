@@ -1411,10 +1411,10 @@
             // Group exercises by vertical integration sequence
             const speedExercises = exercises.filter(ex => ex.component === 'speed');
             const powerExercises = exercises.filter(ex => ex.component === 'power');
-            const strengthExercises = exercises.filter(ex => ex.component === 'strength');
-            const hypertrophyExercises = exercises.filter(ex => ex.component === 'functional hypertrophy');
+            const relativestrengthExercises = exercises.filter(ex => ex.component === 'relative strength');
+            const functional_hypertrophyExercises = exercises.filter(ex => ex.component === 'functional hypertrophy');
             const hypertrophyExercises = exercises.filter(ex => ex.component === 'hypertrophy');
-            const enduranceExercises = exercises.filter(ex => ex.component === 'strength endurance');
+            const strength_enduranceExercises = exercises.filter(ex => ex.component === 'strength endurance');
             
             let html = '';
             
@@ -1447,12 +1447,12 @@
             }
             
             // STRENGTH Section
-            if (strengthExercises.length > 0) {
+            if (relativestrengthExercises.length > 0) {
                 html += `
                     <div class="exercise-section lifting-section">
                         <h4 class="section-header">🏋️‍♂️ Relative Strength Work</h4>
                         <ul class="exercise-list">
-                            ${strengthExercises.map((exercise, index) => 
+                            ${relativestrengthExercises.map((exercise, index) => 
                                 renderExerciseItem(exercise, 'lifting', day, index)
                             ).join('')}
                         </ul>
