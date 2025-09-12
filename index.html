@@ -2508,7 +2508,7 @@
 
         // ==================== MODIFICATION FUNCTIONS ====================
         
-        function processModification() {
+        async function processModification() {
             const input = document.getElementById('chatInput');
             const command = input.value.toLowerCase().trim();
             
@@ -2517,7 +2517,31 @@
             addChatMessage("You", input.value);
             input.value = '';
 
-            // Process common modifications
+            // Try LLM processing first
+            let llmHandled = false;
+            try {
+                const response = await fetch('/api/chat-modification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: command,
+                        currentProgram: currentPlan
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    addChatMessage("Assistant", data.response);
+                    llmHandled = true;
+                }
+            } catch (error) {
+                console.log('LLM processing failed, using pattern matching fallback');
+            }
+
+            // If LLM handled the request, don't run pattern matching
+            if (llmHandled) return;
+
+            // Original pattern matching logic - unchanged
             if (command.includes('bodyweight')) {
                 makeBodyweightOnly();
             } else if (command.includes('power') && command.includes('increase')) {
