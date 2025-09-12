@@ -2525,7 +2525,16 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         message: command,
-                        currentProgram: currentPlan
+                        currentProgram: currentPlan,
+                        userProfile: {
+                            trainingAge: document.getElementById('trainingAge').value,
+                            goal: document.getElementById('trainingGoal').value,
+                            frequency: document.getElementById('splitType').value,
+                            equipment: document.getElementById('equipment').value,
+                            duration: document.getElementById('duration').value,
+                            block: document.getElementById('trainingBlock').value,
+                            blockLength: document.getElementById('blockLength').value
+                        }
                     })
                 });
                 
