@@ -616,7 +616,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Enhanced Three Anchor - Vertical Integration + ExerciseDB</h1>
+            <h1>Enhanced Three Anchor - Dynamic Classification System</h1>
             <button class="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
         </div>
 
@@ -635,7 +635,7 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('age-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="age-tech">
-                        <strong>Technical terms:</strong> CNS Capacity, Neural Adaptation Potential, Training Complexity Tolerance
+                        <strong>Dynamic Classification:</strong> Same exercises automatically adjust from Max Effort (beginners) → Submaximal Effort (intermediate) → Repetition Effort (advanced) based on your capacity.
                     </div>
                 </div>
                 
@@ -650,7 +650,7 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="goal-tech">
-                        <strong>Technical terms:</strong> Max Effort (85-100% 1RM), Dynamic Effort (50-75% max speed), Submaximal Effort (75-85%), Repetition Effort (60-75% to failure)
+                        <strong>Contextual Methods:</strong> Max Effort (85-100% 1RM), Dynamic Effort (explosive intent), Submaximal Effort (75-85%), Repetition Effort (60-75% to failure). Classifications adapt to your capacity.
                     </div>
                 </div>
 
@@ -659,11 +659,11 @@
                     <p class="field-description">High-Low pattern optimizes CNS recovery and adaptation</p>
                     <select class="dropdown" id="splitType">
                         <option value="3-day-high-low" selected>3 Days - High-Low Pattern (H-L-H-L-H-L-L)</option>
-                        <option value="4-day-high-low">4 Days - High-Low Pattern (H-L-L-H-L-L-L)</option>
+                        <option value="4-day-high-low">4 Days - High-Low Pattern (H-M-L-H-L-L-L)</option>
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="split-tech">
-                        <strong>High Days:</strong> SAQ + Heavy lifting (8-10 CNS). <strong>Low Days:</strong> Recovery + accessories (3-5 CNS). Ensures proper recovery between high CNS sessions.
+                        <strong>High Days:</strong> SAQ + Heavy lifting (8-10 CNS). <strong>Medium Days:</strong> Recovery + single lift. <strong>Low Days:</strong> Recovery + accessories (3-5 CNS).
                     </div>
                 </div>
 
@@ -689,7 +689,7 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('phase-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="phase-tech">
-                        <strong>Accumulation:</strong> Higher volume ME/SE work. <strong>Transmutation:</strong> DE/Power focus. <strong>Realization:</strong> Peak intensity. <strong>GPP:</strong> Movement quality and base building.
+                        <strong>Phase Intelligence:</strong> Accumulation (higher volume), Transmutation (explosive focus), Realization (peak intensity), GPP (movement quality). Exercises auto-adapt to phase goals.
                     </div>
                 </div>
 
@@ -713,11 +713,11 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('equipment-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="equipment-tech">
-                        <strong>Enhanced Database:</strong> Your system + ExerciseDB exercises automatically filtered by equipment. <strong>Bodyweight Max Effort:</strong> Doorway isometrics with 100% force production against immovable objects.
+                        <strong>Smart Adaptation:</strong> System automatically adapts exercise complexity and classification based on available equipment while preserving training stimulus.
                     </div>
                 </div>
 
-                <button class="btn" onclick="generatePlan()">Generate Enhanced Program</button>
+                <button class="btn" onclick="generatePlan()">Generate Smart Program</button>
             </div>
 
             <!-- Plan Overview Panel -->
@@ -741,6 +741,16 @@
 
                 <div class="collapsible">
                     <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                        Dynamic Exercise Classification
+                        <span>+</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <p>Exercises automatically adapt their classification, intensity, and volume based on your training age, current phase, and individual capacity. The same movement can be Max Effort for beginners or Repetition Effort for advanced athletes.</p>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
                         Vertical Integration Sequencing
                         <span>+</span>
                     </div>
@@ -756,16 +766,6 @@
                     </div>
                     <div class="collapsible-content">
                         <p>The High-Low training model alternates between high CNS-demanding days (8-10 CNS) and low recovery days (3-5 CNS). This optimizes adaptation while preventing overtraining and ensuring proper recovery.</p>
-                    </div>
-                </div>
-
-                <div class="collapsible">
-                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                        ME/DE/SE/RE Methods
-                        <span>+</span>
-                    </div>
-                    <div class="collapsible-content">
-                        <p><strong>Max Effort:</strong> 85-100% loads for strength. <strong>Dynamic Effort:</strong> Explosive movements for power. <strong>Submaximal:</strong> 75-85% for strength-endurance. <strong>Repetition:</strong> Higher volume for hypertrophy.</p>
                     </div>
                 </div>
 
@@ -801,6 +801,322 @@
     </div>
 
     <script>
+        // ==================== DYNAMIC CLASSIFICATION ENGINE ====================
+        
+        const DynamicClassifier = {
+            // Core method to reclassify exercises based on user context
+            reclassifyExercise(exercise, userInputs) {
+                const context = {
+                    trainingAge: userInputs.trainingAge,
+                    block: userInputs.block,
+                    equipment: userInputs.equipment,
+                    goal: userInputs.goal
+                };
+                
+                // Calculate user capacity based on training age
+                const userCapacity = this.getUserCapacity(context.trainingAge);
+                
+                // Get exercise complexity score
+                const exerciseComplexity = this.getExerciseComplexity(exercise);
+                
+                // Determine contextual classification
+                const newClassification = this.determineClassification(exercise, exerciseComplexity, userCapacity, context);
+                
+                return {
+                    ...exercise,
+                    classification: newClassification.classification,
+                    adaptation: newClassification.adaptation,
+                    component: newClassification.component,
+                    cns: newClassification.cns,
+                    sets: newClassification.sets,
+                    reps: newClassification.reps,
+                    load: newClassification.load,
+                    rest: newClassification.rest,
+                    context_note: `Adapted for ${context.trainingAge} in ${context.block} phase`,
+                    original_classification: exercise.classification // Keep track of original
+                };
+            },
+            
+            // Determine user capacity based on training age
+            getUserCapacity(trainingAge) {
+                const capacityMap = {
+                    'beginner': 3,     // Low capacity - many exercises will be challenging
+                    'intermediate': 6,  // Moderate capacity - balanced programming
+                    'advanced': 9      // High capacity - need intensity to challenge
+                };
+                return capacityMap[trainingAge] || 6;
+            },
+            
+            // Calculate exercise complexity (1-10 scale)
+            getExerciseComplexity(exercise) {
+                let complexity = 5; // Base complexity
+                const name = exercise.name.toLowerCase();
+                
+                // Compound movements are more complex
+                if (name.includes('deadlift')) complexity = 10;
+                if (name.includes('squat') && name.includes('pistol')) complexity = 9;
+                if (name.includes('clean') || name.includes('snatch')) complexity = 10;
+                if (name.includes('squat') && !name.includes('pistol')) complexity = 8;
+                if (name.includes('bench press') || name.includes('press')) complexity = 7;
+                if (name.includes('row') || name.includes('pulldown')) complexity = 6;
+                if (name.includes('lunge') || name.includes('step')) complexity = 6;
+                
+                // Unilateral movements add complexity
+                if (name.includes('single') || name.includes('one arm') || name.includes('pistol')) complexity += 1;
+                
+                // Explosive movements add complexity
+                if (name.includes('jump') || name.includes('explosive') || name.includes('slam')) complexity += 1;
+                
+                // Isometric holds are complex for beginners but easier for advanced
+                if (name.includes('hold') || name.includes('isometric')) complexity += 1;
+                
+                // Isolation movements are simpler
+                if (name.includes('curl') || name.includes('extension') || name.includes('fly')) complexity = Math.max(2, complexity - 2);
+                if (name.includes('calf') || name.includes('wrist')) complexity = Math.max(1, complexity - 3);
+                
+                // Bodyweight basics
+                if (name.includes('push-up') && !name.includes('explosive')) complexity = 4;
+                if (name.includes('mobility') || name.includes('flow')) complexity = 2;
+                
+                return Math.max(1, Math.min(10, complexity));
+            },
+            
+            // Main classification logic
+            determineClassification(exercise, exerciseComplexity, userCapacity, context) {
+                // Calculate relative difficulty for this user
+                const relativeDifficulty = exerciseComplexity / userCapacity;
+                
+                // Block phase modifications
+                let phaseModifier = this.getPhaseModifier(context.block, context.goal);
+                
+                // Apply phase modifier to relative difficulty
+                const adjustedDifficulty = relativeDifficulty * phaseModifier.intensityMultiplier;
+                
+                // Base classification on adjusted difficulty
+                let classification = this.classifyByDifficulty(adjustedDifficulty);
+                
+                // Phase-specific overrides
+                classification = this.applyPhaseOverrides(classification, phaseModifier, exercise);
+                
+                // Calculate contextual parameters
+                return this.generateContextualParameters(classification, exercise, context, adjustedDifficulty);
+            },
+            
+            // Phase-specific modifiers
+            getPhaseModifier(block, goal) {
+                const phaseMap = {
+                    'accumulation': {
+                        intensityMultiplier: 0.9,
+                        volumeEmphasis: true,
+                        preferredMethods: ['Submaximal Effort', 'Repetition Effort']
+                    },
+                    'transmutation': {
+                        intensityMultiplier: 1.1,
+                        powerEmphasis: true,
+                        preferredMethods: ['Dynamic Effort', 'Max Effort']
+                    },
+                    'realization': {
+                        intensityMultiplier: 1.2,
+                        peakingMode: true,
+                        preferredMethods: ['Max Effort', 'Dynamic Effort']
+                    },
+                    'transition-gpp': {
+                        intensityMultiplier: 0.8,
+                        recoveryMode: true,
+                        preferredMethods: ['Repetition Effort', 'Submaximal Effort']
+                    }
+                };
+                
+                return phaseMap[block] || phaseMap['accumulation'];
+            },
+            
+            // Classify based on relative difficulty
+            classifyByDifficulty(difficulty) {
+                if (difficulty >= 0.9) {
+                    return 'Max Effort';
+                } else if (difficulty >= 0.75) {
+                    return 'Submaximal Effort';
+                } else if (difficulty >= 0.6) {
+                    return 'Repetition Effort';
+                } else {
+                    return 'Repetition Effort'; // Very easy exercises default to RE
+                }
+            },
+            
+            // Apply phase-specific overrides
+            applyPhaseOverrides(classification, phaseModifier, exercise) {
+                // Transmutation phase: convert suitable exercises to Dynamic Effort
+                if (phaseModifier.powerEmphasis) {
+                    if (this.canBeExplosive(exercise)) {
+                        return 'Dynamic Effort';
+                    }
+                }
+                
+                // Accumulation phase: prefer higher volume methods
+                if (phaseModifier.volumeEmphasis && classification === 'Max Effort') {
+                    return 'Submaximal Effort';
+                }
+                
+                // Realization phase: intensify suitable exercises
+                if (phaseModifier.peakingMode && classification === 'Repetition Effort') {
+                    if (this.canBePeaked(exercise)) {
+                        return 'Submaximal Effort';
+                    }
+                }
+                
+                return classification;
+            },
+            
+            // Check if exercise can be performed explosively
+            canBeExplosive(exercise) {
+                const name = exercise.name.toLowerCase();
+                const explosiveCapable = [
+                    'squat', 'jump', 'press', 'push-up', 'row', 'pull'
+                ];
+                return explosiveCapable.some(keyword => name.includes(keyword)) && 
+                       !name.includes('curl') && !name.includes('extension');
+            },
+            
+            // Check if exercise can be peaked for competition
+            canBePeaked(exercise) {
+                const name = exercise.name.toLowerCase();
+                const peakable = [
+                    'squat', 'bench', 'press', 'deadlift', 'clean', 'snatch'
+                ];
+                return peakable.some(keyword => name.includes(keyword));
+            },
+            
+            // Generate contextual training parameters
+            generateContextualParameters(classification, exercise, context, difficulty) {
+                const baseParams = this.getBaseParameters(classification);
+                
+                // Training age adjustments
+                const ageAdjustments = this.getTrainingAgeAdjustments(context.trainingAge, difficulty);
+                
+                // Calculate CNS based on classification and context
+                const contextualCNS = this.calculateContextualCNS(exercise, classification, context, difficulty);
+                
+                return {
+                    classification: classification,
+                    adaptation: this.getAdaptation(classification),
+                    component: this.getComponent(classification),
+                    cns: contextualCNS,
+                    sets: Math.max(1, Math.round(baseParams.sets * ageAdjustments.volumeMultiplier)),
+                    reps: this.adjustReps(baseParams.reps, ageAdjustments),
+                    load: this.generateLoad(classification, context, difficulty),
+                    rest: baseParams.rest
+                };
+            },
+            
+            // Base parameters for each classification
+            getBaseParameters(classification) {
+                const paramMap = {
+                    'Max Effort': { sets: 3, reps: 5, rest: '3-4min' },
+                    'Dynamic Effort': { sets: 4, reps: 5, rest: '2-3min' },
+                    'Submaximal Effort': { sets: 3, reps: 8, rest: '2-3min' },
+                    'Repetition Effort': { sets: 2, reps: '15-20', rest: '60-90s' }
+                };
+                return paramMap[classification] || paramMap['Repetition Effort'];
+            },
+            
+            // Training age specific adjustments
+            getTrainingAgeAdjustments(trainingAge, difficulty) {
+                const adjustmentMap = {
+                    'beginner': {
+                        volumeMultiplier: difficulty > 0.8 ? 0.7 : 1.0,
+                        repReduction: difficulty > 0.8 ? 0.7 : 1.0
+                    },
+                    'intermediate': {
+                        volumeMultiplier: 1.0,
+                        repReduction: 1.0
+                    },
+                    'advanced': {
+                        volumeMultiplier: difficulty < 0.6 ? 1.3 : 1.0,
+                        repReduction: 1.0
+                    }
+                };
+                return adjustmentMap[trainingAge] || adjustmentMap['intermediate'];
+            },
+            
+            // Calculate contextual CNS score
+            calculateContextualCNS(exercise, classification, context, difficulty) {
+                let baseCNS = {
+                    'Max Effort': 8,
+                    'Dynamic Effort': 7,
+                    'Submaximal Effort': 5,
+                    'Repetition Effort': 3
+                }[classification] || 4;
+                
+                // Adjust for exercise complexity
+                const name = exercise.name.toLowerCase();
+                if (name.includes('deadlift') || name.includes('clean')) baseCNS += 2;
+                if (name.includes('squat') && !name.includes('curl')) baseCNS += 1;
+                if (name.includes('sprint') || name.includes('jump')) baseCNS += 1;
+                
+                // Training age adjustments
+                if (context.trainingAge === 'beginner' && difficulty > 0.8) {
+                    baseCNS = Math.min(baseCNS + 1, 10); // Beginners find difficult exercises more taxing
+                }
+                if (context.trainingAge === 'advanced' && difficulty < 0.6) {
+                    baseCNS = Math.max(baseCNS - 1, 1); // Advanced find easy exercises less taxing
+                }
+                
+                return Math.max(1, Math.min(10, baseCNS));
+            },
+            
+            // Get adaptation type
+            getAdaptation(classification) {
+                const adaptationMap = {
+                    'Max Effort': 'Relative Strength',
+                    'Dynamic Effort': 'Power',
+                    'Submaximal Effort': 'Functional Hypertrophy',
+                    'Repetition Effort': 'Strength Endurance'
+                };
+                return adaptationMap[classification] || 'Strength Endurance';
+            },
+            
+            // Get component type
+            getComponent(classification) {
+                const componentMap = {
+                    'Max Effort': 'relative strength',
+                    'Dynamic Effort': 'power',
+                    'Submaximal Effort': 'functional hypertrophy',
+                    'Repetition Effort': 'strength endurance'
+                };
+                return componentMap[classification] || 'strength endurance';
+            },
+            
+            // Adjust reps based on context
+            adjustReps(baseReps, ageAdjustments) {
+                if (typeof baseReps === 'string') return baseReps;
+                return Math.max(1, Math.round(baseReps * ageAdjustments.repReduction));
+            },
+            
+            // Generate contextual load prescription
+            generateLoad(classification, context, difficulty) {
+                const baseLoads = {
+                    'Max Effort': difficulty > 0.9 ? '90-95% 1RM / RPE 9-10' : '85-90% 1RM / RPE 9',
+                    'Dynamic Effort': 'Bodyweight / 100% intent',
+                    'Submaximal Effort': '75-85% 1RM / RPE 7-8',
+                    'Repetition Effort': '60-75% effort / RPE 6-7'
+                };
+                
+                let load = baseLoads[classification] || '70% effort';
+                
+                // Training age modifications
+                if (context.trainingAge === 'beginner') {
+                    load = load.replace('85-90%', '75-85%').replace('RPE 9-10', 'RPE 8-9');
+                }
+                
+                return load;
+            },
+            
+            // Batch process all exercises for a user context
+            reclassifyExerciseDatabase(exercises, userInputs) {
+                return exercises.map(exercise => this.reclassifyExercise(exercise, userInputs));
+            }
+        };
+
         // ==================== EXERCISEDB INTEGRATION LAYER ====================
         
         const ExerciseDBManager = {
@@ -1590,7 +1906,7 @@
         // ==================== ENHANCED CORE FUNCTIONS ====================
         
         async function generatePlan() {
-            console.log('Generate plan called with ExerciseDB integration');
+            console.log('Generate plan called with Dynamic Classification System');
             
             // Show loading state
             document.querySelector('.btn[onclick="generatePlan()"]').classList.add('generating');
@@ -1640,7 +1956,7 @@
                 const exerciseCount = filteredExercises.length;
                 const source = filteredExercises.some(ex => ex.source === 'exercisedb') ? 'Enhanced with ExerciseDB' : 'Original System';
                 
-                addChatMessage("Assistant", `Generated ${selectedTemplate.title} with proper Vertical Integration sequencing: Speed → Power → Strength → Hypertrophy → Endurance. Using ${source} (${exerciseCount} exercises available).`);
+                addChatMessage("Assistant", `Generated ${selectedTemplate.title} with Dynamic Classification System. Exercises automatically adapted for ${trainingAge} in ${block} phase using ${source} (${exerciseCount} exercises available).`);
                     
             } catch (error) {
                 console.error('Program generation failed:', error);
@@ -1652,29 +1968,103 @@
                 // Reset button state
                 const button = document.querySelector('.btn[onclick="generatePlan()"]');
                 button.classList.remove('generating');
-                button.textContent = 'Generate Enhanced Program';
+                button.textContent = 'Generate Smart Program';
             }
         }
         
         async function generateEnhancedProgram(template, userInputs, availableExercises) {
-            // Start with the original template structure
-            const plan = adaptTemplate(template, userInputs);
+            // STEP 1: Apply dynamic classification to all available exercises
+            console.log('Applying dynamic classification based on user context...');
+            const reclassifiedExercises = DynamicClassifier.reclassifyExerciseDatabase(availableExercises, userInputs);
             
-            // Enhance with additional exercises from ExerciseDB where appropriate
-            if (availableExercises.some(ex => ex.source === 'exercisedb')) {
-                // Add variety by occasionally substituting with ExerciseDB exercises
-                Object.keys(plan).forEach(day => {
-                    if (plan[day].type === 'high' && plan[day].exercises.length > 0) {
-                        // Potentially add one additional exercise from ExerciseDB
-                        const additionalExercise = selectAdditionalExercise(availableExercises, plan[day].exercises, userInputs);
-                        if (additionalExercise) {
-                            plan[day].exercises.push(additionalExercise);
-                        }
+            console.log(`Reclassified ${reclassifiedExercises.length} exercises for ${userInputs.trainingAge} in ${userInputs.block} phase`);
+            
+            // STEP 2: Start with the original template structure using reclassified exercises
+            const plan = adaptTemplateWithReclassifiedExercises(template, userInputs, reclassifiedExercises);
+            
+            // STEP 3: Enhance with additional exercises from the reclassified pool where appropriate
+            Object.keys(plan).forEach(day => {
+                if (plan[day].type === 'high' && plan[day].exercises.length > 0) {
+                    // Potentially add one additional exercise from the reclassified pool
+                    const additionalExercise = selectAdditionalExerciseFromReclassified(reclassifiedExercises, plan[day].exercises, userInputs);
+                    if (additionalExercise) {
+                        plan[day].exercises.push(additionalExercise);
+                        console.log(`Added contextual exercise: ${additionalExercise.name} (${additionalExercise.classification})`);
                     }
-                });
-            }
+                }
+            });
             
             return plan;
+        }
+        
+        function adaptTemplateWithReclassifiedExercises(template, userInputs, reclassifiedExercises) {
+            const plan = {};
+            
+            // Add Saturday and Sunday as rest days for 3-day plan
+            const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            
+            allDays.forEach(day => {
+                const dayKey = day.toLowerCase();
+                
+                if (template[dayKey]) {
+                    // Use template day
+                    plan[day] = {
+                        ...template[dayKey],
+                        duration: userInputs.duration,
+                        block: userInputs.block,
+                        blockLength: userInputs.blockLength,
+                        title: template.title
+                    };
+                    
+                    // Apply dynamic classification to template exercises
+                    plan[day].exercises = plan[day].exercises.map(exercise => {
+                        // Find a better match in reclassified exercises, or apply dynamic classification to current
+                        const reclassified = DynamicClassifier.reclassifyExercise(exercise, userInputs);
+                        return reclassified;
+                    });
+                } else {
+                    // Rest day
+                    plan[day] = {
+                        type: "rest",
+                        focus: "Complete Rest",
+                        exercises: [],
+                        duration: 0,
+                        title: "Rest Day"
+                    };
+                }
+            });
+            
+            return plan;
+        }
+        
+        function selectAdditionalExerciseFromReclassified(reclassifiedExercises, currentExercises, userInputs) {
+            // Select an exercise from the reclassified pool that complements the current session
+            const availableAdditional = reclassifiedExercises.filter(ex => ex.source === 'exercisedb');
+            if (availableAdditional.length === 0) return null;
+            
+            // Calculate current CNS load
+            const currentCNS = currentExercises.reduce((sum, ex) => sum + (ex.cns || 0), 0);
+            const maxCNS = userInputs.trainingAge === 'beginner' ? 25 : userInputs.trainingAge === 'advanced' ? 45 : 35;
+            
+            // Look for a low-CNS exercise that won't overload the session
+            const suitableExercises = availableAdditional.filter(ex => {
+                const wouldExceedCNS = (currentCNS + ex.cns) > maxCNS;
+                const alreadyIncluded = currentExercises.some(current => current.name === ex.name);
+                return !wouldExceedCNS && !alreadyIncluded && ex.cns <= 4;
+            });
+            
+            if (suitableExercises.length === 0) return null;
+            
+            // Prefer exercises that match the session's primary adaptation focus
+            const primaryAdaptations = currentExercises.map(ex => ex.adaptation);
+            const matchingAdaptation = suitableExercises.filter(ex => 
+                primaryAdaptations.includes(ex.adaptation)
+            );
+            
+            const finalPool = matchingAdaptation.length > 0 ? matchingAdaptation : suitableExercises;
+            
+            // Return a random suitable exercise
+            return finalPool[Math.floor(Math.random() * finalPool.length)];
         }
         
         function selectAdditionalExercise(availableExercises, currentExercises, userInputs) {
@@ -2037,10 +2427,13 @@
             const reps = exercise.reps || 'N/A';
             const quickInfo = `${sets}×${reps}`;
             
+            // Show context note if available
+            const contextNote = exercise.context_note ? `<div style="font-size: 12px; color: var(--accent-color); margin-top: 5px; font-style: italic;">${exercise.context_note}</div>` : '';
+            
             return `
                 <li class="exercise-item ${section}-exercise expandable" onclick="toggleExerciseDetail(this, event)">
                     <div class="exercise-summary">
-                        <span class="exercise-name">${exercise.name}</span>
+                        <span class="exercise-name">${exercise.name}${contextNote}</span>
                         <span class="exercise-quick-info">${quickInfo}</span>
                         <span class="expand-icon">▼</span>
                     </div>
@@ -2078,6 +2471,12 @@
                                 <strong>Component</strong>
                                 <div class="value">${exercise.component || 'N/A'}</div>
                             </div>
+                            ${exercise.original_classification && exercise.original_classification !== exercise.classification ? `
+                            <div class="param">
+                                <strong>Original Class</strong>
+                                <div class="value">${exercise.original_classification}</div>
+                            </div>
+                            ` : ''}
                             ${exercise.notes ? `
                             <div class="param full-width">
                                 <strong>Coaching Notes</strong>
@@ -2160,7 +2559,8 @@
                     const bodyweightSub = findBodyweightSubstitution(exercise);
                     return {
                         ...exercise,
-                        ...bodyweightSub
+                        ...bodyweightSub,
+                        context_note: 'Adapted to bodyweight while preserving training stimulus'
                     };
                 });
             });
@@ -2241,7 +2641,8 @@
                         sets: 4, reps: 5,
                         load: '100% max intent',
                         rest: '2min',
-                        notes: 'Explosive up, soft landing'
+                        notes: 'Explosive up, soft landing',
+                        context_note: 'Added for increased power focus'
                     };
                     dayPlan.exercises.unshift(powerExercise);
                     dayPlan.focus = dayPlan.focus.replace(/Strength|Mixed/, 'Power');
@@ -2269,6 +2670,7 @@
                         }
                         // Reduce CNS score
                         ex.cns = Math.max(1, ex.cns - 1);
+                        ex.context_note = 'CNS load reduced for recovery';
                     });
                 }
             });
@@ -2288,6 +2690,7 @@
                 dayPlan.exercises.forEach(exercise => {
                     if (exercise.sets && typeof exercise.sets === 'number') {
                         exercise.sets = Math.max(1, Math.floor(exercise.sets * (1 - percentage / 100)));
+                        exercise.context_note = `Volume reduced by ${percentage}%`;
                     }
                 });
             });
@@ -2355,6 +2758,7 @@
             const newExercise = prompt('Enter replacement exercise:');
             if (newExercise && currentPlan[day]) {
                 currentPlan[day].exercises[exerciseIndex].name = newExercise;
+                currentPlan[day].exercises[exerciseIndex].context_note = 'Custom exercise swap';
                 displayWeeklyPlan(currentPlan);
                 addChatMessage("Assistant", `Swapped exercise in ${day} session.`);
             }
@@ -2381,7 +2785,7 @@
         // ==================== INITIALIZATION ====================
         
         async function initializeApp() {
-            console.log('Enhanced Three Anchor System with ExerciseDB Integration Starting...');
+            console.log('Enhanced Three Anchor System with Dynamic Classification Starting...');
             
             // Start loading exercises in background
             ExerciseDBManager.loadExercises().then(exercises => {
@@ -2396,11 +2800,10 @@
                 const exercises = await ExerciseDBManager.loadExercises();
                 const source = exercises.some(ex => ex.source === 'exercisedb') ? 'ExerciseDB + Three Anchor Intelligence' : 'Original Three Anchor System';
                 
-                addChatMessage("Assistant", `Welcome to the Enhanced Three Anchor Training System! 
-                    Now powered by ${source} with ${exercises.length} exercises. 
-                    This system uses proper Vertical Integration sequencing: Speed → Power → Strength → Hypertrophy → Endurance, 
-                    combined with High-Low CNS management and ME/DE/SE/RE classifications. 
-                    Try modifying parameters or use chat commands!`);
+                addChatMessage("Assistant", `Welcome to the Enhanced Three Anchor Training System with Dynamic Classification! 
+                    Exercises automatically adapt their classification, intensity, and volume based on your training age, current phase, and individual capacity. 
+                    The same movement can be Max Effort for beginners or Repetition Effort for advanced athletes.
+                    Using ${source} with ${exercises.length} exercises. Try changing your training age or phase to see dynamic adaptation in action!`);
             }, 500);
         }
 
@@ -2411,15 +2814,12 @@
             initializeApp();
         }
 
-        console.log('Enhanced Three Anchor Training System with ExerciseDB Integration Loaded Successfully');
-        console.log('Exercise Database: Original system enhanced with ExerciseDB integration');
-        console.log('Max Effort: 85-100% loads with your specific classifications');
-        console.log('Dynamic Effort: Explosive movements with maximum intent focus');
-        console.log('Submaximal Effort: 75-85% loads for functional hypertrophy');
-        console.log('Repetition Effort: Higher volume work for strength endurance');
+        console.log('Enhanced Three Anchor Training System with Dynamic Classification Loaded Successfully');
+        console.log('Dynamic Classification: Same exercises adapt classification based on user context');
+        console.log('Phase Intelligence: Exercises automatically adjust for accumulation/transmutation/realization/GPP phases');
+        console.log('Training Age Adaptation: Beginner → Intermediate → Advanced contextual scaling');
         console.log('Vertical Integration: Speed → Power → Strength → Hypertrophy → Endurance sequencing');
         console.log('High-Low System: CNS-aware weekly patterns with intelligent recovery');
-        console.log('LLM-Ready: Enhanced exercise database prepared for AI-powered program generation');
     </script>
 </body>
 </html>
