@@ -616,7 +616,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Enhanced Three Anchor - Dynamic Classification System</h1>
+            <h1>Enhanced Three Anchor - Vertical Integration + ExerciseDB</h1>
             <button class="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
         </div>
 
@@ -635,7 +635,7 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('age-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="age-tech">
-                        <strong>Dynamic Classification:</strong> Same exercises automatically adjust from Max Effort (beginners) → Submaximal Effort (intermediate) → Repetition Effort (advanced) based on your capacity.
+                        <strong>Technical terms:</strong> CNS Capacity, Neural Adaptation Potential, Training Complexity Tolerance
                     </div>
                 </div>
                 
@@ -650,7 +650,7 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('goal-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="goal-tech">
-                        <strong>Contextual Methods:</strong> Max Effort (85-100% 1RM), Dynamic Effort (explosive intent), Submaximal Effort (75-85%), Repetition Effort (60-75% to failure). Classifications adapt to your capacity.
+                        <strong>Technical terms:</strong> Max Effort (85-100% 1RM), Dynamic Effort (50-75% max speed), Submaximal Effort (75-85%), Repetition Effort (60-75% to failure)
                     </div>
                 </div>
 
@@ -659,11 +659,11 @@
                     <p class="field-description">High-Low pattern optimizes CNS recovery and adaptation</p>
                     <select class="dropdown" id="splitType">
                         <option value="3-day-high-low" selected>3 Days - High-Low Pattern (H-L-H-L-H-L-L)</option>
-                        <option value="4-day-high-low">4 Days - High-Low Pattern (H-M-L-H-L-L-L)</option>
+                        <option value="4-day-high-low">4 Days - High-Low Pattern (H-L-L-H-L-L-L)</option>
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('split-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="split-tech">
-                        <strong>High Days:</strong> SAQ + Heavy lifting (8-10 CNS). <strong>Medium Days:</strong> Recovery + single lift. <strong>Low Days:</strong> Recovery + accessories (3-5 CNS).
+                        <strong>High Days:</strong> SAQ + Heavy lifting (8-10 CNS). <strong>Low Days:</strong> Recovery + accessories (3-5 CNS). Ensures proper recovery between high CNS sessions.
                     </div>
                 </div>
 
@@ -689,7 +689,7 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('phase-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="phase-tech">
-                        <strong>Phase Intelligence:</strong> Accumulation (higher volume), Transmutation (explosive focus), Realization (peak intensity), GPP (movement quality). Exercises auto-adapt to phase goals.
+                        <strong>Accumulation:</strong> Higher volume ME/SE work. <strong>Transmutation:</strong> DE/Power focus. <strong>Realization:</strong> Peak intensity. <strong>GPP:</strong> Movement quality and base building.
                     </div>
                 </div>
 
@@ -713,11 +713,11 @@
                     </select>
                     <span class="toggle-technical" onclick="toggleTechnical('equipment-tech')">Show technical details</span>
                     <div class="technical-details technical-note" id="equipment-tech">
-                        <strong>Smart Adaptation:</strong> System automatically adapts exercise complexity and classification based on available equipment while preserving training stimulus.
+                        <strong>Enhanced Database:</strong> Your system + ExerciseDB exercises automatically filtered by equipment. <strong>Bodyweight Max Effort:</strong> Doorway isometrics with 100% force production against immovable objects.
                     </div>
                 </div>
 
-                <button class="btn" onclick="generatePlan()">Generate Smart Program</button>
+                <button class="btn" onclick="generatePlan()">Generate Enhanced Program</button>
             </div>
 
             <!-- Plan Overview Panel -->
@@ -741,16 +741,6 @@
 
                 <div class="collapsible">
                     <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                        Dynamic Exercise Classification
-                        <span>+</span>
-                    </div>
-                    <div class="collapsible-content">
-                        <p>Exercises automatically adapt their classification, intensity, and volume based on your training age, current phase, and individual capacity. The same movement can be Max Effort for beginners or Repetition Effort for advanced athletes.</p>
-                    </div>
-                </div>
-
-                <div class="collapsible">
-                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
                         Vertical Integration Sequencing
                         <span>+</span>
                     </div>
@@ -766,6 +756,16 @@
                     </div>
                     <div class="collapsible-content">
                         <p>The High-Low training model alternates between high CNS-demanding days (8-10 CNS) and low recovery days (3-5 CNS). This optimizes adaptation while preventing overtraining and ensuring proper recovery.</p>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                        ME/DE/SE/RE Methods
+                        <span>+</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <p><strong>Max Effort:</strong> 85-100% loads for strength. <strong>Dynamic Effort:</strong> Explosive movements for power. <strong>Submaximal:</strong> 75-85% for strength-endurance. <strong>Repetition:</strong> Higher volume for hypertrophy.</p>
                     </div>
                 </div>
 
@@ -801,319 +801,399 @@
     </div>
 
     <script>
-        // ==================== DYNAMIC CLASSIFICATION ENGINE ====================
+        // ==================== SAMPLE PACK INTEGRATION ====================
         
-        const DynamicClassifier = {
-            // Core method to reclassify exercises based on user context
-            reclassifyExercise(exercise, userInputs) {
-                const context = {
-                    trainingAge: userInputs.trainingAge,
-                    block: userInputs.block,
-                    equipment: userInputs.equipment,
-                    goal: userInputs.goal
-                };
+        const SAMPLE_PACK_EXERCISES = [
+            {
+                "exerciseId": "2ORFMoR",
+                "name": "hack calf raise",
+                "targetMuscles": ["calves"],
+                "bodyParts": ["lower legs"],
+                "equipments": ["sled machine"],
+                "secondaryMuscles": ["hamstrings", "glutes"],
+                "instructions": ["Adjust the sled machine to a comfortable weight.", "Stand on the sled machine with your toes on the platform and your heels hanging off.", "Hold onto the handles for stability.", "Raise your heels as high as possible by pushing through the balls of your feet.", "Pause for a moment at the top, then slowly lower your heels back down to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "2Qh2J1e",
+                "name": "sled 45° leg press (side pov)",
+                "targetMuscles": ["glutes"],
+                "bodyParts": ["upper legs"],
+                "equipments": ["sled machine"],
+                "secondaryMuscles": ["quadriceps", "hamstrings", "calves"],
+                "instructions": ["Adjust the seat of the sled machine so that your knees are at a 90-degree angle when your feet are on the footplate.", "Sit on the sled machine with your back flat against the backrest and your feet shoulder-width apart on the footplate.", "Grip the handles on the sides of the seat for stability.", "Push against the footplate to extend your legs, straightening them completely.", "Pause for a moment at the top, then slowly bend your knees to lower the footplate back to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "3eGE2JC",
+                "name": "dumbbell front raise",
+                "targetMuscles": ["delts"],
+                "bodyParts": ["shoulders"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["biceps", "trapezius"],
+                "instructions": ["Stand with your feet shoulder-width apart, holding a dumbbell in each hand with your palms facing your thighs.", "Keeping your arms straight, exhale and lift the dumbbells in front of you until they are at shoulder level.", "Pause for a moment at the top, then inhale and slowly lower the dumbbells back down to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "3tAXPQ6",
+                "name": "dumbbell over bench revers wrist curl",
+                "targetMuscles": ["forearms"],
+                "bodyParts": ["lower arms"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["biceps", "brachialis"],
+                "instructions": ["Sit on a bench with your feet flat on the ground and hold a dumbbell in each hand, palms facing down.", "Rest your forearms on the bench, allowing your wrists to hang off the edge.", "Slowly curl your wrists upward, bringing the dumbbells towards your body.", "Pause for a moment at the top, then slowly lower the dumbbells back down to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "3TZduzM",
+                "name": "barbell incline bench press",
+                "targetMuscles": ["pectorals"],
+                "bodyParts": ["chest"],
+                "equipments": ["barbell"],
+                "secondaryMuscles": ["shoulders", "triceps"],
+                "instructions": ["Set up an incline bench at a 45-degree angle.", "Lie down on the bench with your feet flat on the ground.", "Grasp the barbell with an overhand grip, slightly wider than shoulder-width apart.", "Unrack the barbell and lower it slowly towards your chest, keeping your elbows at a 45-degree angle.", "Pause for a moment at the bottom, then push the barbell back up to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "3XFdb1Z",
+                "name": "cable squatting curl",
+                "targetMuscles": ["biceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["cable"],
+                "secondaryMuscles": ["forearms"],
+                "instructions": ["Attach a cable handle to the lowest setting on a cable machine.", "Stand facing the machine with your feet shoulder-width apart.", "Hold the cable handle with an underhand grip, palms facing up, and arms fully extended.", "Lower your body into a squat position, keeping your back straight and knees behind your toes.", "As you squat down, curl the cable handle towards your shoulders, keeping your elbows close to your sides.", "Pause for a moment at the top of the curl, squeezing your biceps.", "Slowly lower the cable handle back to the starting position, fully extending your arms.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "4dF3maG",
+                "name": "dumbbell one arm hammer preacher curl",
+                "targetMuscles": ["biceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["forearms"],
+                "instructions": ["Sit on a preacher bench with a dumbbell in one hand and your upper arm resting on the pad.", "Hold the dumbbell with a neutral grip (palms facing your body).", "Keeping your upper arm stationary, exhale and curl the dumbbell up towards your shoulder.", "Pause for a moment at the top, squeezing your biceps.", "Inhale and slowly lower the dumbbell back to the starting position.", "Repeat for the desired number of repetitions, then switch arms."]
+            },
+            {
+                "exerciseId": "4dUn2iv",
+                "name": "barbell standing close grip curl",
+                "targetMuscles": ["biceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["barbell"],
+                "secondaryMuscles": ["forearms"],
+                "instructions": ["Stand up straight with your feet shoulder-width apart and hold a barbell with an underhand grip, hands close together.", "Keep your elbows close to your torso and your upper arms stationary throughout the movement.", "Exhale as you curl the weights while contracting your biceps. Continue to raise the bar until your biceps are fully contracted and the bar is at shoulder level.", "Hold the contracted position for a brief pause as you squeeze your biceps.", "Inhale as you slowly begin to bring the barbell back to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "5bpPTHv",
+                "name": "kettlebell pistol squat",
+                "targetMuscles": ["glutes"],
+                "bodyParts": ["upper legs"],
+                "equipments": ["kettlebell"],
+                "secondaryMuscles": ["quadriceps", "hamstrings", "calves"],
+                "instructions": ["Stand with your feet shoulder-width apart, holding a kettlebell in front of your chest with both hands.", "Lift your left foot off the ground and extend it forward, keeping it parallel to the ground.", "Slowly lower your body down into a squat position, keeping your right foot flat on the ground and your left leg extended.", "Pause for a moment at the bottom of the squat, then push through your right heel to return to the starting position.", "Repeat for the desired number of repetitions, then switch legs."]
+            },
+            {
+                "exerciseId": "05Cf2v8",
+                "name": "impossible dips",
+                "targetMuscles": ["triceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["body weight"],
+                "secondaryMuscles": ["chest", "shoulders"],
+                "instructions": ["Position yourself between two parallel bars with your arms fully extended and your body suspended in the air.", "Bend your knees and cross your ankles.", "Lower your body by bending your elbows until your upper arms are parallel to the ground.", "Pause for a moment, then push yourself back up to the starting position by straightening your arms.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "5uFK1xr",
+                "name": "barbell seated overhead triceps extension",
+                "targetMuscles": ["triceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["barbell"],
+                "secondaryMuscles": ["shoulders"],
+                "instructions": ["Sit on a bench with your back straight and feet flat on the ground.", "Hold a barbell with an overhand grip, hands shoulder-width apart, and raise it overhead.", "Lower the barbell behind your head by bending your elbows, keeping your upper arms close to your head.", "Pause for a moment, then extend your arms to raise the barbell back to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "5v7KYld",
+                "name": "smith incline bench press",
+                "targetMuscles": ["pectorals"],
+                "bodyParts": ["chest"],
+                "equipments": ["smith machine"],
+                "secondaryMuscles": ["shoulders", "triceps"],
+                "instructions": ["Adjust the bench to a 30-45 degree incline.", "Sit on the bench with your back flat against the pad and feet firmly on the ground.", "Grasp the barbell with an overhand grip slightly wider than shoulder-width apart.", "Unrack the barbell and lower it slowly towards your upper chest, keeping your elbows slightly tucked in.", "Pause for a moment at the bottom, then push the barbell back up to the starting position, fully extending your arms.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "6bOA1Oi",
+                "name": "weighted side bend (on stability ball)",
+                "targetMuscles": ["abs"],
+                "bodyParts": ["waist"],
+                "equipments": ["weighted"],
+                "secondaryMuscles": ["obliques", "lower back"],
+                "instructions": ["Sit on a stability ball with your feet shoulder-width apart and flat on the ground.", "Hold a weight in one hand and place your other hand on your hip.", "Engage your core and slowly bend sideways towards the weighted side, keeping your back straight.", "Pause for a moment at the bottom, then slowly return to the starting position.", "Repeat for the desired number of repetitions, then switch sides."]
+            },
+            {
+                "exerciseId": "6cKQC5E",
+                "name": "dumbbell one arm upright row",
+                "targetMuscles": ["delts"],
+                "bodyParts": ["shoulders"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["traps", "biceps"],
+                "instructions": ["Stand with your feet shoulder-width apart, holding a dumbbell in one hand with an overhand grip.", "Let the dumbbell hang at arm's length in front of your thighs, with your palm facing your body.", "Keeping your back straight and your core engaged, exhale and lift the dumbbell straight up towards your chin, leading with your elbow.", "Pause for a moment at the top, then inhale and slowly lower the dumbbell back down to the starting position.", "Repeat for the desired number of repetitions, then switch to the other arm."]
+            },
+            {
+                "exerciseId": "6HiHHe0",
+                "name": "barbell standing rocking leg calf raise",
+                "targetMuscles": ["calves"],
+                "bodyParts": ["lower legs"],
+                "equipments": ["barbell"],
+                "secondaryMuscles": ["hamstrings", "quadriceps"],
+                "instructions": ["Stand with your feet shoulder-width apart and hold a barbell across your upper back.", "Raise your heels off the ground as high as possible, balancing on the balls of your feet.", "Slowly lower your heels back down to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "6kSxYnw",
+                "name": "barbell wrist curl v. 2",
+                "targetMuscles": ["forearms"],
+                "bodyParts": ["lower arms"],
+                "equipments": ["barbell"],
+                "secondaryMuscles": ["biceps", "brachialis"],
+                "instructions": ["Sit on a bench with your feet flat on the ground and your knees bent.", "Hold a barbell with an underhand grip, palms facing up, and your hands shoulder-width apart.", "Rest your forearms on your thighs, allowing your wrists to hang off the edge.", "Slowly curl your wrists upward, bringing the barbell towards your forearms.", "Pause for a moment at the top, then slowly lower the barbell back down to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "6MfS53i",
+                "name": "dumbbell lying single extension",
+                "targetMuscles": ["triceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["shoulders"],
+                "instructions": ["Lie flat on a bench with a dumbbell in one hand and your arm fully extended above your chest.", "Lower the dumbbell in a controlled manner towards your forehead, keeping your upper arm stationary.", "Pause briefly at the bottom of the movement, then extend your arm back to the starting position.", "Repeat for the desired number of repetitions, then switch arms."]
+            },
+            {
+                "exerciseId": "6sMAmNv",
+                "name": "dumbbell reverse spider curl",
+                "targetMuscles": ["biceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["forearms"],
+                "instructions": ["Stand up straight with a dumbbell in each hand, palms facing your body and arms fully extended.", "Keeping your upper arms stationary, exhale and curl the weights while contracting your biceps.", "Continue to raise the dumbbells until your biceps are fully contracted and the dumbbells are at shoulder level.", "Hold the contracted position for a brief pause as you squeeze your biceps.", "Inhale and slowly begin to lower the dumbbells back to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "6sYyrRX",
+                "name": "bent knee lying twist (male)",
+                "targetMuscles": ["glutes"],
+                "bodyParts": ["upper legs"],
+                "equipments": ["body weight"],
+                "secondaryMuscles": ["obliques", "hip flexors"],
+                "instructions": ["Lie flat on your back with your knees bent and feet flat on the ground.", "Extend your arms out to the sides, perpendicular to your body.", "Keeping your knees together, slowly lower them to one side, aiming to touch the ground with your knees.", "Pause for a moment, then engage your core and slowly lift your knees back to the starting position.", "Repeat the movement to the other side.", "Continue alternating sides for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "7F1DVzn",
+                "name": "lever front pulldown",
+                "targetMuscles": ["lats"],
+                "bodyParts": ["back"],
+                "equipments": ["leverage machine"],
+                "secondaryMuscles": ["biceps", "rhomboids", "rear deltoids"],
+                "instructions": ["Adjust the seat height and position yourself on the machine with your knees under the pads and your feet flat on the ground.", "Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.", "Sit upright with your chest lifted and your shoulders back, maintaining a slight arch in your lower back.", "Engage your lats and pull the handles down towards your chest, squeezing your shoulder blades together.", "Pause for a moment at the bottom of the movement, then slowly release the handles back to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "7I6LNUG",
+                "name": "lever seated row",
+                "targetMuscles": ["upper back"],
+                "bodyParts": ["back"],
+                "equipments": ["leverage machine"],
+                "secondaryMuscles": ["biceps", "forearms"],
+                "instructions": ["Adjust the seat height and footrests to a comfortable position.", "Sit on the machine with your chest against the pad and your feet on the footrests.", "Grasp the handles with an overhand grip, shoulder-width apart.", "Keep your back straight and your core engaged.", "Pull the handles towards your body, squeezing your shoulder blades together.", "Pause for a moment at the peak of the movement.", "Slowly release the handles and return to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "7inpWch",
+                "name": "dumbbell standing concentration curl",
+                "targetMuscles": ["biceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["forearms"],
+                "instructions": ["Stand with your feet shoulder-width apart and hold a dumbbell in one hand, with your arm fully extended and palm facing inwards.", "Place your opposite hand on your thigh for support.", "Keeping your upper arm stationary, exhale and curl the dumbbell towards your shoulder by contracting your biceps.", "Continue to raise the dumbbell until your biceps are fully contracted and the dumbbell is at shoulder level.", "Hold the contracted position for a brief pause as you squeeze your biceps.", "Inhale and slowly lower the dumbbell back to the starting position.", "Repeat for the desired number of repetitions, then switch arms."]
+            },
+            {
+                "exerciseId": "7saC5zz",
+                "name": "cable decline fly",
+                "targetMuscles": ["pectorals"],
+                "bodyParts": ["chest"],
+                "equipments": ["cable"],
+                "secondaryMuscles": ["shoulders", "triceps"],
+                "instructions": ["Adjust the cable machine to a decline position.", "Stand facing away from the machine with your feet shoulder-width apart.", "Hold the handles with your palms facing forward and your arms extended straight out in front of you.", "Keeping a slight bend in your elbows, open your arms out to the sides in a controlled motion.", "Pause for a moment at the fully extended position, then slowly return to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "7zdxRTl",
+                "name": "smith leg press",
+                "targetMuscles": ["glutes"],
+                "bodyParts": ["upper legs"],
+                "equipments": ["smith machine"],
+                "secondaryMuscles": ["quadriceps", "hamstrings", "calves"],
+                "instructions": ["Adjust the seat and footplate of the smith machine to a comfortable position.", "Sit on the machine with your back against the backrest and your feet shoulder-width apart on the footplate.", "Grasp the handles or sides of the machine for stability.", "Push the footplate away from you by extending your legs, keeping your back against the backrest.", "Pause for a moment at the fully extended position.", "Slowly bend your knees and lower the footplate back towards you, returning to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "8eqjhOl",
+                "name": "dumbbell palms in incline bench press",
+                "targetMuscles": ["triceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["dumbbell"],
+                "secondaryMuscles": ["chest", "shoulders"],
+                "instructions": ["Set up an incline bench at a 45-degree angle.", "Sit on the bench with your back against the backrest and feet flat on the ground.", "Hold a dumbbell in each hand with an overhand grip, palms facing inwards.", "Extend your arms straight up above your chest, keeping a slight bend in your elbows.", "Lower the dumbbells slowly towards your shoulders, keeping your elbows close to your body.", "Pause for a moment at the bottom, then press the dumbbells back up to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "8K0w2yA",
+                "name": "assisted hanging knee raise with throw down",
+                "targetMuscles": ["abs"],
+                "bodyParts": ["waist"],
+                "equipments": ["assisted"],
+                "secondaryMuscles": ["hip flexors", "lower back"],
+                "instructions": ["Hang from a pull-up bar with your arms fully extended and your palms facing away from you.", "Engage your core and lift your knees towards your chest, keeping your legs together.", "Once your knees are at chest level, explosively throw your legs down towards the ground, extending them fully.", "Allow your legs to swing back up and repeat the movement for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "8oYqOt9",
+                "name": "cable seated curl",
+                "targetMuscles": ["biceps"],
+                "bodyParts": ["upper arms"],
+                "equipments": ["cable"],
+                "secondaryMuscles": ["forearms"],
+                "instructions": ["Sit on a cable machine with your feet flat on the ground and your back straight.", "Grasp the cable attachment with an underhand grip, palms facing up, and your arms fully extended.", "Keeping your upper arms stationary, exhale and curl the cable attachment towards your shoulders, contracting your biceps.", "Pause for a moment at the top of the movement, squeezing your biceps.", "Inhale and slowly lower the cable attachment back to the starting position, fully extending your arms.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "8ozhUIZ",
+                "name": "barbell standing calf raise",
+                "targetMuscles": ["calves"],
+                "bodyParts": ["lower legs"],
+                "equipments": ["barbell"],
+                "secondaryMuscles": ["hamstrings", "glutes"],
+                "instructions": ["Stand with your feet shoulder-width apart and place a barbell across your upper back.", "Raise your heels off the ground as high as possible, using only your toes.", "Pause for a moment at the top, then slowly lower your heels back down to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "8urJS9b",
+                "name": "weighted hyperextension (on stability ball)",
+                "targetMuscles": ["spine"],
+                "bodyParts": ["back"],
+                "equipments": ["weighted"],
+                "secondaryMuscles": ["glutes", "hamstrings"],
+                "instructions": ["Position yourself face down on a stability ball with your hips resting on the ball and your feet against a wall for stability.", "Place your hands behind your head or cross them over your chest.", "Engage your core and slowly lift your upper body off the ball, extending your back until your body forms a straight line.", "Pause for a moment at the top, then slowly lower your upper body back down to the starting position.", "Repeat for the desired number of repetitions."]
+            },
+            {
+                "exerciseId": "8xUv4J7",
+                "name": "cable seated crunch",
+                "targetMuscles": ["abs"],
+                "bodyParts": ["waist"],
+                "equipments": ["cable"],
+                "secondaryMuscles": ["obliques"],
+                "instructions": ["Sit on a cable machine with your feet flat on the ground and your knees bent.", "Hold the cable handle with both hands and position it behind your head.", "Engage your abs and slowly curl your upper body forward, bringing your chest towards your knees.", "Pause for a moment at the top, then slowly return to the starting position.", "Repeat for the desired number of repetitions."]
+            }
+        ];
+
+        const SamplePackClassifier = {
+            convertSamplePackExercises() {
+                return SAMPLE_PACK_EXERCISES.map(exercise => {
+                    const threeAnchorExercise = this.classifyForThreeAnchor(exercise);
+                    return {
+                        ...threeAnchorExercise,
+                        source: 'sample_pack',
+                        exerciseId: exercise.exerciseId,
+                        originalData: exercise
+                    };
+                });
+            },
+            
+            classifyForThreeAnchor(exercise) {
+                const name = exercise.name.toLowerCase();
+                const equipment = exercise.equipments[0] || 'body weight';
+                const targetMuscles = exercise.targetMuscles;
+                const bodyParts = exercise.bodyParts;
                 
-                // Calculate user capacity based on training age
-                const userCapacity = this.getUserCapacity(context.trainingAge);
+                // Determine classification based on exercise characteristics
+                let classification, adaptation, component, cns, sets, reps, load, rest;
                 
-                // Get exercise complexity score
-                const exerciseComplexity = this.getExerciseComplexity(exercise);
-                
-                // Determine contextual classification
-                const newClassification = this.determineClassification(exercise, exerciseComplexity, userCapacity, context);
+                // Max Effort exercises (compound, heavy)
+                if (this.isMaxEffort(name, equipment)) {
+                    classification = "Max Effort";
+                    adaptation = "Relative Strength";
+                    component = "relative strength";
+                    cns = this.calculateCNS(name, equipment, 'max_effort');
+                    sets = 3;
+                    reps = name.includes('pistol') ? 5 : 4; // Single leg exercises get more reps
+                    load = "85% 1RM / RPE 9";
+                    rest = "3-4min";
+                }
+                // Dynamic Effort exercises (explosive, power)
+                else if (this.isDynamicEffort(name)) {
+                    classification = "Dynamic Effort";
+                    adaptation = "Power";
+                    component = "power";
+                    cns = this.calculateCNS(name, equipment, 'dynamic_effort');
+                    sets = 4;
+                    reps = 5;
+                    load = "Bodyweight / 100% intent";
+                    rest = "2min";
+                }
+                // Submaximal Effort exercises (moderate intensity compounds)
+                else if (this.isSubmaximalEffort(name, equipment)) {
+                    classification = "Submaximal Effort";
+                    adaptation = "Functional Hypertrophy";
+                    component = "functional hypertrophy";
+                    cns = this.calculateCNS(name, equipment, 'submaximal_effort');
+                    sets = 3;
+                    reps = 6;
+                    load = "80% 1RM / RPE 8";
+                    rest = "2-3min";
+                }
+                // Repetition Effort exercises (isolation, higher volume)
+                else {
+                    classification = "Repetition Effort";
+                    adaptation = "Strength Endurance";
+                    component = "strength endurance";
+                    cns = this.calculateCNS(name, equipment, 'repetition_effort');
+                    sets = 2;
+                    reps = "15-20";
+                    load = "70% effort / RPE 7-8";
+                    rest = "30-60s";
+                }
                 
                 return {
-                    ...exercise,
-                    classification: newClassification.classification,
-                    adaptation: newClassification.adaptation,
-                    component: newClassification.component,
-                    cns: newClassification.cns,
-                    sets: newClassification.sets,
-                    reps: newClassification.reps,
-                    load: newClassification.load,
-                    rest: newClassification.rest,
-                    context_note: `Adapted for ${context.trainingAge} in ${context.block} phase`,
-                    original_classification: exercise.classification // Keep track of original
-                };
-            },
-            
-            // Determine user capacity based on training age
-            getUserCapacity(trainingAge) {
-                const capacityMap = {
-                    'beginner': 3,     // Low capacity - many exercises will be challenging
-                    'intermediate': 6,  // Moderate capacity - balanced programming
-                    'advanced': 9      // High capacity - need intensity to challenge
-                };
-                return capacityMap[trainingAge] || 6;
-            },
-            
-            // Calculate exercise complexity (1-10 scale)
-            getExerciseComplexity(exercise) {
-                let complexity = 5; // Base complexity
-                const name = exercise.name.toLowerCase();
-                
-                // Compound movements are more complex
-                if (name.includes('deadlift')) complexity = 10;
-                if (name.includes('squat') && name.includes('pistol')) complexity = 9;
-                if (name.includes('clean') || name.includes('snatch')) complexity = 10;
-                if (name.includes('squat') && !name.includes('pistol')) complexity = 8;
-                if (name.includes('bench press') || name.includes('press')) complexity = 7;
-                if (name.includes('row') || name.includes('pulldown')) complexity = 6;
-                if (name.includes('lunge') || name.includes('step')) complexity = 6;
-                
-                // Unilateral movements add complexity
-                if (name.includes('single') || name.includes('one arm') || name.includes('pistol')) complexity += 1;
-                
-                // Explosive movements add complexity
-                if (name.includes('jump') || name.includes('explosive') || name.includes('slam')) complexity += 1;
-                
-                // Isometric holds are complex for beginners but easier for advanced
-                if (name.includes('hold') || name.includes('isometric')) complexity += 1;
-                
-                // Isolation movements are simpler
-                if (name.includes('curl') || name.includes('extension') || name.includes('fly')) complexity = Math.max(2, complexity - 2);
-                if (name.includes('calf') || name.includes('wrist')) complexity = Math.max(1, complexity - 3);
-                
-                // Bodyweight basics
-                if (name.includes('push-up') && !name.includes('explosive')) complexity = 4;
-                if (name.includes('mobility') || name.includes('flow')) complexity = 2;
-                
-                return Math.max(1, Math.min(10, complexity));
-            },
-            
-            // Main classification logic
-            determineClassification(exercise, exerciseComplexity, userCapacity, context) {
-                // Calculate relative difficulty for this user
-                const relativeDifficulty = exerciseComplexity / userCapacity;
-                
-                // Block phase modifications
-                let phaseModifier = this.getPhaseModifier(context.block, context.goal);
-                
-                // Apply phase modifier to relative difficulty
-                const adjustedDifficulty = relativeDifficulty * phaseModifier.intensityMultiplier;
-                
-                // Base classification on adjusted difficulty
-                let classification = this.classifyByDifficulty(adjustedDifficulty);
-                
-                // Phase-specific overrides
-                classification = this.applyPhaseOverrides(classification, phaseModifier, exercise);
-                
-                // Calculate contextual parameters
-                return this.generateContextualParameters(classification, exercise, context, adjustedDifficulty);
-            },
-            
-            // Phase-specific modifiers
-            getPhaseModifier(block, goal) {
-                const phaseMap = {
-                    'accumulation': {
-                        intensityMultiplier: 0.9,
-                        volumeEmphasis: true,
-                        preferredMethods: ['Submaximal Effort', 'Repetition Effort']
-                    },
-                    'transmutation': {
-                        intensityMultiplier: 1.1,
-                        powerEmphasis: true,
-                        preferredMethods: ['Dynamic Effort', 'Max Effort']
-                    },
-                    'realization': {
-                        intensityMultiplier: 1.2,
-                        peakingMode: true,
-                        preferredMethods: ['Max Effort', 'Dynamic Effort']
-                    },
-                    'transition-gpp': {
-                        intensityMultiplier: 0.8,
-                        recoveryMode: true,
-                        preferredMethods: ['Repetition Effort', 'Submaximal Effort']
-                    }
-                };
-                
-                return phaseMap[block] || phaseMap['accumulation'];
-            },
-            
-            // Classify based on relative difficulty
-            classifyByDifficulty(difficulty) {
-                if (difficulty >= 0.9) {
-                    return 'Max Effort';
-                } else if (difficulty >= 0.75) {
-                    return 'Submaximal Effort';
-                } else if (difficulty >= 0.6) {
-                    return 'Repetition Effort';
-                } else {
-                    return 'Repetition Effort'; // Very easy exercises default to RE
-                }
-            },
-            
-            // Apply phase-specific overrides
-            applyPhaseOverrides(classification, phaseModifier, exercise) {
-                // Transmutation phase: convert suitable exercises to Dynamic Effort
-                if (phaseModifier.powerEmphasis) {
-                    if (this.canBeExplosive(exercise)) {
-                        return 'Dynamic Effort';
-                    }
-                }
-                
-                // Accumulation phase: prefer higher volume methods
-                if (phaseModifier.volumeEmphasis && classification === 'Max Effort') {
-                    return 'Submaximal Effort';
-                }
-                
-                // Realization phase: intensify suitable exercises
-                if (phaseModifier.peakingMode && classification === 'Repetition Effort') {
-                    if (this.canBePeaked(exercise)) {
-                        return 'Submaximal Effort';
-                    }
-                }
-                
-                return classification;
-            },
-            
-            // Check if exercise can be performed explosively
-            canBeExplosive(exercise) {
-                const name = exercise.name.toLowerCase();
-                const explosiveCapable = [
-                    'squat', 'jump', 'press', 'push-up', 'row', 'pull'
-                ];
-                return explosiveCapable.some(keyword => name.includes(keyword)) && 
-                       !name.includes('curl') && !name.includes('extension');
-            },
-            
-            // Check if exercise can be peaked for competition
-            canBePeaked(exercise) {
-                const name = exercise.name.toLowerCase();
-                const peakable = [
-                    'squat', 'bench', 'press', 'deadlift', 'clean', 'snatch'
-                ];
-                return peakable.some(keyword => name.includes(keyword));
-            },
-            
-            // Generate contextual training parameters
-            generateContextualParameters(classification, exercise, context, difficulty) {
-                const baseParams = this.getBaseParameters(classification);
-                
-                // Training age adjustments
-                const ageAdjustments = this.getTrainingAgeAdjustments(context.trainingAge, difficulty);
-                
-                // Calculate CNS based on classification and context
-                const contextualCNS = this.calculateContextualCNS(exercise, classification, context, difficulty);
-                
-                return {
+                    name: exercise.name,
                     classification: classification,
-                    adaptation: this.getAdaptation(classification),
-                    component: this.getComponent(classification),
-                    cns: contextualCNS,
-                    sets: Math.max(1, Math.round(baseParams.sets * ageAdjustments.volumeMultiplier)),
-                    reps: this.adjustReps(baseParams.reps, ageAdjustments),
-                    load: this.generateLoad(classification, context, difficulty),
-                    rest: baseParams.rest
+                    adaptation: adaptation,
+                    component: component,
+                    cns: cns,
+                    sets: sets,
+                    reps: reps,
+                    load: load,
+                    rest: rest,
+                    notes: exercise.instructions[0] || "Focus on proper form and controlled movement",
+                    equipment: exercise.equipments,
+                    bodyParts: exercise.bodyParts,
+                    targetMuscles: exercise.targetMuscles
                 };
             },
             
-            // Base parameters for each classification
-            getBaseParameters(classification) {
-                const paramMap = {
-                    'Max Effort': { sets: 3, reps: 5, rest: '3-4min' },
-                    'Dynamic Effort': { sets: 4, reps: 5, rest: '2-3min' },
-                    'Submaximal Effort': { sets: 3, reps: 8, rest: '2-3min' },
-                    'Repetition Effort': { sets: 2, reps: '15-20', rest: '60-90s' }
-                };
-                return paramMap[classification] || paramMap['Repetition Effort'];
+            isMaxEffort(name, equipment) {
+                // Heavy compound movements
+                const maxEffortKeywords = ['bench press', 'incline bench', 'pistol squat', 'leg press'];
+                return maxEffortKeywords.some(keyword => name.includes(keyword));
             },
             
-            // Training age specific adjustments
-            getTrainingAgeAdjustments(trainingAge, difficulty) {
-                const adjustmentMap = {
-                    'beginner': {
-                        volumeMultiplier: difficulty > 0.8 ? 0.7 : 1.0,
-                        repReduction: difficulty > 0.8 ? 0.7 : 1.0
-                    },
-                    'intermediate': {
-                        volumeMultiplier: 1.0,
-                        repReduction: 1.0
-                    },
-                    'advanced': {
-                        volumeMultiplier: difficulty < 0.6 ? 1.3 : 1.0,
-                        repReduction: 1.0
-                    }
-                };
-                return adjustmentMap[trainingAge] || adjustmentMap['intermediate'];
+            isDynamicEffort(name) {
+                // Explosive or power movements
+                const dynamicKeywords = ['impossible dips', 'pistol squat'];
+                return dynamicKeywords.some(keyword => name.includes(keyword)) && name.includes('explosive');
             },
             
-            // Calculate contextual CNS score
-            calculateContextualCNS(exercise, classification, context, difficulty) {
+            isSubmaximalEffort(name, equipment) {
+                // Moderate intensity compounds and machine work
+                const submaximalKeywords = ['pulldown', 'seated row', 'lever', 'smith', 'upright row'];
+                return submaximalKeywords.some(keyword => name.includes(keyword));
+            },
+            
+            calculateCNS(name, equipment, classification) {
                 let baseCNS = {
-                    'Max Effort': 8,
-                    'Dynamic Effort': 7,
-                    'Submaximal Effort': 5,
-                    'Repetition Effort': 3
+                    'max_effort': 8,
+                    'dynamic_effort': 7,
+                    'submaximal_effort': 6,
+                    'repetition_effort': 3
                 }[classification] || 4;
                 
-                // Adjust for exercise complexity
-                const name = exercise.name.toLowerCase();
-                if (name.includes('deadlift') || name.includes('clean')) baseCNS += 2;
-                if (name.includes('squat') && !name.includes('curl')) baseCNS += 1;
-                if (name.includes('sprint') || name.includes('jump')) baseCNS += 1;
-                
-                // Training age adjustments
-                if (context.trainingAge === 'beginner' && difficulty > 0.8) {
-                    baseCNS = Math.min(baseCNS + 1, 10); // Beginners find difficult exercises more taxing
-                }
-                if (context.trainingAge === 'advanced' && difficulty < 0.6) {
-                    baseCNS = Math.max(baseCNS - 1, 1); // Advanced find easy exercises less taxing
-                }
+                // Adjust based on exercise characteristics
+                if (name.includes('press') && name.includes('bench')) baseCNS += 1;
+                if (name.includes('pistol')) baseCNS += 2; // Single leg is very demanding
+                if (name.includes('impossible')) baseCNS += 1; // Advanced bodyweight
+                if (name.includes('curl') || name.includes('raise')) baseCNS -= 1; // Isolation
+                if (name.includes('calf') || name.includes('wrist')) baseCNS -= 2; // Small muscle groups
                 
                 return Math.max(1, Math.min(10, baseCNS));
-            },
-            
-            // Get adaptation type
-            getAdaptation(classification) {
-                const adaptationMap = {
-                    'Max Effort': 'Relative Strength',
-                    'Dynamic Effort': 'Power',
-                    'Submaximal Effort': 'Functional Hypertrophy',
-                    'Repetition Effort': 'Strength Endurance'
-                };
-                return adaptationMap[classification] || 'Strength Endurance';
-            },
-            
-            // Get component type
-            getComponent(classification) {
-                const componentMap = {
-                    'Max Effort': 'relative strength',
-                    'Dynamic Effort': 'power',
-                    'Submaximal Effort': 'functional hypertrophy',
-                    'Repetition Effort': 'strength endurance'
-                };
-                return componentMap[classification] || 'strength endurance';
-            },
-            
-            // Adjust reps based on context
-            adjustReps(baseReps, ageAdjustments) {
-                if (typeof baseReps === 'string') return baseReps;
-                return Math.max(1, Math.round(baseReps * ageAdjustments.repReduction));
-            },
-            
-            // Generate contextual load prescription
-            generateLoad(classification, context, difficulty) {
-                const baseLoads = {
-                    'Max Effort': difficulty > 0.9 ? '90-95% 1RM / RPE 9-10' : '85-90% 1RM / RPE 9',
-                    'Dynamic Effort': 'Bodyweight / 100% intent',
-                    'Submaximal Effort': '75-85% 1RM / RPE 7-8',
-                    'Repetition Effort': '60-75% effort / RPE 6-7'
-                };
-                
-                let load = baseLoads[classification] || '70% effort';
-                
-                // Training age modifications
-                if (context.trainingAge === 'beginner') {
-                    load = load.replace('85-90%', '75-85%').replace('RPE 9-10', 'RPE 8-9');
-                }
-                
-                return load;
-            },
-            
-            // Batch process all exercises for a user context
-            reclassifyExerciseDatabase(exercises, userInputs) {
-                return exercises.map(exercise => this.reclassifyExercise(exercise, userInputs));
             }
         };
 
@@ -1125,35 +1205,23 @@
             
             async loadExercises() {
                 if (this.cached_exercises) return this.cached_exercises;
-                if (this.loading) return this.getOriginalExercises();
                 
-                this.loading = true;
-                console.log('Loading exercises from ExerciseDB...');
+                console.log('Loading exercises: Original + Sample Pack...');
                 
-                try {
-                    // Using ExerciseDB API with fallback
-                    const response = await fetch('https://exercisedb-api-lemon.vercel.app/api/v1/exercises');
-                    
-                    if (!response.ok) throw new Error('ExerciseDB API failed');
-                    
-                    const exerciseDBData = await response.json();
-                    console.log(`Loaded ${exerciseDBData.length} exercises from ExerciseDB`);
-                    
-                    // Enhance with Three Anchor classifications
-                    const enhancedExercises = this.enhanceWithThreeAnchor(exerciseDBData.slice(0, 100)); // Limit for performance
-                    
-                    // Combine with original system
-                    this.cached_exercises = [...this.getOriginalExercises(), ...enhancedExercises];
-                    console.log(`Total exercise database: ${this.cached_exercises.length} exercises`);
-                    return this.cached_exercises;
-                    
-                } catch (error) {
-                    console.warn('ExerciseDB failed, using original system:', error);
-                    this.cached_exercises = this.getOriginalExercises();
-                    return this.cached_exercises;
-                } finally {
-                    this.loading = false;
-                }
+                // Get original exercises
+                const originalExercises = this.getOriginalExercises();
+                
+                // Get sample pack exercises
+                const samplePackExercises = SamplePackClassifier.convertSamplePackExercises();
+                
+                // Combine all exercises
+                this.cached_exercises = [...originalExercises, ...samplePackExercises];
+                
+                console.log(`Total exercise database: ${this.cached_exercises.length} exercises`);
+                console.log(`- Original Three Anchor: ${originalExercises.length} exercises`);
+                console.log(`- Sample Pack: ${samplePackExercises.length} exercises`);
+                
+                return this.cached_exercises;
             },
             
             enhanceWithThreeAnchor(exerciseDBData) {
@@ -1906,7 +1974,7 @@
         // ==================== ENHANCED CORE FUNCTIONS ====================
         
         async function generatePlan() {
-            console.log('Generate plan called with Dynamic Classification System');
+            console.log('Generate plan called with ExerciseDB integration');
             
             // Show loading state
             document.querySelector('.btn[onclick="generatePlan()"]').classList.add('generating');
@@ -1956,7 +2024,7 @@
                 const exerciseCount = filteredExercises.length;
                 const source = filteredExercises.some(ex => ex.source === 'exercisedb') ? 'Enhanced with ExerciseDB' : 'Original System';
                 
-                addChatMessage("Assistant", `Generated ${selectedTemplate.title} with Dynamic Classification System. Exercises automatically adapted for ${trainingAge} in ${block} phase using ${source} (${exerciseCount} exercises available).`);
+                addChatMessage("Assistant", `Generated ${selectedTemplate.title} with proper Vertical Integration sequencing: Speed → Power → Strength → Hypertrophy → Endurance. Using ${source} (${exerciseCount} exercises available).`);
                     
             } catch (error) {
                 console.error('Program generation failed:', error);
@@ -1968,103 +2036,29 @@
                 // Reset button state
                 const button = document.querySelector('.btn[onclick="generatePlan()"]');
                 button.classList.remove('generating');
-                button.textContent = 'Generate Smart Program';
+                button.textContent = 'Generate Enhanced Program';
             }
         }
         
         async function generateEnhancedProgram(template, userInputs, availableExercises) {
-            // STEP 1: Apply dynamic classification to all available exercises
-            console.log('Applying dynamic classification based on user context...');
-            const reclassifiedExercises = DynamicClassifier.reclassifyExerciseDatabase(availableExercises, userInputs);
+            // Start with the original template structure
+            const plan = adaptTemplate(template, userInputs);
             
-            console.log(`Reclassified ${reclassifiedExercises.length} exercises for ${userInputs.trainingAge} in ${userInputs.block} phase`);
-            
-            // STEP 2: Start with the original template structure using reclassified exercises
-            const plan = adaptTemplateWithReclassifiedExercises(template, userInputs, reclassifiedExercises);
-            
-            // STEP 3: Enhance with additional exercises from the reclassified pool where appropriate
-            Object.keys(plan).forEach(day => {
-                if (plan[day].type === 'high' && plan[day].exercises.length > 0) {
-                    // Potentially add one additional exercise from the reclassified pool
-                    const additionalExercise = selectAdditionalExerciseFromReclassified(reclassifiedExercises, plan[day].exercises, userInputs);
-                    if (additionalExercise) {
-                        plan[day].exercises.push(additionalExercise);
-                        console.log(`Added contextual exercise: ${additionalExercise.name} (${additionalExercise.classification})`);
+            // Enhance with additional exercises from ExerciseDB where appropriate
+            if (availableExercises.some(ex => ex.source === 'exercisedb')) {
+                // Add variety by occasionally substituting with ExerciseDB exercises
+                Object.keys(plan).forEach(day => {
+                    if (plan[day].type === 'high' && plan[day].exercises.length > 0) {
+                        // Potentially add one additional exercise from ExerciseDB
+                        const additionalExercise = selectAdditionalExercise(availableExercises, plan[day].exercises, userInputs);
+                        if (additionalExercise) {
+                            plan[day].exercises.push(additionalExercise);
+                        }
                     }
-                }
-            });
+                });
+            }
             
             return plan;
-        }
-        
-        function adaptTemplateWithReclassifiedExercises(template, userInputs, reclassifiedExercises) {
-            const plan = {};
-            
-            // Add Saturday and Sunday as rest days for 3-day plan
-            const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            
-            allDays.forEach(day => {
-                const dayKey = day.toLowerCase();
-                
-                if (template[dayKey]) {
-                    // Use template day
-                    plan[day] = {
-                        ...template[dayKey],
-                        duration: userInputs.duration,
-                        block: userInputs.block,
-                        blockLength: userInputs.blockLength,
-                        title: template.title
-                    };
-                    
-                    // Apply dynamic classification to template exercises
-                    plan[day].exercises = plan[day].exercises.map(exercise => {
-                        // Find a better match in reclassified exercises, or apply dynamic classification to current
-                        const reclassified = DynamicClassifier.reclassifyExercise(exercise, userInputs);
-                        return reclassified;
-                    });
-                } else {
-                    // Rest day
-                    plan[day] = {
-                        type: "rest",
-                        focus: "Complete Rest",
-                        exercises: [],
-                        duration: 0,
-                        title: "Rest Day"
-                    };
-                }
-            });
-            
-            return plan;
-        }
-        
-        function selectAdditionalExerciseFromReclassified(reclassifiedExercises, currentExercises, userInputs) {
-            // Select an exercise from the reclassified pool that complements the current session
-            const availableAdditional = reclassifiedExercises.filter(ex => ex.source === 'exercisedb');
-            if (availableAdditional.length === 0) return null;
-            
-            // Calculate current CNS load
-            const currentCNS = currentExercises.reduce((sum, ex) => sum + (ex.cns || 0), 0);
-            const maxCNS = userInputs.trainingAge === 'beginner' ? 25 : userInputs.trainingAge === 'advanced' ? 45 : 35;
-            
-            // Look for a low-CNS exercise that won't overload the session
-            const suitableExercises = availableAdditional.filter(ex => {
-                const wouldExceedCNS = (currentCNS + ex.cns) > maxCNS;
-                const alreadyIncluded = currentExercises.some(current => current.name === ex.name);
-                return !wouldExceedCNS && !alreadyIncluded && ex.cns <= 4;
-            });
-            
-            if (suitableExercises.length === 0) return null;
-            
-            // Prefer exercises that match the session's primary adaptation focus
-            const primaryAdaptations = currentExercises.map(ex => ex.adaptation);
-            const matchingAdaptation = suitableExercises.filter(ex => 
-                primaryAdaptations.includes(ex.adaptation)
-            );
-            
-            const finalPool = matchingAdaptation.length > 0 ? matchingAdaptation : suitableExercises;
-            
-            // Return a random suitable exercise
-            return finalPool[Math.floor(Math.random() * finalPool.length)];
         }
         
         function selectAdditionalExercise(availableExercises, currentExercises, userInputs) {
@@ -2427,13 +2421,10 @@
             const reps = exercise.reps || 'N/A';
             const quickInfo = `${sets}×${reps}`;
             
-            // Show context note if available
-            const contextNote = exercise.context_note ? `<div style="font-size: 12px; color: var(--accent-color); margin-top: 5px; font-style: italic;">${exercise.context_note}</div>` : '';
-            
             return `
                 <li class="exercise-item ${section}-exercise expandable" onclick="toggleExerciseDetail(this, event)">
                     <div class="exercise-summary">
-                        <span class="exercise-name">${exercise.name}${contextNote}</span>
+                        <span class="exercise-name">${exercise.name}</span>
                         <span class="exercise-quick-info">${quickInfo}</span>
                         <span class="expand-icon">▼</span>
                     </div>
@@ -2471,12 +2462,6 @@
                                 <strong>Component</strong>
                                 <div class="value">${exercise.component || 'N/A'}</div>
                             </div>
-                            ${exercise.original_classification && exercise.original_classification !== exercise.classification ? `
-                            <div class="param">
-                                <strong>Original Class</strong>
-                                <div class="value">${exercise.original_classification}</div>
-                            </div>
-                            ` : ''}
                             ${exercise.notes ? `
                             <div class="param full-width">
                                 <strong>Coaching Notes</strong>
@@ -2559,8 +2544,7 @@
                     const bodyweightSub = findBodyweightSubstitution(exercise);
                     return {
                         ...exercise,
-                        ...bodyweightSub,
-                        context_note: 'Adapted to bodyweight while preserving training stimulus'
+                        ...bodyweightSub
                     };
                 });
             });
@@ -2641,8 +2625,7 @@
                         sets: 4, reps: 5,
                         load: '100% max intent',
                         rest: '2min',
-                        notes: 'Explosive up, soft landing',
-                        context_note: 'Added for increased power focus'
+                        notes: 'Explosive up, soft landing'
                     };
                     dayPlan.exercises.unshift(powerExercise);
                     dayPlan.focus = dayPlan.focus.replace(/Strength|Mixed/, 'Power');
@@ -2670,7 +2653,6 @@
                         }
                         // Reduce CNS score
                         ex.cns = Math.max(1, ex.cns - 1);
-                        ex.context_note = 'CNS load reduced for recovery';
                     });
                 }
             });
@@ -2690,7 +2672,6 @@
                 dayPlan.exercises.forEach(exercise => {
                     if (exercise.sets && typeof exercise.sets === 'number') {
                         exercise.sets = Math.max(1, Math.floor(exercise.sets * (1 - percentage / 100)));
-                        exercise.context_note = `Volume reduced by ${percentage}%`;
                     }
                 });
             });
@@ -2758,7 +2739,6 @@
             const newExercise = prompt('Enter replacement exercise:');
             if (newExercise && currentPlan[day]) {
                 currentPlan[day].exercises[exerciseIndex].name = newExercise;
-                currentPlan[day].exercises[exerciseIndex].context_note = 'Custom exercise swap';
                 displayWeeklyPlan(currentPlan);
                 addChatMessage("Assistant", `Swapped exercise in ${day} session.`);
             }
@@ -2785,7 +2765,7 @@
         // ==================== INITIALIZATION ====================
         
         async function initializeApp() {
-            console.log('Enhanced Three Anchor System with Dynamic Classification Starting...');
+            console.log('Enhanced Three Anchor System with ExerciseDB Integration Starting...');
             
             // Start loading exercises in background
             ExerciseDBManager.loadExercises().then(exercises => {
@@ -2800,10 +2780,11 @@
                 const exercises = await ExerciseDBManager.loadExercises();
                 const source = exercises.some(ex => ex.source === 'exercisedb') ? 'ExerciseDB + Three Anchor Intelligence' : 'Original Three Anchor System';
                 
-                addChatMessage("Assistant", `Welcome to the Enhanced Three Anchor Training System with Dynamic Classification! 
-                    Exercises automatically adapt their classification, intensity, and volume based on your training age, current phase, and individual capacity. 
-                    The same movement can be Max Effort for beginners or Repetition Effort for advanced athletes.
-                    Using ${source} with ${exercises.length} exercises. Try changing your training age or phase to see dynamic adaptation in action!`);
+                addChatMessage("Assistant", `Welcome to the Enhanced Three Anchor Training System! 
+                    Now powered by ${source} with ${exercises.length} exercises. 
+                    This system uses proper Vertical Integration sequencing: Speed → Power → Strength → Hypertrophy → Endurance, 
+                    combined with High-Low CNS management and ME/DE/SE/RE classifications. 
+                    Try modifying parameters or use chat commands!`);
             }, 500);
         }
 
@@ -2814,12 +2795,15 @@
             initializeApp();
         }
 
-        console.log('Enhanced Three Anchor Training System with Dynamic Classification Loaded Successfully');
-        console.log('Dynamic Classification: Same exercises adapt classification based on user context');
-        console.log('Phase Intelligence: Exercises automatically adjust for accumulation/transmutation/realization/GPP phases');
-        console.log('Training Age Adaptation: Beginner → Intermediate → Advanced contextual scaling');
+        console.log('Enhanced Three Anchor Training System with ExerciseDB Integration Loaded Successfully');
+        console.log('Exercise Database: Original system enhanced with ExerciseDB integration');
+        console.log('Max Effort: 85-100% loads with your specific classifications');
+        console.log('Dynamic Effort: Explosive movements with maximum intent focus');
+        console.log('Submaximal Effort: 75-85% loads for functional hypertrophy');
+        console.log('Repetition Effort: Higher volume work for strength endurance');
         console.log('Vertical Integration: Speed → Power → Strength → Hypertrophy → Endurance sequencing');
         console.log('High-Low System: CNS-aware weekly patterns with intelligent recovery');
+        console.log('LLM-Ready: Enhanced exercise database prepared for AI-powered program generation');
     </script>
 </body>
 </html>
