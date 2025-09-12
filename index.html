@@ -2414,8 +2414,27 @@
                 dayCard.innerHTML = dayHeader + exerciseHTML;
                 container.appendChild(dayCard);
             });
+            
+            // Add this line to update chat placeholders
+            updateChatPlaceholder(plan);
         }
 
+        function updateChatPlaceholder(plan) {
+            const suggestions = [
+                "Try: 'My knees hurt, modify lower body'",
+                "Try: 'I only have 30 minutes today'", 
+                "Try: 'Add more back exercises'",
+                "Try: 'Make this more beginner-friendly'",
+                "Try: 'I'm feeling tired, make it easier'",
+                "Try: 'Switch to bodyweight exercises'"
+            ];
+            
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.placeholder = suggestions[Math.floor(Math.random() * suggestions.length)];
+            }
+        }
+        
         function renderExerciseItem(exercise, section, day, index) {
             const sets = exercise.sets || 'N/A';
             const reps = exercise.reps || 'N/A';
