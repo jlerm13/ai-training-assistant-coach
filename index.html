@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ignition AI: Consistency, Engineered.</title>
+    <title>Three Anchor | Earn Every Rep</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -598,17 +601,27 @@
             animation: pulse 1.5s ease-in-out infinite;
         }
 
-        /* ==================== LOGIN & SAVED PROGRAMS ==================== */
+        /* ==================== LANDING / LOGIN ==================== */
 
         .auth-overlay {
+            --land-bg: #000000;
+            --land-panel: #0b0b0b;
+            --land-input: #141414;
+            --land-hairline: #2a2a2a;
+            --land-ink: #ffffff;
+            --land-body: #b5b5b5;
+            --land-muted: #7a7a7a;
+            --land-accent: #ff5a1f;
+            --land-accent-hover: #ff7440;
+            --land-error: #ff4d4d;
+            --land-success: #4ecdc4;
+
             position: fixed;
             inset: 0;
             z-index: 1000;
-            background: var(--bg-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            background: var(--land-bg);
+            color: var(--land-ink);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             overflow-y: auto;
         }
 
@@ -616,26 +629,212 @@
             display: none;
         }
 
+        /* Keep the app behind the landing screen from scrolling */
+        body:has(.auth-overlay:not([hidden])) {
+            overflow: hidden;
+        }
+
+        /* Film grain for a little grit */
+        .auth-overlay::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .landing {
+            position: relative;
+            min-height: 100%;
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(380px, 1fr);
+            grid-template-rows: auto 1fr auto auto;
+            grid-template-areas:
+                "bar     auth"
+                "hero    auth"
+                "pillars auth"
+                "foot    auth";
+        }
+
+        .landing-bar {
+            grid-area: bar;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 28px 56px;
+        }
+
+        .landing-wordmark {
+            font-family: 'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+            font-size: 26px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .landing-wordmark span {
+            color: var(--land-accent);
+        }
+
+        .landing-tag {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--land-muted);
+            border: 1px solid var(--land-hairline);
+            padding: 6px 10px;
+        }
+
+        .landing-hero {
+            grid-area: hero;
+            align-self: center;
+            padding: 24px 56px 48px;
+        }
+
+        .landing-eyebrow {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--land-accent);
+            margin-bottom: 20px;
+        }
+
+        .landing-headline {
+            font-family: 'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+            font-weight: 400;
+            font-size: clamp(64px, 10vw, 156px);
+            line-height: 0.88;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            color: var(--land-ink);
+        }
+
+        .landing-headline em {
+            font-style: normal;
+            color: var(--land-accent);
+        }
+
+        .landing-stripe {
+            display: flex;
+            width: 132px;
+            height: 5px;
+            margin: 32px 0 28px;
+        }
+
+        .landing-stripe i {
+            flex: 1;
+        }
+
+        .landing-stripe i:nth-child(1) { background: #ffffff; }
+        .landing-stripe i:nth-child(2) { background: #ff9a3d; }
+        .landing-stripe i:nth-child(3) { background: var(--land-accent); }
+
+        .landing-lede {
+            max-width: 560px;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--land-body);
+        }
+
+        .landing-lede strong {
+            color: var(--land-ink);
+            font-weight: 600;
+        }
+
+        .landing-pillars {
+            grid-area: pillars;
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            border-top: 1px solid var(--land-hairline);
+            margin: 0 56px;
+        }
+
+        .landing-pillars li {
+            padding: 28px 24px 32px 0;
+        }
+
+        .landing-pillars li + li {
+            padding-left: 24px;
+            border-left: 1px solid var(--land-hairline);
+        }
+
+        .pillar-number {
+            font-family: 'Anton', Impact, sans-serif;
+            font-size: 15px;
+            letter-spacing: 1px;
+            color: var(--land-accent);
+        }
+
+        .pillar-title {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin: 10px 0 8px;
+        }
+
+        .pillar-text {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.55;
+            color: var(--land-body);
+        }
+
+        .landing-foot {
+            grid-area: foot;
+            padding: 20px 56px 28px;
+            font-size: 12px;
+            color: var(--land-muted);
+            border-top: 1px solid var(--land-hairline);
+            margin-top: 8px;
+        }
+
+        /* Sign-in panel */
+        .landing-auth {
+            grid-area: auth;
+            background: var(--land-panel);
+            border-left: 1px solid var(--land-hairline);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 56px;
+            position: relative;
+        }
+
         .auth-card {
             width: 100%;
             max-width: 400px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            padding: 32px 28px;
+            margin: 0 auto;
+        }
+
+        .auth-kicker {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--land-muted);
         }
 
         .auth-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            color: var(--primary-color);
+            font-family: 'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+            font-weight: 400;
+            font-size: 48px;
+            line-height: 1;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            margin: 10px 0 12px;
         }
 
         .auth-subtitle {
-            color: var(--text-secondary);
-            margin: 4px 0 20px;
+            color: var(--land-body);
+            font-weight: 300;
+            margin-bottom: 28px;
         }
 
         .auth-form {
@@ -648,13 +847,70 @@
             display: none;
         }
 
-        .auth-form .field-label {
-            margin-top: 6px;
+        .landing .auth-form .field-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--land-body);
+            margin: 10px 0 2px;
+        }
+
+        .landing .auth-form .form-control {
+            background: var(--land-input);
+            border: 1px solid var(--land-hairline);
+            border-radius: 0;
+            color: var(--land-ink);
+            font-family: inherit;
+            font-size: 16px;
+            padding: 15px 16px;
+        }
+
+        .landing .auth-form .form-control:focus {
+            background: var(--land-input);
+            border-color: var(--land-accent);
+            box-shadow: 0 0 0 1px var(--land-accent);
         }
 
         .auth-submit {
-            justify-content: center;
-            margin-top: 12px;
+            margin-top: 18px;
+            width: 100%;
+            background: var(--land-accent);
+            color: #000000;
+            border: none;
+            border-radius: 0;
+            padding: 18px 24px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.15s ease;
+        }
+
+        .auth-submit::after {
+            content: '→';
+            font-size: 18px;
+            letter-spacing: 0;
+            transition: transform 0.15s ease;
+        }
+
+        .auth-submit:hover {
+            background: var(--land-accent-hover);
+        }
+
+        .auth-submit:hover::after {
+            transform: translateX(4px);
+        }
+
+        .auth-submit:focus-visible,
+        .auth-link:focus-visible {
+            outline: 2px solid var(--land-ink);
+            outline-offset: 3px;
         }
 
         .auth-submit:disabled {
@@ -665,33 +921,117 @@
         .auth-link {
             background: none;
             border: none;
-            color: var(--primary-color);
+            color: var(--land-body);
             cursor: pointer;
-            font-size: 14px;
-            padding: 6px 0;
-            align-self: center;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            text-decoration-color: var(--land-hairline);
+            padding: 10px 0;
+            align-self: flex-start;
+        }
+
+        .auth-link:hover {
+            color: var(--land-ink);
+            text-decoration-color: var(--land-accent);
         }
 
         .auth-note {
-            color: var(--text-tertiary);
+            color: var(--land-muted);
             font-size: 13px;
-            text-align: center;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid var(--land-hairline);
         }
 
         .auth-message {
-            margin-top: 14px;
+            margin-top: 16px;
             font-size: 14px;
-            text-align: center;
             min-height: 1em;
+            color: var(--land-body);
         }
 
         .auth-message.error {
-            color: var(--error-color);
+            color: var(--land-error);
         }
 
         .auth-message.success {
-            color: var(--success-color);
+            color: var(--land-success);
         }
+
+        @media (max-width: 960px) {
+            .landing {
+                grid-template-columns: minmax(0, 1fr);
+                grid-template-rows: none;
+                grid-template-areas:
+                    "bar"
+                    "hero"
+                    "auth"
+                    "pillars"
+                    "foot";
+            }
+
+            .landing-bar {
+                padding: 20px 20px;
+            }
+
+            .landing-wordmark {
+                font-size: 22px;
+            }
+
+            .landing-hero {
+                padding: 24px 20px 40px;
+            }
+
+            .landing-headline {
+                font-size: clamp(56px, 19vw, 110px);
+            }
+
+            .landing-lede {
+                font-size: 16px;
+            }
+
+            .landing-stripe {
+                margin: 24px 0 20px;
+            }
+
+            .landing-auth {
+                border-left: none;
+                border-top: 1px solid var(--land-hairline);
+                border-bottom: 1px solid var(--land-hairline);
+                padding: 40px 20px;
+            }
+
+            .auth-title {
+                font-size: 40px;
+            }
+
+            .landing-pillars {
+                grid-template-columns: minmax(0, 1fr);
+                border-top: none;
+                margin: 8px 20px 0;
+            }
+
+            .landing-pillars li,
+            .landing-pillars li + li {
+                padding: 24px 0;
+                border-left: none;
+            }
+
+            .landing-pillars li + li {
+                border-top: 1px solid var(--land-hairline);
+            }
+
+            .landing-foot {
+                padding: 20px 20px 32px;
+            }
+        }
+
+        /* ==================== SIGNED-IN HEADER & SAVED PROGRAMS ==================== */
 
         .header-actions {
             display: flex;
@@ -814,39 +1154,81 @@
     </style>
 </head>
 <body>
-    <!-- Login screen: covers the app until the user is signed in (see auth.js) -->
+    <!-- Landing / login screen: covers the app until the user is signed in (see auth.js) -->
     <div class="auth-overlay" id="authOverlay">
-        <div class="auth-card">
-            <h1 class="auth-title">Ignition AI</h1>
-            <p class="auth-subtitle" id="authSubtitle">Loading…</p>
+        <div class="landing">
+            <header class="landing-bar">
+                <div class="landing-wordmark">Three<span>/</span>Anchor</div>
+                <div class="landing-tag">Invite Only</div>
+            </header>
 
-            <form id="loginForm" class="auth-form" hidden>
-                <label class="field-label" for="loginEmail">Email</label>
-                <input class="form-control" type="email" id="loginEmail" autocomplete="email" required>
-                <label class="field-label" for="loginPassword">Password</label>
-                <input class="form-control" type="password" id="loginPassword" autocomplete="current-password" required>
-                <button class="btn auth-submit" type="submit">Log In</button>
-                <button class="auth-link" type="button" onclick="showAuthView('forgot')">Forgot password?</button>
-                <p class="auth-note">This app is invite-only. Ask the coach for an account.</p>
-            </form>
+            <section class="landing-hero">
+                <p class="landing-eyebrow">Strength &amp; Conditioning System</p>
+                <h1 class="landing-headline">Earn<br>every<br><em>rep.</em></h1>
+                <div class="landing-stripe" aria-hidden="true"><i></i><i></i><i></i></div>
+                <p class="landing-lede">
+                    No fluff. No random workouts. <strong>Programming built on block periodization and the Three Anchor method.</strong>
+                    Pick your goal, your days and your gear. Get a week of training that's actually coached.
+                </p>
+            </section>
 
-            <form id="forgotForm" class="auth-form" hidden>
-                <label class="field-label" for="forgotEmail">Email</label>
-                <input class="form-control" type="email" id="forgotEmail" autocomplete="email" required>
-                <button class="btn auth-submit" type="submit">Send Reset Link</button>
-                <button class="auth-link" type="button" onclick="showAuthView('login')">Back to log in</button>
-            </form>
+            <section class="landing-auth">
+                <div class="auth-card">
+                    <p class="auth-kicker">Members</p>
+                    <h2 class="auth-title" id="authTitle">Sign In</h2>
+                    <p class="auth-subtitle" id="authSubtitle">Loading…</p>
 
-            <form id="setPasswordForm" class="auth-form" hidden>
-                <label class="field-label" for="newPassword">New password</label>
-                <input class="form-control" type="password" id="newPassword" autocomplete="new-password" minlength="6" required>
-                <label class="field-label" for="confirmPassword">Confirm new password</label>
-                <input class="form-control" type="password" id="confirmPassword" autocomplete="new-password" minlength="6" required>
-                <button class="btn auth-submit" type="submit">Save Password</button>
-                <button class="auth-link" type="button" id="cancelSetPassword" onclick="closeChangePassword()" hidden>Cancel</button>
-            </form>
+                    <form id="loginForm" class="auth-form" hidden>
+                        <label class="field-label" for="loginEmail">Email</label>
+                        <input class="form-control" type="email" id="loginEmail" autocomplete="email" required>
+                        <label class="field-label" for="loginPassword">Password</label>
+                        <input class="form-control" type="password" id="loginPassword" autocomplete="current-password" required>
+                        <button class="auth-submit" type="submit">Log In</button>
+                        <button class="auth-link" type="button" onclick="showAuthView('forgot')">Forgot password?</button>
+                        <p class="auth-note">Invite only. No account? Ask your coach to add you.</p>
+                    </form>
 
-            <p class="auth-message" id="authMessage" role="status"></p>
+                    <form id="forgotForm" class="auth-form" hidden>
+                        <label class="field-label" for="forgotEmail">Email</label>
+                        <input class="form-control" type="email" id="forgotEmail" autocomplete="email" required>
+                        <button class="auth-submit" type="submit">Send Reset Link</button>
+                        <button class="auth-link" type="button" onclick="showAuthView('login')">Back to log in</button>
+                    </form>
+
+                    <form id="setPasswordForm" class="auth-form" hidden>
+                        <label class="field-label" for="newPassword">New password</label>
+                        <input class="form-control" type="password" id="newPassword" autocomplete="new-password" minlength="6" required>
+                        <label class="field-label" for="confirmPassword">Confirm new password</label>
+                        <input class="form-control" type="password" id="confirmPassword" autocomplete="new-password" minlength="6" required>
+                        <button class="auth-submit" type="submit">Save Password</button>
+                        <button class="auth-link" type="button" id="cancelSetPassword" onclick="closeChangePassword()" hidden>Cancel</button>
+                    </form>
+
+                    <p class="auth-message" id="authMessage" role="status"></p>
+                </div>
+            </section>
+
+            <ol class="landing-pillars">
+                <li>
+                    <div class="pillar-number">01</div>
+                    <div class="pillar-title">Vertical Integration</div>
+                    <p class="pillar-text">Speed → Power → Strength → Size → Endurance. The hardest work always gets your freshest nervous system.</p>
+                </li>
+                <li>
+                    <div class="pillar-number">02</div>
+                    <div class="pillar-title">High / Low</div>
+                    <p class="pillar-text">Heavy days hit hard. Low days actually let you recover. No junk volume in between.</p>
+                </li>
+                <li>
+                    <div class="pillar-number">03</div>
+                    <div class="pillar-title">Every Lift Has a Job</div>
+                    <p class="pillar-text">Max effort. Dynamic effort. Submax. Repetition. Nothing in your program is filler.</p>
+                </li>
+            </ol>
+
+            <footer class="landing-foot">
+                Consult your doctor before starting any exercise program. This tool does not replace professional medical or fitness advice.
+            </footer>
         </div>
     </div>
 

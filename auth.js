@@ -25,12 +25,19 @@ function showAuthView(view, subtitle) {
     document.getElementById('forgotForm').hidden = view !== 'forgot';
     document.getElementById('setPasswordForm').hidden = view !== 'setPassword';
 
+    const titles = {
+        login: 'Sign In',
+        forgot: 'Reset Password',
+        setPassword: 'Set Password',
+        error: 'Sign In'
+    };
     const subtitles = {
-        login: 'Log in to your training dashboard',
-        forgot: "Enter your email and we'll send you a link to reset your password",
-        setPassword: 'Choose a password for your account',
+        login: 'Log in to your training dashboard.',
+        forgot: "Enter your email and we'll send you a link to reset your password.",
+        setPassword: 'Choose a password for your account.',
         error: ''
     };
+    document.getElementById('authTitle').textContent = titles[view] ?? '';
     document.getElementById('authSubtitle').textContent = subtitle ?? subtitles[view] ?? '';
     setAuthMessage('');
 
@@ -125,7 +132,7 @@ async function handleSetPassword(event) {
 
 function showChangePassword() {
     document.getElementById('cancelSetPassword').hidden = false;
-    showAuthView('setPassword', 'Choose a new password');
+    showAuthView('setPassword', 'Choose a new password.');
 }
 
 function closeChangePassword() {
@@ -390,8 +397,8 @@ async function startAuth() {
     if (session && (linkType === 'invite' || linkType === 'recovery' || linkType === 'signup')) {
         settingPasswordFromLink = true;
         showAuthView('setPassword', linkType === 'recovery'
-            ? 'Choose a new password'
-            : `Welcome, ${session.user.email}! Choose a password to finish setting up your account.`);
+            ? 'Choose a new password.'
+            : `Welcome, ${session.user.email}. Choose a password to finish setting up your account.`);
         return;
     }
 
