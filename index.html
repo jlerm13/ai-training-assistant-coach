@@ -598,206 +598,6 @@
             animation: pulse 1.5s ease-in-out infinite;
         }
 
-        /* ==================== LOGIN & SAVED PROGRAMS ==================== */
-
-        .auth-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            background: var(--bg-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .auth-overlay[hidden] {
-            display: none;
-        }
-
-        .auth-card {
-            width: 100%;
-            max-width: 400px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            padding: 32px 28px;
-        }
-
-        .auth-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            color: var(--primary-color);
-        }
-
-        .auth-subtitle {
-            color: var(--text-secondary);
-            margin: 4px 0 20px;
-        }
-
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .auth-form[hidden] {
-            display: none;
-        }
-
-        .auth-form .field-label {
-            margin-top: 6px;
-        }
-
-        .auth-submit {
-            justify-content: center;
-            margin-top: 12px;
-        }
-
-        .auth-submit:disabled {
-            opacity: 0.6;
-            cursor: default;
-        }
-
-        .auth-link {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            cursor: pointer;
-            font-size: 14px;
-            padding: 6px 0;
-            align-self: center;
-        }
-
-        .auth-note {
-            color: var(--text-tertiary);
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .auth-message {
-            margin-top: 14px;
-            font-size: 14px;
-            text-align: center;
-            min-height: 1em;
-        }
-
-        .auth-message.error {
-            color: var(--error-color);
-        }
-
-        .auth-message.success {
-            color: var(--success-color);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        .header-actions [hidden] {
-            display: none;
-        }
-
-        .user-email {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .saved-programs {
-            margin-bottom: 30px;
-        }
-
-        .saved-programs-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .saved-programs-header h2 {
-            margin-bottom: 0;
-        }
-
-        .saved-programs-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .saved-programs-actions [hidden] {
-            display: none;
-        }
-
-        .saved-programs-status {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin: 12px 0 0;
-        }
-
-        .saved-programs-list {
-            list-style: none;
-            margin-top: 12px;
-        }
-
-        .saved-program {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .saved-program.active .saved-program-name {
-            color: var(--primary-color);
-        }
-
-        .saved-program-name {
-            font-weight: 600;
-            overflow-wrap: anywhere;
-        }
-
-        .saved-program-date {
-            color: var(--text-tertiary);
-            font-size: 13px;
-        }
-
-        .saved-program-buttons {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .saved-program-buttons button {
-            padding: 8px 14px;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .header-actions {
-                justify-content: flex-start;
-            }
-
-            .saved-program {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-
         @media (max-width: 768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -814,54 +614,15 @@
     </style>
 </head>
 <body>
-    <!-- Login screen: covers the app until the user is signed in (see auth.js) -->
-    <div class="auth-overlay" id="authOverlay">
-        <div class="auth-card">
-            <h1 class="auth-title">Ignition AI</h1>
-            <p class="auth-subtitle" id="authSubtitle">Loading…</p>
-
-            <form id="loginForm" class="auth-form" hidden>
-                <label class="field-label" for="loginEmail">Email</label>
-                <input class="form-control" type="email" id="loginEmail" autocomplete="email" required>
-                <label class="field-label" for="loginPassword">Password</label>
-                <input class="form-control" type="password" id="loginPassword" autocomplete="current-password" required>
-                <button class="btn auth-submit" type="submit">Log In</button>
-                <button class="auth-link" type="button" onclick="showAuthView('forgot')">Forgot password?</button>
-                <p class="auth-note">This app is invite-only. Ask the coach for an account.</p>
-            </form>
-
-            <form id="forgotForm" class="auth-form" hidden>
-                <label class="field-label" for="forgotEmail">Email</label>
-                <input class="form-control" type="email" id="forgotEmail" autocomplete="email" required>
-                <button class="btn auth-submit" type="submit">Send Reset Link</button>
-                <button class="auth-link" type="button" onclick="showAuthView('login')">Back to log in</button>
-            </form>
-
-            <form id="setPasswordForm" class="auth-form" hidden>
-                <label class="field-label" for="newPassword">New password</label>
-                <input class="form-control" type="password" id="newPassword" autocomplete="new-password" minlength="6" required>
-                <label class="field-label" for="confirmPassword">Confirm new password</label>
-                <input class="form-control" type="password" id="confirmPassword" autocomplete="new-password" minlength="6" required>
-                <button class="btn auth-submit" type="submit">Save Password</button>
-                <button class="auth-link" type="button" id="cancelSetPassword" onclick="closeChangePassword()" hidden>Cancel</button>
-            </form>
-
-            <p class="auth-message" id="authMessage" role="status"></p>
-        </div>
-    </div>
-
     <div class="safety-banner" style="background: #e74c3c; color: white; padding: 10px; text-align: center; font-weight: bold;">
         ⚠️ IMPORTANT: Consult your doctor before starting any exercise program. This tool does not replace professional medical or fitness advice.
     </div>
     <div class="container">
         <div class="header">
+    <div class="container">
+        <div class="header">
             <h1>UC Women's Volleyball powered by Ignition AI</h1>
-            <div class="header-actions">
-                <span class="user-email" id="userEmail"></span>
-                <button class="theme-toggle" id="changePasswordButton" onclick="showChangePassword()" hidden>Change Password</button>
-                <button class="theme-toggle" id="logoutButton" onclick="signOut()" hidden>Log Out</button>
-                <button class="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
-            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
         </div>
 
         <div class="dashboard-grid">
@@ -1021,19 +782,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Saved Programs -->
-        <div class="card saved-programs">
-            <div class="saved-programs-header">
-                <h2>My Saved Programs</h2>
-                <div class="saved-programs-actions">
-                    <button class="btn" id="saveProgramButton" onclick="saveCurrentProgram(false)">Save Program</button>
-                    <button class="btn btn-secondary" id="saveAsNewButton" onclick="saveCurrentProgram(true)" hidden>Save as New</button>
-                </div>
-            </div>
-            <p class="saved-programs-status" id="savedProgramsStatus"></p>
-            <ul class="saved-programs-list" id="savedProgramsList"></ul>
         </div>
 
         <!-- Weekly Plan Display -->
@@ -3101,7 +2849,12 @@
             }, 500);
         }
 
-        // initializeApp() is called by auth.js once the user is signed in
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
 
         console.log('Enhanced Three Anchor Training System with ExerciseDB Integration Loaded Successfully');
         console.log('Exercise Database: Original system enhanced with ExerciseDB integration');
@@ -3113,7 +2866,5 @@
         console.log('High-Low System: CNS-aware weekly patterns with intelligent recovery');
         console.log('LLM-Ready: Enhanced exercise database prepared for AI-powered program generation');
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-    <script src="auth.js"></script>
 </body>
 </html>
